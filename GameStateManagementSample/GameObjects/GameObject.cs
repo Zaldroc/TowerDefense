@@ -18,17 +18,17 @@ namespace GameStateManagementSample.GameObjects
             texture = t;
         }
 
-        protected void SetPosition(Vector2 p)
+        public void SetPosition(Vector2 p)
         {
             position = p;
         }
 
-        protected Vector2 GetPosition()
+        public  Vector2 GetPosition()
         {
             return position;
         }
 
-        protected Texture2D GetTexture()
+        public Texture2D GetTexture()
         {
             return texture;
         }
