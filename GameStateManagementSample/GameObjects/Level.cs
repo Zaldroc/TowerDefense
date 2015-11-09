@@ -7,6 +7,7 @@ namespace GameStateManagementSample.GameObjects
 {
     class Level
     {
-        protected List<Enemy> enemies;
+        public List<Enemy> enemies;
+        public List<PathBlock> path;
     }
 }
