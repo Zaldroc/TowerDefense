@@ -9,7 +9,7 @@ namespace GameStateManagementSample.GameObjects
 {
     class PathBlock:GameObject
     {
-        public PathBlock(Vector2 p, Texture2D t):base(p,t)
+        public PathBlock(Vector2 p, Texture2D t,float s):base(p,t,s)
         {
 
         }

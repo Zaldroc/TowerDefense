@@ -13,7 +13,7 @@ namespace GameStateManagementSample.GameObjects
         private float speed;
         private int reward;
 
-        public Enemy(Vector2 p, Texture2D t,int health, float speed, int reward):base(p,t)
+        public Enemy(Vector2 p, Texture2D t,float sc,int h, float s, int r):base(p,t,sc)
         {
             this.health = health;
             this.speed = speed;
