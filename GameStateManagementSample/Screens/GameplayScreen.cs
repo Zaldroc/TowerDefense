@@ -176,7 +176,7 @@ namespace GameStateManagement
                 if (movement.Length() > 1)
                     movement.Normalize();
 
-                playerPosition += movement * 2;
+                playerPosition += movement * 5;
             }
         }
 
@@ -197,12 +197,12 @@ namespace GameStateManagement
 
             spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
 
-            spriteBatch.DrawString(gameFont, "Insert Gameplay Here",
+            spriteBatch.DrawString(gameFont, "Insert Gameplsffsdsdsdsdsdfsdfay Here",
                                    enemyPosition, Color.DarkRed);
 
             spriteBatch.End();
 
-            // If the game is transitioning on or off, fade it out to black.
+            // If the game is transitioning on or off, fade it out to black.ddfgdf
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
