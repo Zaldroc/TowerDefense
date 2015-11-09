@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GameStateManagementSample.GameObjects;
 #endregion
 
 namespace GameStateManagement
@@ -34,6 +35,8 @@ namespace GameStateManagement
         Vector2 enemyPosition = new Vector2(100, 100);
 
         Random random = new Random();
+
+        Level level;
 
         float pauseAlpha;
 
@@ -61,6 +64,14 @@ namespace GameStateManagement
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             gameFont = content.Load<SpriteFont>("gamefont");
+
+            //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
+
+            level = new Level();
+            level.enemies.Add(new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100));
+            level.enemies.Add(new Enemy(new Vector2(200, 200), content.Load<Texture2D>("enemy"), 100, 1, 100));
+
+            level.path.Add(new PathBlock(new Vector2(0, 0), content.Load<Texture2D>("Dirt")));
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -202,6 +213,8 @@ namespace GameStateManagement
 
             spriteBatch.End();
 
+            drawGameObjects(spriteBatch);
+
             // If the game is transitioning on or off, fade it out to black.ddfgdf
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
@@ -209,6 +222,21 @@ namespace GameStateManagement
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+        }
+
+        private void drawGameObjects(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            //spriteBatch.Draw(enemy.GetTexture(), enemy.GetPosition(), Color.White);
+
+            foreach (GameObject gameObject in level.path)
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), Color.White);
+
+            foreach (GameObject gameObject in level.enemies)
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), Color.White);
+                      
+            spriteBatch.End();
         }
 
 
