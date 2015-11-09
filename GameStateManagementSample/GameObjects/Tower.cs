@@ -15,7 +15,7 @@ namespace GameStateManagementSample.GameObjects
 
         private Projectile projectyleType;
 
-        protected Tower(Vector2 p, Texture2D t, float r, int c, double sI):base(p,t)
+        protected Tower(Vector2 p, Texture2D t,float s, float r, int c, double sI):base(p,t,s)
         {
             range = r;
             costs = c;
