@@ -15,9 +15,9 @@ namespace GameStateManagementSample.GameObjects
 
         public Enemy(Vector2 p, Texture2D t,float sc,int h, float s, int r):base(p,t,sc)
         {
-            this.health = health;
-            this.speed = speed;
-            this.reward = reward;
+            this.health = h;
+            this.speed = s;
+            this.reward = r;
         }
 
         protected void Damage(int d)
