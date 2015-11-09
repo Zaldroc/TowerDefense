@@ -9,5 +9,11 @@ namespace GameStateManagementSample.GameObjects
     {
         public List<Enemy> enemies;
         public List<PathBlock> path;
+
+        public Level()
+        {
+            enemies = new List<Enemy>();
+            path = new List<PathBlock>();
+        }
     }
 }
