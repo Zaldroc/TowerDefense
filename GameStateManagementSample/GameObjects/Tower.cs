@@ -15,11 +15,11 @@ namespace GameStateManagementSample.GameObjects
 
         private Projectile projectyleType;
 
-        protected Tower(Vector2 p, Texture2D t,float s, float r, int c, double sI):base(p,t,s)
+        protected Tower(Vector2 position, Texture2D texture, float scale, float range, int costs, double shootingInterval):base(position,texture,scale)
         {
-            range = r;
-            costs = c;
-            shootingInterval = sI;
+            this.range = range;
+            this.costs = costs;
+            this.shootingInterval = shootingInterval;
         }
 
         protected float GetRange()

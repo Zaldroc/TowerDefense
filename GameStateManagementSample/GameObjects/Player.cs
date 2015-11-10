@@ -9,14 +9,14 @@ namespace GameStateManagementSample.GameObjects
     {
         private int points;
 
-        public void SetPoints(int p)
+        public void SetPoints(int points)
         {
-            points = p;
+            this.points = points;
         }
 
         public int GetPoints()
         {
-            return points;
+            return this.points;
         }
     }
 }

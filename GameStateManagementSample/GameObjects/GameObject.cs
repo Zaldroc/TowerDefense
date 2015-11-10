@@ -13,31 +13,31 @@ namespace GameStateManagementSample.GameObjects
         private Texture2D texture;
         private float scale;
 
-        public GameObject(Vector2 p, Texture2D t, float s)
+        public GameObject(Vector2 position, Texture2D texture, float scale)
         {
-            position = p;
-            texture = t;
-            scale = s;
+            this.position = position;
+            this.texture = texture;
+            this.scale = scale;
         }
 
-        public void SetPosition(Vector2 p)
+        public void SetPosition(Vector2 position)
         {
-            position = p;
+            this.position = position;
         }
 
         public  Vector2 GetPosition()
         {
-            return position;
+            return this.position;
         }
 
         public Texture2D GetTexture()
         {
-            return texture;
+            return this.texture;
         }
 
         public float GetScale()
         {
-            return scale;
+            return this.scale;
         }
     }
 }

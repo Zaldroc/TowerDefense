@@ -13,11 +13,11 @@ namespace GameStateManagementSample.GameObjects
         private double speed;
         private double direction;
 
-        public Projectile(Vector2 p, Texture2D t,float sc, int d, double s, double dir):base(p,t,sc)
+        public Projectile(Vector2 position, Texture2D texture, float scale, int damage, double speed, double direction):base(position, texture, scale)
         {
-            damage = d;
-            speed = s;
-            direction = dir;
+            this.damage = damage;
+            this.speed = speed;
+            this.direction = direction;
         }
 
         public int GetDamage()

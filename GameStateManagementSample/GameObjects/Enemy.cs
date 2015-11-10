@@ -13,36 +13,36 @@ namespace GameStateManagementSample.GameObjects
         private float speed;
         private int reward;
 
-        public Enemy(Vector2 p, Texture2D t,float sc,int h, float s, int r):base(p,t,sc)
+        public Enemy(Vector2 position, Texture2D texture, float scale, int health, float speed, int range):base(position,texture,scale)
         {
-            this.health = h;
-            this.speed = s;
-            this.reward = r;
+            this.health = health;
+            this.speed = speed;
+            this.reward = range;
         }
 
-        protected void Damage(int d)
+        protected void Damage(int damage)
         {
-            health -= d;
+            health -= damage;
         }
 
         protected int GetHealth()
         {
-            return health;
+            return this.health;
         }
 
-        protected void SetSpeed(float s)
+        protected void SetSpeed(float speed)
         {
-            speed = s;
+            this.speed = speed;
         }
 
         protected float GetSpeed()
         {
-            return speed;
+            return this.speed;
         }
 
         protected int GetReward()
         {
-            return reward;
+            return this.reward;
         }
 
         protected void Move()
