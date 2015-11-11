@@ -15,7 +15,7 @@ namespace GameStateManagementSample.GameObjects
     class PathBlock:GameObject
     {
         private PathBlockEnum type;
-        public PathBlock(Vector2 p, Texture2D t,float s,PathBlockEnum type):base(p,t,s)
+        public PathBlock(Vector2 position, Texture2D texture,float scale,PathBlockEnum type):base(position,texture,scale)
         {
             this.type = type;
         }
