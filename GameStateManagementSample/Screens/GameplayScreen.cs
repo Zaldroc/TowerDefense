@@ -34,9 +34,11 @@ namespace GameStateManagement
         Vector2 playerPosition = new Vector2(100, 100);
         Vector2 enemyPosition = new Vector2(100, 100);
 
+        Texture2D background;
+
         Random random = new Random();
 
-        Level level;
+        GameStateManagementSample.GameObjects.Game gameManager = new GameStateManagementSample.GameObjects.Game(null);
 
         float pauseAlpha;
 
@@ -67,11 +69,9 @@ namespace GameStateManagement
 
             //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
 
-            level = new Level();
-            level.enemies.Add(new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100));
-            level.enemies.Add(new Enemy(new Vector2(200, 200), content.Load<Texture2D>("enemy"), 100, 1, 100));
+            background = content.Load<Texture2D>("gras");
 
-            level.path.Add(new PathBlock(new Vector2(0, 0), content.Load<Texture2D>("Dirt")));
+            
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -226,16 +226,19 @@ namespace GameStateManagement
 
         private void drawGameObjects(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             //spriteBatch.Draw(enemy.GetTexture(), enemy.GetPosition(), Color.White);
 
-            foreach (GameObject gameObject in level.path)
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), Color.White);
+            Level level = gameManager.level;
 
+            foreach (GameObject gameObject in level.path)
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
+            
             foreach (GameObject gameObject in level.enemies)
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), Color.White);
-                      
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
+
+            spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
             spriteBatch.End();
         }
 
