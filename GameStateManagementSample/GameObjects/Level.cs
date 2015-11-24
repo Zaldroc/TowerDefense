@@ -78,7 +78,7 @@ namespace GameStateManagementSample.GameObjects
                     break;
             }
 
-            if (IsConnectedToOtherPathBlock(pathBlock)&&((pathBlock.IsSpawn()&&GetSpawn()==null)||(pathBlock.IsGoal()&&GetGoal()==null)||(pathBlock.IsNormal()&&GetGoal()==null)))
+            if (IsConnectedToOtherPathBlock(pathBlock)&&((pathBlock.IsSpawn()&&GetSpawn()==null)||(pathBlock.IsGoal()&&GetGoal()==null&&GetSpawn()!=null)||(pathBlock.IsNormal()&&GetGoal()==null)))
             {
                 grid[(int)pathBlock.GetPosition().X, (int)pathBlock.GetPosition().Y] = value;
                 path.Add(pathBlock);
