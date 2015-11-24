@@ -79,13 +79,22 @@ namespace GameStateManagementSample.GameObjects
                 Vector2 south = new Vector2(0, 1) + pos;
                 Vector2 east = new Vector2(1, 0) + pos;
                 Vector2 west = new Vector2(-1, 0) + pos;
+                
+                int n=0;
+                int s=0;
+                int e=0;
+                int w=0;
 
-                int n = grid[((int)north.X), ((int)north.Y)];
-                int s = grid[((int)south.X), ((int)south.Y)];
-                int e = grid[((int)east.X), ((int)east.Y)];
-                int w = grid[((int)west.X), ((int)west.Y)];
+                if(!IsOutOfGrid(north))
+                    n = grid[((int)north.X), ((int)north.Y)];
+                if (!IsOutOfGrid(south))
+                    s = grid[((int)south.X), ((int)south.Y)];
+                if (!IsOutOfGrid(east))
+                    e = grid[((int)east.X), ((int)east.Y)];
+                if (!IsOutOfGrid(west))
+                    w = grid[((int)west.X), ((int)west.Y)];
 
-                if((n > 0 && n < 4)||
+                if ((n > 0 && n < 4)||
                     (s > 0 && s < 4)||
                     (e > 0 && e < 4)||
                     (w > 0 && w < 4))
@@ -98,6 +107,13 @@ namespace GameStateManagementSample.GameObjects
                 return true;
 
             return false;
+        }
+
+        private bool IsOutOfGrid(Vector2 pos)
+        {
+            if (pos.X >= 0 && pos.X < 32 && pos.Y >= 0 && pos.Y < 18)
+                return false;
+            return true;
         }
 
         public List<Enemy> GetEnemies()
