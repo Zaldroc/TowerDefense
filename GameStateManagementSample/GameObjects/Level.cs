@@ -64,14 +64,14 @@ namespace GameStateManagementSample.GameObjects
 
             if (IsConnectedToOtherPathBlock(pathBlock))
             {
-                grid[(int)pathBlock.GetPosition().X / 100, (int) pathBlock.GetPosition().Y / 100] = value;
+                grid[(int)pathBlock.GetPosition().X, (int) pathBlock.GetPosition().Y] = value;
                 path.Add(pathBlock);
             }
         }
 
         private bool IsConnectedToOtherPathBlock(PathBlock pathBlock)
         {
-            Vector2 pos = new Vector2(Convert.ToInt32(pathBlock.GetPosition().X) / 100, Convert.ToInt32(pathBlock.GetPosition().Y) / 100);
+            Vector2 pos = pathBlock.GetPosition();
 
             if (pathBlock.IsNormal())
             {
