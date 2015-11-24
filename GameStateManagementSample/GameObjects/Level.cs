@@ -13,10 +13,17 @@ namespace GameStateManagementSample.GameObjects
 
         private int[,] grid;
         private int[,] map;
-        
-        private class Path
+
+        private Route route;
+
+        private class Route
         {
-            List<Vector2> path;
+            public List<Vector2> path;
+
+            public Route()
+            {
+                path = new List<Vector2>();
+            }
         }
 
         public Level()
@@ -24,18 +31,20 @@ namespace GameStateManagementSample.GameObjects
             Vector2 levelSize = new Vector2(32, 18);
 
             grid = new int[(int)levelSize.X, (int)levelSize.Y];
-            map = new int[(int)levelSize.X*100, (int)levelSize.Y*100];
+            map = new int[(int)levelSize.X * 100, (int)levelSize.Y * 100];
 
-            for(int i=0;i<levelSize.X;i++)
-                for(int j=0;j<levelSize.Y;j++)
+            for (int i = 0; i < levelSize.X; i++)
+                for (int j = 0; j < levelSize.Y; j++)
                     grid[i, j] = 0;
 
-            for (int i = 0; i < levelSize.X*100; i++)
-                for (int j = 0; j < levelSize.Y*100; j++)
+            for (int i = 0; i < levelSize.X * 100; i++)
+                for (int j = 0; j < levelSize.Y * 100; j++)
                     map[i, j] = 0;
 
             enemies = new List<Enemy>();
             path = new List<PathBlock>();
+
+            route = new Route();
         }
 
         public void AddEnemy(Enemy enemy)
@@ -45,7 +54,7 @@ namespace GameStateManagementSample.GameObjects
 
         public void AddPathBlock(PathBlock pathBlock)
         {
-            int value=0;
+            int value = 0;
 
             switch (pathBlock.GetType())
             {
@@ -64,8 +73,9 @@ namespace GameStateManagementSample.GameObjects
 
             if (IsConnectedToOtherPathBlock(pathBlock))
             {
-                grid[(int)pathBlock.GetPosition().X, (int) pathBlock.GetPosition().Y] = value;
+                grid[(int)pathBlock.GetPosition().X, (int)pathBlock.GetPosition().Y] = value;
                 path.Add(pathBlock);
+                route.path.Add(pathBlock.GetPosition());
             }
         }
 
@@ -75,17 +85,17 @@ namespace GameStateManagementSample.GameObjects
 
             if (pathBlock.IsNormal())
             {
-                Vector2 north = new Vector2(0,-1) + pos;
+                Vector2 north = new Vector2(0, -1) + pos;
                 Vector2 south = new Vector2(0, 1) + pos;
                 Vector2 east = new Vector2(1, 0) + pos;
                 Vector2 west = new Vector2(-1, 0) + pos;
-                
-                int n=0;
-                int s=0;
-                int e=0;
-                int w=0;
 
-                if(!IsOutOfGrid(north))
+                int n = 0;
+                int s = 0;
+                int e = 0;
+                int w = 0;
+
+                if (!IsOutOfGrid(north))
                     n = grid[((int)north.X), ((int)north.Y)];
                 if (!IsOutOfGrid(south))
                     s = grid[((int)south.X), ((int)south.Y)];
@@ -94,9 +104,9 @@ namespace GameStateManagementSample.GameObjects
                 if (!IsOutOfGrid(west))
                     w = grid[((int)west.X), ((int)west.Y)];
 
-                if ((n > 0 && n < 4)||
-                    (s > 0 && s < 4)||
-                    (e > 0 && e < 4)||
+                if ((n > 0 && n < 4) ||
+                    (s > 0 && s < 4) ||
+                    (e > 0 && e < 4) ||
                     (w > 0 && w < 4))
                 {
                     return true;
@@ -131,12 +141,19 @@ namespace GameStateManagementSample.GameObjects
             bool hasSpawn = false;
             bool hasGoal = false;
 
-            foreach(PathBlock p in path)
+            PathBlock spawn;
+            PathBlock goal;
+
+            foreach (PathBlock p in path)
             {
                 if (p.IsSpawn())
+                {
                     hasSpawn = true;
+                }
                 if (p.IsGoal())
+                {
                     hasGoal = true;
+                }
             }
 
             if (!hasGoal && !hasSpawn)
