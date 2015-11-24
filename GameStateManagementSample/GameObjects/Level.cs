@@ -71,7 +71,7 @@ namespace GameStateManagementSample.GameObjects
                     break;
             }
 
-            if (IsConnectedToOtherPathBlock(pathBlock))
+            if (IsConnectedToOtherPathBlock(pathBlock)&&((pathBlock.IsSpawn()&&GetSpawn()==null)||(pathBlock.IsGoal()&&GetGoal()==null)||(pathBlock.IsNormal()&&GetGoal()==null)))
             {
                 grid[(int)pathBlock.GetPosition().X, (int)pathBlock.GetPosition().Y] = value;
                 path.Add(pathBlock);
@@ -149,10 +149,12 @@ namespace GameStateManagementSample.GameObjects
                 if (p.IsSpawn())
                 {
                     hasSpawn = true;
+                    spawn = p;
                 }
                 if (p.IsGoal())
                 {
                     hasGoal = true;
+                    goal = p;
                 }
             }
 
