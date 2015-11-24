@@ -144,5 +144,25 @@ namespace GameStateManagementSample.GameObjects
 
             return true;
         }
+
+        public PathBlock GetSpawn()
+        {
+            foreach (PathBlock p in path)
+            {
+                if (p.IsSpawn())
+                    return p;
+            }
+            return null;
+        }
+
+        public PathBlock GetGoal()
+        {
+            foreach (PathBlock p in path)
+            {
+                if (p.IsGoal())
+                    return p;
+            }
+            return null;
+        }
     }
 }

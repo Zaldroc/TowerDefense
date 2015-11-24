@@ -38,8 +38,10 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Creator\LevelCreator.cs" />
+    <Compile Include="Creator\TowerCreator.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameObjects\Game.cs" />
+    <Compile Include="GameObjects\GameManager.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Enemy.cs" />
     <Compile Include="GameObjects\Level.cs" />

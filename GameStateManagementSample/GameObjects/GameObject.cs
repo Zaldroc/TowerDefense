@@ -25,7 +25,7 @@ namespace GameStateManagementSample.GameObjects
             this.position = position;
         }
 
-        public  Vector2 GetPosition()
+        public Vector2 GetPosition()
         {
             return this.position;
         }

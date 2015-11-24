@@ -15,6 +15,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GameStateManagementSample.GameObjects;
+using GameStateManagementSample.Creator;
+using System.Collections.Generic;
 #endregion
 
 namespace GameStateManagement
@@ -38,7 +40,9 @@ namespace GameStateManagement
 
         Random random = new Random();
 
-        GameStateManagementSample.GameObjects.Game gameManager = new GameStateManagementSample.GameObjects.Game(null);
+        List<Texture2D> towerScreen;
+
+        GameManager gameManager;
 
         float pauseAlpha;
 
@@ -65,11 +69,17 @@ namespace GameStateManagement
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
+            Level level = LevelCreator.GetLevel("Test", content);
+
+            gameManager = new GameManager(level);
+
+            towerScreen = TowerCreator.GetTowerTypes(content);
+
             gameFont = content.Load<SpriteFont>("gamefont");
 
             //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
 
-            background = content.Load<Texture2D>("gras");
+            background = content.Load<Texture2D>("grass");
 
             
 
@@ -104,8 +114,7 @@ namespace GameStateManagement
         /// property, so the game will stop updating when the pause menu is active,
         /// or if you tab away to a different application.
         /// </summary>
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus,
-                                                       bool coveredByOtherScreen)
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
@@ -208,12 +217,13 @@ namespace GameStateManagement
 
             spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
 
-            spriteBatch.DrawString(gameFont, "Insert Gameplsffsdsdsdsdsdfsdfay Here",
+            spriteBatch.DrawString(gameFont, "Insert Gameplay Here",
                                    enemyPosition, Color.DarkRed);
 
             spriteBatch.End();
 
             drawGameObjects(spriteBatch);
+            DrawTowerScreen(spriteBatch);
 
             // If the game is transitioning on or off, fade it out to black.ddfgdf
             if (TransitionPosition > 0 || pauseAlpha > 0)
@@ -232,13 +242,30 @@ namespace GameStateManagement
 
             Level level = gameManager.level;
 
-            foreach (GameObject gameObject in level.path)
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
+            float scal = 1200f / 3200f;
+
+            foreach (GameObject gameObject in level.GetPathBlocks())
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition()*100*scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
             
-            foreach (GameObject gameObject in level.enemies)
+            foreach (GameObject gameObject in level.GetEnemies())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
+            spriteBatch.End();
+        }
+
+        private void DrawTowerScreen(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(SpriteSortMode.FrontToBack);
+
+            Texture2D t = new Texture2D(ScreenManager.GraphicsDevice, 50, 80 * towerScreen.Count);
+            spriteBatch.Draw(t, new Rectangle(0, 0, 50, 80 * towerScreen.Count), Color.White);
+
+            for (int i=0; i<towerScreen.Count; i++)
+            {
+
+            }
+
             spriteBatch.End();
         }
 

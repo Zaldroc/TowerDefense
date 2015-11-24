@@ -49,8 +49,10 @@ namespace GameStateManagement
             Content.RootDirectory = "Content";
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 853;
-            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 675;
+
+            this.IsMouseVisible = true;
 
             // Create the screen manager component.
             screenManager = new ScreenManager(this);

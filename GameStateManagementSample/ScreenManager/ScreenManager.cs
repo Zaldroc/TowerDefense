@@ -28,7 +28,6 @@ namespace GameStateManagement
     public class ScreenManager : DrawableGameComponent
     {
         #region Fields
-
         List<GameScreen> screens = new List<GameScreen>();
         List<GameScreen> screensToUpdate = new List<GameScreen>();
 

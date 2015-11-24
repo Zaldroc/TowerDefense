@@ -13,16 +13,16 @@ namespace GameStateManagementSample.GameObjects
         private int costs;
         private double shootingInterval;
 
-        private Projectile projectyleType;
+        private Projectile projectileType;
 
-        protected Tower(Vector2 position, Texture2D texture, float scale, float range, int costs, double shootingInterval):base(position,texture,scale)
+        public Tower(Vector2 position, Texture2D texture, float scale, float range, int costs, double shootingInterval):base(position,texture,scale)
         {
             this.range = range;
             this.costs = costs;
             this.shootingInterval = shootingInterval;
         }
 
-        protected float GetRange()
+        public float GetRange()
         {
             return range;
         }
