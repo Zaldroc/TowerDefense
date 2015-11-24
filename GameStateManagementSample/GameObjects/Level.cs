@@ -21,16 +21,18 @@ namespace GameStateManagementSample.GameObjects
 
         public Level()
         {
-            grid = new int[160,90];
-            map = new int[16000, 9000];
+            Vector2 levelSize = new Vector2(32, 18);
 
-            for(int i=0;i<160;i++)
-                for(int j=0;j<90;j++)
+            grid = new int[Convert.ToInt16(levelSize.X), Convert.ToInt16(levelSize.Y)];
+            map = new int[Convert.ToInt16(levelSize.X)*100, Convert.ToInt16(levelSize.Y)*100];
+
+            for(int i=0;i<levelSize.X;i++)
+                for(int j=0;j<levelSize.Y;j++)
                     grid[i, j] = 0;
 
-            for (int i = 0; i < 16000; i++)
-                for (int j = 0; j < 9000; j++)
-                    grid[i, j] = 0;
+            for (int i = 0; i < levelSize.X*100; i++)
+                for (int j = 0; j < levelSize.Y*100; j++)
+                    map[i, j] = 0;
 
             enemies = new List<Enemy>();
             path = new List<PathBlock>();
