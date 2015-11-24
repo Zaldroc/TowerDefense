@@ -20,6 +20,7 @@ namespace GameStateManagementSample.GameObjects
         {
             this.level = level;
             player = new Player();
+            tower = new List<Tower>();
         }
 
         public void addTower(Tower tower)
@@ -27,9 +28,9 @@ namespace GameStateManagementSample.GameObjects
             this.tower.Add(tower);
         }
 
-        public void update()
+        public void Update()
         {
-
+            level.Update();
         }
     }
 }

@@ -20,34 +20,34 @@ namespace GameStateManagementSample.GameObjects
             this.reward = reward;
         }
 
-        protected void Damage(int damage)
+        public void Damage(int damage)
         {
             health -= damage;
         }
 
-        protected int GetHealth()
+        public int GetHealth()
         {
             return this.health;
         }
 
-        protected void SetSpeed(float speed)
+        public void SetSpeed(float speed)
         {
             this.speed = speed;
         }
 
-        protected float GetSpeed()
+        public float GetSpeed()
         {
             return this.speed;
         }
 
-        protected int GetReward()
+        public int GetReward()
         {
             return this.reward;
         }
 
-        protected void Move()
+        public void Move()
         {
-
+            
         }
     }
 }

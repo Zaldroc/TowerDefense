@@ -141,6 +141,8 @@ namespace GameStateManagement
 
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
+
+                gameManager.Update();
             }
         }
 

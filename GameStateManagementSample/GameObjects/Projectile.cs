@@ -29,5 +29,10 @@ namespace GameStateManagementSample.GameObjects
         {
             return speed;
         }
+
+        public void Move()
+        {
+
+        }
     }
 }
