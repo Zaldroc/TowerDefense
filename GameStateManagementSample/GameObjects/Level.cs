@@ -10,7 +10,6 @@ namespace GameStateManagementSample.GameObjects
     {
         private List<Enemy> enemies;
         private List<PathBlock> path;
-        private List<Projectile> projectiles;
 
         private int[,] grid;
         private int[,] map;
@@ -46,17 +45,11 @@ namespace GameStateManagementSample.GameObjects
             path = new List<PathBlock>();
 
             route = new Route();
-            projectiles = new List<Projectile>();
         }
 
         public void AddEnemy(Enemy enemy)
         {
             enemies.Add(enemy);
-        }
-
-        public void AddProjectile(Projectile projectile)
-        {
-            projectiles.Add(projectile);
         }
 
         public void AddPathBlock(PathBlock pathBlock)
@@ -143,11 +136,6 @@ namespace GameStateManagementSample.GameObjects
             return new List<PathBlock>(path);
         }
 
-        public List<Projectile> GetProjectiles()
-        {
-            return new List<Projectile>(projectiles);
-        }
-
         private bool HasPath()
         {
             bool hasSpawn = false;
@@ -194,19 +182,6 @@ namespace GameStateManagementSample.GameObjects
                     return p;
             }
             return null;
-        }
-
-        public void Update()
-        {
-            foreach (Enemy e in enemies)
-            {
-                e.Move();
-            }
-
-            foreach (Projectile p in projectiles)
-            {
-                p.Move();
-            }
         }
     }
 }
