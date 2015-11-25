@@ -11,8 +11,8 @@ namespace GameStateManagementSample.GameObjects
 {
     class GameManager
     {
-        public Level level {get; }
-        public Player player { get; }
+        public Level level;
+        public Player player;
 
         private List<Tower> tower;
 

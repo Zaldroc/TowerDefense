@@ -13,7 +13,8 @@ namespace GameStateManagementSample.GameObjects
         private float speed;
         private int reward;
 
-        private List<Vector2> path;
+        private Queue<Vector2> path;
+        private Vector2 nextPosition;
 
         public Enemy(Vector2 position, Texture2D texture, float scale, int health, float speed, int reward):base(position,texture,scale)
         {
@@ -24,7 +25,7 @@ namespace GameStateManagementSample.GameObjects
 
         public void SetPath(List<Vector2> path)
         {
-            this.path = new List<Vector2>(path);
+            this.path = new Queue<Vector2>(path);
         }
 
         public void Damage(int damage)
@@ -54,7 +55,40 @@ namespace GameStateManagementSample.GameObjects
 
         public void Move()
         {
-            
+            if(nextPosition==null)
+            {
+                nextPosition = path.Dequeue();
+            }
+
+            Vector2 pos = GetPosition();
+            Vector2 currentPos = new Vector2((int)pos.X/100,(int)pos.Y/100);
+
+            if (nextPosition.Equals(currentPos))
+            {
+                try
+                {
+                    nextPosition = path.Dequeue();
+                }
+                catch (Exception)
+                {
+                    //GAME OVER!
+                    //throw;
+                }
+            }
+
+            Vector2 north = new Vector2(0, -1) + currentPos;
+            Vector2 south = new Vector2(0, 1) + currentPos;
+            Vector2 east = new Vector2(1, 0) + currentPos;
+            Vector2 west = new Vector2(-1, 0) + currentPos;
+
+            if (north.Equals(nextPosition))
+                SetPosition((GetPosition() + new Vector2(0, -speed)));
+            else if (south.Equals(nextPosition))
+                SetPosition((GetPosition() + new Vector2(0, speed)));
+            else if (east.Equals(nextPosition))
+                SetPosition((GetPosition() + new Vector2(speed, 0)));
+            else if (west.Equals(nextPosition))
+                SetPosition((GetPosition() + new Vector2(-speed, 0)));
         }
     }
 }

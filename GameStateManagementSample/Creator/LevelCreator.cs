@@ -64,9 +64,12 @@ namespace GameStateManagementSample.Creator
             level.AddPathBlock(new PathBlock(new Vector2(21, 14), dirt, 0.15f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(21, 15), dirt, 0.15f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(21, 16), dirt, 0.15f, PathBlockEnum.NORMAL));
+
             level.AddPathBlock(new PathBlock(new Vector2(21, 17), dirt, 0.15f, PathBlockEnum.GOAL));
 
-            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition(), content.Load<Texture2D>("org2"), 1.4f, 100, 0.3f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition()*100, content.Load<Texture2D>("org2"), 1.0f, 100, 3.0f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition()*100 + new Vector2(0,50), content.Load<Texture2D>("org2"), 1.0f, 100, 3.0f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition()*100 + new Vector2(70, 30), content.Load<Texture2D>("org2"), 1.0f, 100, 3.0f, 100));
 
             return level;
         }
