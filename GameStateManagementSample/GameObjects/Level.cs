@@ -51,7 +51,11 @@ namespace GameStateManagementSample.GameObjects
 
         public void AddEnemy(Enemy enemy)
         {
-            enemies.Add(enemy);
+            if (HasPath())
+            {
+                enemy.SetPath(route.path);
+                enemies.Add(enemy);
+            }
         }
 
         public void AddProjectile(Projectile projectile)
@@ -153,20 +157,15 @@ namespace GameStateManagementSample.GameObjects
             bool hasSpawn = false;
             bool hasGoal = false;
 
-            PathBlock spawn;
-            PathBlock goal;
-
             foreach (PathBlock p in path)
             {
                 if (p.IsSpawn())
                 {
                     hasSpawn = true;
-                    spawn = p;
                 }
                 if (p.IsGoal())
                 {
                     hasGoal = true;
-                    goal = p;
                 }
             }
 
