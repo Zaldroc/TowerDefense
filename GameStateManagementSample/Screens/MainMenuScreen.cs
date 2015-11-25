@@ -59,7 +59,7 @@ namespace GameStateManagement
         {
             List<GameScreen> screensToLoad = new List<GameScreen>();
             screensToLoad.Add(new GameplayScreen());
-            screensToLoad.Add(new TowerScreen(5));
+            //screensToLoad.Add(new TowerScreen(5));
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, screensToLoad.ToArray());
         }
 

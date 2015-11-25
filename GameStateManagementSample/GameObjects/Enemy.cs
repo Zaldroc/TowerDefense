@@ -69,10 +69,10 @@ namespace GameStateManagementSample.GameObjects
                 {
                     nextPosition = path.Dequeue();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //GAME OVER!
-                    //throw;
+                    throw e;
                 }
             }
 

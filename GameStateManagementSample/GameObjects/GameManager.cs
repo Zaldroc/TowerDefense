@@ -13,6 +13,7 @@ namespace GameStateManagementSample.GameObjects
     {
         public Level level;
         public Player player;
+        private Boolean gameOver;
 
         private List<Tower> tower;
 
@@ -30,7 +31,13 @@ namespace GameStateManagementSample.GameObjects
 
         public void Update()
         {
-            level.Update();
+            if (!gameOver)
+            try {
+                level.Update();
+            } catch (Exception e)
+            {
+                gameOver = true;
+            }
         }
     }
 }
