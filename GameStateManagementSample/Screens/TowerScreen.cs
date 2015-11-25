@@ -14,21 +14,21 @@ namespace GameStateManagementSample.Screens
         #region Fields
 
         ContentManager content;
-        Texture2D backgroundTexture;
-
+        int towerCount;
+        Texture2D t;
+        Rectangle r;
         #endregion
 
         #region Initialization
-
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// 
 
-        public TowerScreen()
+        public TowerScreen(int towerCount)
         {
-
+            this.towerCount = towerCount;
+            base.IsPopup = true;
         }
 
         public override void LoadContent()
@@ -36,7 +36,9 @@ namespace GameStateManagementSample.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            backgroundTexture = content.Load<Texture2D>("background");
+            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            t = content.Load<Texture2D>("background");
+            r = new Rectangle(viewport.Width-300, 0, 300, viewport.Height);
         }
 
 
@@ -70,13 +72,11 @@ namespace GameStateManagementSample.Screens
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
-            Rectangle fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
+                        
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backgroundTexture, fullscreen,
-                             new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            spriteBatch.Draw(t, r, Color.White);
 
             spriteBatch.End();
         }

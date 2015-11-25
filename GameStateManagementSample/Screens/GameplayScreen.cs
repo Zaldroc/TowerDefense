@@ -44,9 +44,7 @@ namespace GameStateManagement
         List<Texture2D> towers;
 
         GameManager gameManager;
-
-        Game game;
-
+        
         //RectangleOverlay towerScreen;
 
         float pauseAlpha;
@@ -59,11 +57,10 @@ namespace GameStateManagement
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen(Game game)
+        public GameplayScreen()
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-            this.game = game;
         }
 
 
@@ -87,9 +84,8 @@ namespace GameStateManagement
 
             background = content.Load<Texture2D>("grass");
 
-            Texture2D t = new Texture2D(ScreenManager.GraphicsDevice, 50, 80 * towers.Count);
-            Rectangle r = new Rectangle(0, 0, 50, 80 * towers.Count);
-
+           
+            
             //towerScreen = new RectangleOverlay(r, Color.Red, game, ScreenManager.SpriteBatch);
 
             // A real game would probably have more content than this sample, so
@@ -180,7 +176,7 @@ namespace GameStateManagement
 
             if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
             {
-                ScreenManager.AddScreen(new PauseMenuScreen(game), ControllingPlayer);
+                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }
             else
             {
@@ -244,36 +240,12 @@ namespace GameStateManagement
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
         }
-
-        float time;
-        // duration of time to show each frame
-        float frameTime = 0.1f;
-        // an index of the current frame being shown
-        int frameIndex;
-        // total number of frames in our spritesheet
-        const int totalFrames = 10;
-        // define the size of our animation frame
-        int frameHeight = 64;
-        int frameWidth = 64;
+        
 
         private void drawGameObjects(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
             
-            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            while (time > frameTime)
-            {
-                // Play the next frame in the SpriteSheet
-                frameIndex++;
-
-                // reset elapsed time
-                time = 0f;
-            }
-
-            if (frameIndex > totalFrames) frameIndex = 1;
-            Rectangle source = new Rectangle(frameIndex * frameWidth, 0, frameWidth, frameHeight);
-
-
             //spriteBatch.Draw(enemy.GetTexture(), enemy.GetPosition(), Color.White);
 
             Level level = gameManager.level;
@@ -295,6 +267,7 @@ namespace GameStateManagement
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             //towerScreen.Draw(gameTime);
+
                                    
             for (int i=0; i<towers.Count; i++)
             {

@@ -61,7 +61,7 @@ namespace GameStateManagement
 
             // Activate the first screens.
             screenManager.AddScreen(new BackgroundScreen(), null);
-            screenManager.AddScreen(new MainMenuScreen(this), null);
+            screenManager.AddScreen(new MainMenuScreen(), null);
         }
 
 
