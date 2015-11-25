@@ -26,5 +26,11 @@ namespace GameStateManagementSample.GameObjects
         {
             return range;
         }
+
+        public Projectile Shoot()
+        {
+            //  Projectile p = new Projectile()
+            return null;
+        }
     }
 }

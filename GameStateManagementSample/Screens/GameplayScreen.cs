@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Input;
 using GameStateManagementSample.GameObjects;
 using GameStateManagementSample.Creator;
 using System.Collections.Generic;
+using GameStateManagementSample.Screens;
 #endregion
 
 namespace GameStateManagement
@@ -40,9 +41,13 @@ namespace GameStateManagement
 
         Random random = new Random();
 
-        List<Texture2D> towerScreen;
+        List<Texture2D> towers;
 
         GameManager gameManager;
+
+        Game game;
+
+        //RectangleOverlay towerScreen;
 
         float pauseAlpha;
 
@@ -54,10 +59,11 @@ namespace GameStateManagement
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen()
+        public GameplayScreen(Game game)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            this.game = game;
         }
 
 
@@ -69,11 +75,11 @@ namespace GameStateManagement
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            Level level = LevelCreator.GetLevel("Test", content);
+            Level level = LevelCreator.GetLevel(1, content);
 
             gameManager = new GameManager(level);
 
-            towerScreen = TowerCreator.GetTowerTypes(content);
+            towers = TowerCreator.GetTowerTypes(content);
 
             gameFont = content.Load<SpriteFont>("gamefont");
 
@@ -81,7 +87,10 @@ namespace GameStateManagement
 
             background = content.Load<Texture2D>("grass");
 
-            
+            Texture2D t = new Texture2D(ScreenManager.GraphicsDevice, 50, 80 * towers.Count);
+            Rectangle r = new Rectangle(0, 0, 50, 80 * towers.Count);
+
+            //towerScreen = new RectangleOverlay(r, Color.Red, game, ScreenManager.SpriteBatch);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -171,7 +180,7 @@ namespace GameStateManagement
 
             if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
             {
-                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                ScreenManager.AddScreen(new PauseMenuScreen(game), ControllingPlayer);
             }
             else
             {
@@ -224,8 +233,8 @@ namespace GameStateManagement
 
             spriteBatch.End();
 
-            drawGameObjects(spriteBatch);
-            DrawTowerScreen(spriteBatch);
+            drawGameObjects(spriteBatch, gameTime);
+            DrawTowerScreen(spriteBatch, gameTime);
 
             // If the game is transitioning on or off, fade it out to black.ddfgdf
             if (TransitionPosition > 0 || pauseAlpha > 0)
@@ -236,9 +245,34 @@ namespace GameStateManagement
             }
         }
 
-        private void drawGameObjects(SpriteBatch spriteBatch)
+        float time;
+        // duration of time to show each frame
+        float frameTime = 0.1f;
+        // an index of the current frame being shown
+        int frameIndex;
+        // total number of frames in our spritesheet
+        const int totalFrames = 10;
+        // define the size of our animation frame
+        int frameHeight = 64;
+        int frameWidth = 64;
+
+        private void drawGameObjects(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            
+            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            while (time > frameTime)
+            {
+                // Play the next frame in the SpriteSheet
+                frameIndex++;
+
+                // reset elapsed time
+                time = 0f;
+            }
+
+            if (frameIndex > totalFrames) frameIndex = 1;
+            Rectangle source = new Rectangle(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+
 
             //spriteBatch.Draw(enemy.GetTexture(), enemy.GetPosition(), Color.White);
 
@@ -250,20 +284,19 @@ namespace GameStateManagement
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition()*100*scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
             
             foreach (GameObject gameObject in level.GetEnemies())
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition(), null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
             spriteBatch.End();
         }
 
-        private void DrawTowerScreen(SpriteBatch spriteBatch)
+        private void DrawTowerScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-            Texture2D t = new Texture2D(ScreenManager.GraphicsDevice, 50, 80 * towerScreen.Count);
-            spriteBatch.Draw(t, new Rectangle(0, 0, 50, 80 * towerScreen.Count), Color.White);
-
-            for (int i=0; i<towerScreen.Count; i++)
+            //towerScreen.Draw(gameTime);
+                                   
+            for (int i=0; i<towers.Count; i++)
             {
 
             }

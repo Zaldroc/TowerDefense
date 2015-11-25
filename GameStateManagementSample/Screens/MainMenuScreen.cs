@@ -19,12 +19,13 @@ namespace GameStateManagement
     class MainMenuScreen : MenuScreen
     {
         #region Initialization
+        Game game;
 
 
         /// <summary>
         /// Constructor fills in the menu contents.
         /// </summary>
-        public MainMenuScreen()
+        public MainMenuScreen(Game game)
             : base("Main Menu")
         {
             // Create our menu entries.
@@ -41,6 +42,8 @@ namespace GameStateManagement
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
+
+            this.game = game;
         }
 
 
@@ -55,7 +58,7 @@ namespace GameStateManagement
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
-                               new GameplayScreen());
+                               new GameplayScreen(game));
         }
 
 
