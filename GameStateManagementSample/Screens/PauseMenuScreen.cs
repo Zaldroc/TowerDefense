@@ -20,12 +20,11 @@ namespace GameStateManagement
     class PauseMenuScreen : MenuScreen
     {
         #region Initialization
-        Game game;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PauseMenuScreen(Game game)
+        public PauseMenuScreen()
             : base("Paused")
         {
             // Create our menu entries.
@@ -39,7 +38,6 @@ namespace GameStateManagement
             // Add entries to the menu.
             MenuEntries.Add(resumeGameMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
-            this.game = game;
         }
 
 
@@ -71,7 +69,7 @@ namespace GameStateManagement
         void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
         {
             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
-                                                           new MainMenuScreen(game));
+                                                           new MainMenuScreen());
         }
 
 

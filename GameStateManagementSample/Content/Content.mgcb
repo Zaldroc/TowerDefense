@@ -157,7 +157,7 @@
 /processorParam:TextureFormat=Color
 /build:bug.png
 
-#begin paperBackground.jpg
+#begin paperPath2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -166,7 +166,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
-/build:paperBackground.jpg
+/build:paperPath2.png
 
 #begin paperBackground169.jpg
 /importer:TextureImporter
@@ -178,26 +178,4 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
 /build:paperBackground169.jpg
-
-#begin paperPath.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:TextureFormat=Color
-/build:paperPath.jpg
-
-#begin paperPath2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:TextureFormat=Color
-/build:paperPath2.png
 

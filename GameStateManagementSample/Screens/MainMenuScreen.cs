@@ -8,7 +8,9 @@
 #endregion
 
 #region Using Statements
+using GameStateManagementSample.Screens;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 #endregion
 
 namespace GameStateManagement
@@ -19,13 +21,12 @@ namespace GameStateManagement
     class MainMenuScreen : MenuScreen
     {
         #region Initialization
-        Game game;
 
 
         /// <summary>
         /// Constructor fills in the menu contents.
         /// </summary>
-        public MainMenuScreen(Game game)
+        public MainMenuScreen()
             : base("Main Menu")
         {
             // Create our menu entries.
@@ -42,8 +43,7 @@ namespace GameStateManagement
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
-
-            this.game = game;
+            
         }
 
 
@@ -57,8 +57,10 @@ namespace GameStateManagement
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
-                               new GameplayScreen(game));
+            List<GameScreen> screensToLoad = new List<GameScreen>();
+            screensToLoad.Add(new GameplayScreen());
+            //screensToLoad.Add(new TowerScreen(5));
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, screensToLoad.ToArray());
         }
 
 
