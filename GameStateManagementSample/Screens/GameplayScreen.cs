@@ -49,6 +49,8 @@ namespace GameStateManagement
 
         float pauseAlpha;
 
+        Projectile projectile;
+
         #endregion
 
         #region Initialization
@@ -81,6 +83,10 @@ namespace GameStateManagement
             towers = TowerCreator.GetTowerTypes(content);
 
             gameFont = content.Load<SpriteFont>("gamefont");
+
+            Texture2D projectileTexture = content.Load<Texture2D>("bullet");
+            projectile = new Projectile(new Vector2(1990, 1050), projectileTexture, 0.4f, 10, 1, 1);
+            gameManager.level.AddProjectile(projectile);
 
             //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
 
@@ -262,6 +268,9 @@ namespace GameStateManagement
 
             foreach (GameObject gameObject in gameManager.getTower())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
+
+            foreach (GameObject gameObject in level.GetProjectiles())
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.4f);
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
 
