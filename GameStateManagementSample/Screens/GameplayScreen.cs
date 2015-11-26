@@ -85,7 +85,7 @@ namespace GameStateManagement
 
             //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
 
-            background = content.Load<Texture2D>("grass");
+            background = content.Load<Texture2D>("paperBackground169");
 
             Texture2D t = new Texture2D(ScreenManager.GraphicsDevice, 50, 80 * towers.Count);
             Rectangle r = new Rectangle(0, 0, 50, 80 * towers.Count);
