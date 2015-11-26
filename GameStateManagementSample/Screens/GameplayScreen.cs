@@ -264,6 +264,8 @@ namespace GameStateManagement
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
+
+            //spriteBatch.DrawString(gameFont, "850 Points Wave 3",new Vector2(100,100),new Color(32,66,122));
             spriteBatch.End();
         }
 

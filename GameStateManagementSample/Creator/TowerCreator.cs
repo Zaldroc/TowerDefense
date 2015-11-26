@@ -13,7 +13,7 @@ namespace GameStateManagementSample.Creator
     {
         public static Tower GetTower(int i, ContentManager content, Vector2 position)
         {
-            Tower tower = new Tower(position, content.Load<Texture2D>("canon"), 1, 100, 100, 1);
+            Tower tower = new Tower(position, content.Load<Texture2D>("canon"),0.5f, 100, 100, 1);
 
             return tower;
         }
