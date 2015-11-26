@@ -82,13 +82,25 @@ namespace GameStateManagementSample.GameObjects
             Vector2 west = new Vector2(-1, 0) + currentPos;
 
             if (north.Equals(nextPosition))
+            {
                 SetPosition((GetPosition() + new Vector2(0, -speed)));
+                //SetRotation();
+            }
             else if (south.Equals(nextPosition))
+            {
                 SetPosition((GetPosition() + new Vector2(0, speed)));
+                //SetRotation();
+            }
             else if (east.Equals(nextPosition))
+            {
                 SetPosition((GetPosition() + new Vector2(speed, 0)));
+                //SetRotation();
+            }
             else if (west.Equals(nextPosition))
+            {
                 SetPosition((GetPosition() + new Vector2(-speed, 0)));
+                //SetRotation();
+            }
         }
     }
 }

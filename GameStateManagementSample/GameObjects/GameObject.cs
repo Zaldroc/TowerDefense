@@ -12,12 +12,15 @@ namespace GameStateManagementSample.GameObjects
         private Vector2 position;
         private Texture2D texture;
         private float scale;
+        private float rotation;
 
         public GameObject(Vector2 position, Texture2D texture, float scale)
         {
             this.position = position;
             this.texture = texture;
             this.scale = scale;
+
+            rotation = 0;
         }
 
         public void SetPosition(Vector2 position)
@@ -38,6 +41,16 @@ namespace GameStateManagementSample.GameObjects
         public float GetScale()
         {
             return this.scale;
+        }
+
+        public void SetRotation(float rotation)
+        {
+            this.rotation = rotation;
+        }
+
+        public float GetRotation()
+        {
+            return rotation;
         }
     }
 }

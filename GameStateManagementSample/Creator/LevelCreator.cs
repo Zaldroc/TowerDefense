@@ -67,9 +67,15 @@ namespace GameStateManagementSample.Creator
 
             level.AddPathBlock(new PathBlock(new Vector2(21, 17), dirt, 0.35f, PathBlockEnum.GOAL));
 
-            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition()*100, content.Load<Texture2D>("bug"), 0.5f, 100, 3.0f, 100));
-            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(0, 50), content.Load<Texture2D>("bug"), 0.5f, 100, 3.0f, 100));
-            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(70, 30), content.Load<Texture2D>("bug"), 0.5f, 100, 3.0f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100, content.Load<Texture2D>("bug"), 0.5f, 100, 3.0f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(0, 50), content.Load<Texture2D>("bug"), 0.5f, 100, 2.8f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(70, 30), content.Load<Texture2D>("bug"), 0.5f, 100, 2.4f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100, content.Load<Texture2D>("bug"), 0.5f, 100, 3.1f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(0, 50), content.Load<Texture2D>("bug"), 0.5f, 100, 2.2f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(70, 30), content.Load<Texture2D>("bug"), 0.5f, 100, 2.3f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100, content.Load<Texture2D>("bug"), 0.5f, 100, 3.0f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(0, 50), content.Load<Texture2D>("bug"), 0.5f, 100, 2.0f, 100));
+            level.AddEnemy(new Enemy(level.GetSpawn().GetPosition() * 100 + new Vector2(70, 30), content.Load<Texture2D>("bug"), 0.5f, 100, 2.1f, 100));
 
             return level;
         }
