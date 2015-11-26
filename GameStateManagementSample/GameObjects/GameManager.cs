@@ -29,6 +29,16 @@ namespace GameStateManagementSample.GameObjects
             this.tower.Add(tower);
         }
 
+        public void addTower(List<Tower> tower)
+        {
+            this.tower.AddRange(tower);
+        }
+
+        public List<Tower> getTower()
+        {
+            return tower;
+        }
+
         public void Update()
         {
             if (!gameOver)

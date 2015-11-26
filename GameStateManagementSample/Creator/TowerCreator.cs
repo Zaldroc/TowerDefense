@@ -11,9 +11,9 @@ namespace GameStateManagementSample.Creator
 {
     class TowerCreator
     {
-        public static Tower GetTower(String path, ContentManager content, Vector2 position)
+        public static Tower GetTower(int i, ContentManager content, Vector2 position)
         {
-            Tower tower = new Tower(position, content.Load<Texture2D>("tower"), 1, 100, 100, 1);
+            Tower tower = new Tower(position, content.Load<Texture2D>("canon"), 1, 100, 100, 1);
 
             return tower;
         }
@@ -22,7 +22,7 @@ namespace GameStateManagementSample.Creator
         {
             List<Texture2D> tower = new List<Texture2D>();
 
-            tower.Add(content.Load<Texture2D>("tower"));
+            tower.Add(content.Load<Texture2D>("canon"));
 
             return tower;
         }

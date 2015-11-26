@@ -75,6 +75,8 @@ namespace GameStateManagement
             Level level = LevelCreator.GetLevel(1, content);
 
             gameManager = new GameManager(level);
+            gameManager.addTower(TowerCreator.GetTower(0, content, new Vector2(500,1000)));
+            gameManager.addTower(TowerCreator.GetTower(0, content, new Vector2(1960, 1300)));
 
             towers = TowerCreator.GetTowerTypes(content);
 
@@ -256,6 +258,9 @@ namespace GameStateManagement
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition()*100*scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
             
             foreach (GameObject gameObject in level.GetEnemies())
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
+
+            foreach (GameObject gameObject in gameManager.getTower())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
