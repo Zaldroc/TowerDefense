@@ -49,8 +49,6 @@ namespace GameStateManagement
 
         float pauseAlpha;
 
-        Projectile projectile;
-
         #endregion
 
         #region Initialization
@@ -83,11 +81,7 @@ namespace GameStateManagement
             towers = TowerCreator.GetTowerTypes(content);
 
             gameFont = content.Load<SpriteFont>("gamefont");
-
-            Texture2D projectileTexture = content.Load<Texture2D>("bullet");
-            projectile = new Projectile(new Vector2(1990, 1050), projectileTexture, 0.4f, 10, 1, 1);
-            gameManager.level.AddProjectile(projectile);
-
+            
             //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
 
             background = content.Load<Texture2D>("paperBackground169");
@@ -136,7 +130,7 @@ namespace GameStateManagement
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
             else
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
-
+            
             if (IsActive)
             {
                 // Apply some random jitter to make the enemy move around.
@@ -155,7 +149,7 @@ namespace GameStateManagement
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
 
-                gameManager.Update();
+                gameManager.Update(gameTime);
             }
         }
 

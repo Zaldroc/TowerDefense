@@ -39,10 +39,18 @@ namespace GameStateManagementSample.GameObjects
             return tower;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (!gameOver)
-            try {
+            try
+            {
+                foreach (Tower t in tower)
+                {
+                    Projectile p = t.Shoot(gameTime.ElapsedGameTime.Milliseconds);
+                    if (p != null)
+                        level.AddProjectile(p);
+                }
+
                 level.Update();
             } catch (Exception e)
             {

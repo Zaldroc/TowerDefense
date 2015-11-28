@@ -20,6 +20,13 @@ namespace GameStateManagementSample.GameObjects
             this.direction = direction;
         }
 
+        public Projectile(Projectile p):base(p.GetPosition(), p.GetTexture(), p.GetScale())
+        {
+            damage = p.GetDamage();
+            speed = p.GetSpeed();
+            direction = p.GetDirection();
+        }
+
         public int GetDamage()
         {
             return damage;
@@ -28,6 +35,11 @@ namespace GameStateManagementSample.GameObjects
         public double GetSpeed()
         {
             return speed;
+        }
+
+        public double GetDirection()
+        {
+            return direction;
         }
 
         public void Move()
