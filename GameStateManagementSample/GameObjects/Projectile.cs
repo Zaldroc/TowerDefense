@@ -12,6 +12,7 @@ namespace GameStateManagementSample.GameObjects
         private int damage;
         private double speed;
         private double direction;
+        private Enemy target;
 
         public Projectile(Vector2 position, Texture2D texture, float scale, int damage, double speed, double direction):base(position, texture, scale)
         {
@@ -20,11 +21,12 @@ namespace GameStateManagementSample.GameObjects
             this.direction = direction;
         }
 
-        public Projectile(Projectile p):base(p.GetPosition(), p.GetTexture(), p.GetScale())
+        public Projectile(Projectile p, ref Enemy target):base(p.GetPosition(), p.GetTexture(), p.GetScale())
         {
             damage = p.GetDamage();
             speed = p.GetSpeed();
             direction = p.GetDirection();
+            this.target = target;
         }
 
         public int GetDamage()
@@ -40,6 +42,11 @@ namespace GameStateManagementSample.GameObjects
         public double GetDirection()
         {
             return direction;
+        }
+
+        public Enemy GetTarget()
+        {
+            return target;
         }
 
         public void Move()

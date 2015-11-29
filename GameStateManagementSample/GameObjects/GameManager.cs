@@ -46,7 +46,7 @@ namespace GameStateManagementSample.GameObjects
             {
                 foreach (Tower t in tower)
                 {
-                    Projectile p = t.Shoot(gameTime.ElapsedGameTime.Milliseconds);
+                    Projectile p = t.Shoot(gameTime.ElapsedGameTime.Milliseconds, level.GetEnemies());
                     if (p != null)
                         level.AddProjectile(p);
                 }

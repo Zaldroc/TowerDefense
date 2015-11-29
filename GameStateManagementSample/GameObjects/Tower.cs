@@ -12,7 +12,7 @@ namespace GameStateManagementSample.GameObjects
         private float range;
         private int costs;
         private int shootingInterval;
-        private int elapsedTime;
+        private int elapsedTime=1;
 
         private Projectile projectileType;
 
@@ -29,14 +29,28 @@ namespace GameStateManagementSample.GameObjects
             return range;
         }
 
-        public Projectile Shoot(int millis)
+        public Projectile Shoot(int millisElapsed, List<Enemy> enemies)
         {
-            elapsedTime += millis;
+            elapsedTime += millisElapsed;
             if (elapsedTime>=shootingInterval)
             {
-                elapsedTime = 0;
-                projectileType.SetPosition(projectileType.GetPosition()-new Vector2(0, 1));
-                return new Projectile(projectileType);
+                Enemy target = null;
+                foreach (Enemy e in enemies)
+                {
+                    double distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
+                    if (range >= distance)
+                    {
+                        target = e;
+                        break;
+                    }
+                }
+                
+                if (target!=null)
+                {
+                    elapsedTime = 0;
+                    projectileType.SetPosition(projectileType.GetPosition() - new Vector2(0, 100));
+                    return new Projectile(projectileType, ref target);
+                }
             }
             return null;            
         }

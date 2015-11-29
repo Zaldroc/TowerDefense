@@ -222,7 +222,7 @@ namespace GameStateManagement
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
 
@@ -232,7 +232,7 @@ namespace GameStateManagement
             spriteBatch.End();
 
             drawGameObjects(spriteBatch, gameTime);
-            DrawTowerScreen(spriteBatch, gameTime);
+            //DrawTowerScreen(spriteBatch, gameTime);
 
             // If the game is transitioning on or off, fade it out to black.ddfgdf
             if (TransitionPosition > 0 || pauseAlpha > 0)
@@ -242,12 +242,12 @@ namespace GameStateManagement
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
         }
-        
+
 
         private void drawGameObjects(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
-            
+
             //spriteBatch.Draw(enemy.GetTexture(), enemy.GetPosition(), Color.White);
 
             Level level = gameManager.level;
@@ -255,10 +255,10 @@ namespace GameStateManagement
             float scal = 1200f / 3200f;
 
             foreach (GameObject gameObject in level.GetPathBlocks())
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition()*100*scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
-            
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
+
             foreach (GameObject gameObject in level.GetEnemies())
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width/2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
             foreach (GameObject gameObject in gameManager.getTower())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.3f);
@@ -268,7 +268,11 @@ namespace GameStateManagement
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
 
-            //spriteBatch.DrawString(gameFont, "850 Points Wave 3",new Vector2(100,100),new Color(32,66,122));
+            if (level.GetProjectiles().Count!=0)
+            { 
+                Projectile p = level.GetProjectiles()[0];
+                spriteBatch.DrawString(gameFont, p.GetTarget().GetPosition().X + "      " + p.GetTarget().GetPosition().Y, new Vector2(100, 100), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
+            }   
             spriteBatch.End();
         }
 
