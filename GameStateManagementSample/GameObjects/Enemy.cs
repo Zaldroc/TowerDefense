@@ -61,7 +61,7 @@ namespace GameStateManagementSample.GameObjects
             }
 
             Vector2 pos = GetPosition();
-            Vector2 currentPos = new Vector2((int)pos.X/100,(int)pos.Y/100);
+            Vector2 currentPos = new Vector2((int)pos.X / 100, (int)pos.Y / 100);
 
             if (nextPosition.Equals(currentPos))
             {
@@ -84,22 +84,37 @@ namespace GameStateManagementSample.GameObjects
             if (north.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(0, -speed)));
-                //SetRotation();
+                if (GetRotationInDegrees() > 180 && GetRotationInDegrees() < 360)
+                    SetRotationInDegrees(GetRotationInDegrees() + 10);
+                else if (GetRotationInDegrees() <= 180 && GetRotationInDegrees() > 0)
+                    SetRotationInDegrees(GetRotationInDegrees() - 10);
             }
             else if (south.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(0, speed)));
-                //SetRotation();
+                //SetRotationInDegrees(180);
+                if (GetRotationInDegrees() > 180)
+                    SetRotationInDegrees(GetRotationInDegrees() - 10);
+                else if (GetRotationInDegrees() < 180)
+                    SetRotationInDegrees(GetRotationInDegrees() + 10);
             }
             else if (east.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(speed, 0)));
-                //SetRotation();
+                //SetRotationInDegrees(90);
+                if (GetRotationInDegrees() > 90)
+                    SetRotationInDegrees(GetRotationInDegrees() - 10);
+                else if (GetRotationInDegrees() < 90)
+                    SetRotationInDegrees(GetRotationInDegrees() + 10);
             }
             else if (west.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(-speed, 0)));
-                //SetRotation();
+                //SetRotationInDegrees(270);
+                if (GetRotationInDegrees() > 270)
+                    SetRotationInDegrees(GetRotationInDegrees() - 10);
+                else if (GetRotationInDegrees() < 270)
+                    SetRotationInDegrees(GetRotationInDegrees() + 10);
             }
         }
     }

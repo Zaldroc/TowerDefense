@@ -13,6 +13,7 @@ namespace GameStateManagementSample.GameObjects
         private Texture2D texture;
         private float scale;
         private float rotation;
+        private float rotationInDeg;
 
         public GameObject(Vector2 position, Texture2D texture, float scale)
         {
@@ -46,6 +47,21 @@ namespace GameStateManagementSample.GameObjects
         public void SetRotation(float rotation)
         {
             this.rotation = rotation;
+
+            rotationInDeg = (float)(360 / (2 * Math.PI)) * rotation;
+        }
+
+        public void SetRotationInDegrees(float degrees)
+        {
+            double rad = ((2 * Math.PI) / 360) * degrees;
+            rotationInDeg = degrees;
+
+            SetRotation((float)rad);
+        }
+
+        public float GetRotationInDegrees()
+        {
+            return rotationInDeg;
         }
 
         public float GetRotation()
