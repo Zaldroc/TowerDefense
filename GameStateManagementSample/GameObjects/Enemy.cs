@@ -86,36 +86,36 @@ namespace GameStateManagementSample.GameObjects
             {
                 SetPosition((GetPosition() + new Vector2(0, -speed)));
                 if (GetRotationInDegrees() > 180 && GetRotationInDegrees() < 360)
-                    SetRotationInDegrees(GetRotationInDegrees() + 10);
+                    SetRotationInDegrees(GetRotationInDegrees() + 3*speed);
                 else if (GetRotationInDegrees() <= 180 && GetRotationInDegrees() > 0)
-                    SetRotationInDegrees(GetRotationInDegrees() - 10);
+                    SetRotationInDegrees(GetRotationInDegrees() - 3 * speed);
             }
             else if (south.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(0, speed)));
                 //SetRotationInDegrees(180);
                 if (GetRotationInDegrees() > 180)
-                    SetRotationInDegrees(GetRotationInDegrees() - 10);
+                    SetRotationInDegrees(GetRotationInDegrees() - 3 * speed);
                 else if (GetRotationInDegrees() < 180)
-                    SetRotationInDegrees(GetRotationInDegrees() + 10);
+                    SetRotationInDegrees(GetRotationInDegrees() + 3 * speed);
             }
             else if (east.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(speed, 0)));
                 //SetRotationInDegrees(90);
                 if (GetRotationInDegrees() > 90)
-                    SetRotationInDegrees(GetRotationInDegrees() - 10);
+                    SetRotationInDegrees(GetRotationInDegrees() - 3 * speed);
                 else if (GetRotationInDegrees() < 90)
-                    SetRotationInDegrees(GetRotationInDegrees() + 10);
+                    SetRotationInDegrees(GetRotationInDegrees() + 3 * speed);
             }
             else if (west.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(-speed, 0)));
                 //SetRotationInDegrees(270);
                 if (GetRotationInDegrees() > 270)
-                    SetRotationInDegrees(GetRotationInDegrees() - 10);
+                    SetRotationInDegrees(GetRotationInDegrees() - 3 * speed);
                 else if (GetRotationInDegrees() < 270)
-                    SetRotationInDegrees(GetRotationInDegrees() + 10);
+                    SetRotationInDegrees(GetRotationInDegrees() + 3 * speed);
             }
         }
     }
