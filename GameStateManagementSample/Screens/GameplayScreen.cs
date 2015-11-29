@@ -255,8 +255,10 @@ namespace GameStateManagement
             float scal = 1200f / 3200f;
 
             foreach (GameObject gameObject in level.GetPathBlocks())
+            {
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
-
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal + new Vector2(5,5)*scal, null, new Color(200,200,200), 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.19f);
+            }
             foreach (GameObject gameObject in level.GetEnemies())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 

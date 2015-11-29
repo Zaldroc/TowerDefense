@@ -25,7 +25,7 @@ namespace GameStateManagementSample.Creator
         {
             Level level = new Level();
 
-            Texture2D dirt = content.Load<Texture2D>("paperPath2");
+            Texture2D dirt = content.Load<Texture2D>("paperPath3");
             level.AddPathBlock(new PathBlock(new Vector2(0, 0), dirt, 0.35f, PathBlockEnum.SPAWN));
             level.AddPathBlock(new PathBlock(new Vector2(0, 1), dirt, 0.35f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(0, 2), dirt, 0.35f, PathBlockEnum.NORMAL));
