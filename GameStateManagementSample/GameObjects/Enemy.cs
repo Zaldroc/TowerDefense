@@ -61,8 +61,8 @@ namespace GameStateManagementSample.GameObjects
             }
 
             Vector2 pos = GetPosition();
-            pos = new Vector2(pos.X - GetTexture().Height * GetScale() / 2,pos.Y - GetTexture().Height * GetScale() / 2);
-            Vector2 currentPos = new Vector2((int)pos.X / 100, (int)pos.Y / 100);
+            //pos = new Vector2(pos.X - GetTexture().Height * GetScale() / 2,pos.Y - GetTexture().Height * GetScale() / 2);
+            Vector2 currentPos = new Vector2((int)Math.Round((pos.X / 100),MidpointRounding.AwayFromZero)-1, (int)Math.Round((pos.Y / 100),MidpointRounding.AwayFromZero)-1);
 
             if (nextPosition.Equals(currentPos))
             {
