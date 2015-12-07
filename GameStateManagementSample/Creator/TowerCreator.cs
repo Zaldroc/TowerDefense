@@ -33,8 +33,8 @@ namespace GameStateManagementSample.Creator
         {
             List<Tower> tower = new List<Tower>();
 
-            tower.Add(new Tower(new Vector2(0,0), content.Load<Texture2D>("canon"), 0.5f, 400, 100, 300, null));
-            tower.Add(new Tower(new Vector2(0, 0), content.Load<Texture2D>("canon"), 0.5f, 400, 100, 300, null));
+            tower.Add(GetTower(0, content, new Vector2(0,0)));
+            tower.Add(GetTower(1, content, new Vector2(0, 0)));
 
             return tower;
         }
