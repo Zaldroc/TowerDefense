@@ -49,6 +49,8 @@ namespace GameStateManagement
 
         float pauseAlpha;
 
+        bool buttonPressed = false;
+
         #endregion
 
         #region Initialization
@@ -75,8 +77,6 @@ namespace GameStateManagement
             Level level = LevelCreator.GetLevel(1, content);
 
             gameManager = new GameManager(level);
-            gameManager.addTower(TowerCreator.GetTower(0, content, new Vector2(500,1050)));
-            gameManager.addTower(TowerCreator.GetTower(0, content, new Vector2(1960, 1300)));
 
             towers = TowerCreator.GetTowerTypes(content);
 
@@ -169,6 +169,8 @@ namespace GameStateManagement
             KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
 
+            MouseState mouseState = Mouse.GetState();
+
             // The game pauses either if the user presses the pause button, or if
             // they unplug the active gamepad. This requires us to keep track of
             // whether a gamepad was ever plugged in, because we don't want to pause
@@ -206,6 +208,17 @@ namespace GameStateManagement
                     movement.Normalize();
 
                 playerPosition += movement * 5;
+
+                if(mouseState.LeftButton == ButtonState.Pressed && !buttonPressed)
+                {
+                    buttonPressed = true;
+
+                    gameManager.addTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
+                }
+                else if (mouseState.LeftButton == ButtonState.Released && buttonPressed)
+                {
+                    buttonPressed = false;
+                }
             }
         }
 

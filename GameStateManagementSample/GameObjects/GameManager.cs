@@ -48,7 +48,7 @@ namespace GameStateManagementSample.GameObjects
             {
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
 
-                if (elapsedTime>64)
+                if (elapsedTime>10)
                 {
                     elapsedTime = 0;
                     level.SpawnEnemy();

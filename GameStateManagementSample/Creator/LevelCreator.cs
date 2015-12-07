@@ -72,7 +72,7 @@ namespace GameStateManagementSample.Creator
 
 
             
-            for (int i=0; i<20; i++)
+            for (int i=0; i<200; i++)
             {
                 level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), 0.5f, 100, 1.0f, 100));
                 level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), 0.5f, 100, 2.8f, 100));
