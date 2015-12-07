@@ -16,7 +16,7 @@ namespace GameStateManagementSample.GameObjects
         private Queue<Vector2> path;
         private Vector2 nextPosition;
 
-        public Enemy(Vector2 position, Texture2D texture, float scale, int health, float speed, int reward):base(position,texture,scale)
+        public Enemy(Vector2 position, Texture2D texture, Vector2 scale, int health, float speed, int reward):base(position,texture,scale)
         {
             this.health = health;
             this.speed = speed;

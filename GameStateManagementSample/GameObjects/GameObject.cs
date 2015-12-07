@@ -11,11 +11,11 @@ namespace GameStateManagementSample.GameObjects
     {
         private Vector2 position;
         private Texture2D texture;
-        private float scale;
+        private Vector2 scale;
         private float rotation;
         private float rotationInDeg;
 
-        public GameObject(Vector2 position, Texture2D texture, float scale)
+        public GameObject(Vector2 position, Texture2D texture, Vector2 scale)
         {
             this.position = position;
             this.texture = texture;
@@ -39,7 +39,7 @@ namespace GameStateManagementSample.GameObjects
             return this.texture;
         }
 
-        public float GetScale()
+        public Vector2 GetScale()
         {
             return this.scale;
         }

@@ -18,7 +18,7 @@ namespace GameStateManagementSample.GameObjects
 
         private Projectile projectileType;
 
-        public Tower(Vector2 position, Texture2D texture, float scale, float range, int costs, int shootingInterval, Projectile projectileType):base(position,texture,scale)
+        public Tower(Vector2 position, Texture2D texture, Vector2 scale, float range, int costs, int shootingInterval, Projectile projectileType):base(position,texture,scale)
         {
             this.range = range;
             this.costs = costs;

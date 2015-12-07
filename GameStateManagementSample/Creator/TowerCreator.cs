@@ -16,14 +16,14 @@ namespace GameStateManagementSample.Creator
             Texture2D projectileTexture = content.Load<Texture2D>("bullet");
             if (i == 1)
             {
-                Projectile projectile = new Projectile(position, projectileTexture, 0.4f, 25, 10, new Vector2(1, 1));
-                return new Tower(position, content.Load<Texture2D>("canon"), 0.5f, 400, 100, 300, projectile);
+                Projectile projectile = new Projectile(position, projectileTexture, new Vector2(1,1)* 0.4f, 25, 10, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(1.8f,1)*0.5f, 400, 100, 300, projectile);
             }
 
             if (i == 0)
             {
-                Projectile projectile = new Projectile(position, projectileTexture, 0.4f, 5, 50, new Vector2(1, 1));
-                return new Tower(position, content.Load<Texture2D>("canon"), 0.5f, 600, 50, 150, projectile);
+                Projectile projectile = new Projectile(position, projectileTexture, new Vector2(0.5f, 1) * 0.4f, 5, 50, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(0.9f, 1) * 0.5f, 600, 50, 150, projectile);
             }
 
             return null;            

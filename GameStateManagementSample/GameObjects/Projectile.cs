@@ -15,7 +15,7 @@ namespace GameStateManagementSample.GameObjects
         private Enemy target;
 
 
-        public Projectile(Vector2 position, Texture2D texture, float scale, int damage, float speed, Vector2 direction):base(position, texture, scale)
+        public Projectile(Vector2 position, Texture2D texture, Vector2 scale, int damage, float speed, Vector2 direction):base(position, texture, scale)
         {
             this.damage = damage;
             this.speed = speed;
