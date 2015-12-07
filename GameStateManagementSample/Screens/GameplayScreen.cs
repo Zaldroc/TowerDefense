@@ -224,7 +224,6 @@ namespace GameStateManagement
                 else if (mouseState.LeftButton == ButtonState.Released && buttonPressed)
                 {
                     buttonPressed = false;
-                    postIt = null;
                 }
             }
         }
@@ -295,8 +294,7 @@ namespace GameStateManagement
 
             if (postIt!=null)
             {
-                spriteBatch.Draw(postItTexture, (postIt + new Vector2(50, 0)), null, Color.White, 1.0f, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), 1f, SpriteEffects.None, 0.3f);
-                spriteBatch.Draw(postItTexture, postIt + new Vector2(50, 0), null, Color.White, 1.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
+                spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50, 0), null, Color.White, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), 0.3f, SpriteEffects.None, 0.3f);
             }
               
             if (gameManager.IsGameOver())
