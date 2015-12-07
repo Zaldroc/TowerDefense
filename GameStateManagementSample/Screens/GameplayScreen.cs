@@ -41,19 +41,21 @@ namespace GameStateManagement
         Texture2D plattform;
         Texture2D postItTexture;
 
+        float postItTextureScal=0.25f;
+
         Random random = new Random();
 
-        List<Texture2D> towers;
+        List<Tower> towers;
 
         GameManager gameManager;
         
         //RectangleOverlay towerScreen;
 
         float pauseAlpha;
-
-        bool buttonPressed = false;
-
+        
         Vector2 ?postIt;
+
+        MouseState oldMouseState;
 
         #endregion
 
@@ -214,30 +216,45 @@ namespace GameStateManagement
 
                 playerPosition += movement * 5;
 
-                if(mouseState.LeftButton == ButtonState.Pressed && !buttonPressed)
+                if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed)
                 {
-                    buttonPressed = true;
-
                     //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
-                    postIt = mouseState.Position.ToVector2();
-                }
-                else if (mouseState.LeftButton == ButtonState.Released && buttonPressed)
-                {
-                    buttonPressed = false;
+                    if (postIt == null)
+                        postIt = mouseState.Position.ToVector2();
+                    else
+                    {
+                        Vector2 textureVector = new Vector2(postItTexture.Width * postItTextureScal, postItTexture.Height * postItTextureScal);
+                        Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X), ((int)postIt.Value.Y)-(((int)textureVector.Y)/2), ((int)textureVector.X), ((int)textureVector.Y));
+
+                        int tower=-1;
+                        for (int i=0; i<towers.Count; i++)
+                        {
+                            Rectangle r = postItRectangle;
+                            r.X = r.X + i * (int)textureVector.X;
+                            if (r.Contains(mouseState.Position))
+                            {
+                                tower = i;
+                                break;
+                            }
+                        }
+                        
+                        if (tower!=-1)
+                        {
+                            gameManager.BuyTower(TowerCreator.GetTower(tower, content, ((Vector2)postIt) / (1200f / 3200f)));
+                            postIt = null;
+                        }
+                        else postIt = mouseState.Position.ToVector2();
+                    }
                 }
 
-                if (mouseState.RightButton == ButtonState.Pressed && !buttonPressed)
+                if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed)
                 {
-                    buttonPressed = true;
-
-                    gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
-                    //postIt = mouseState.Position.ToVector2();
-                }
-                else if (mouseState.RightButton == ButtonState.Released && buttonPressed)
-                {
-                    buttonPressed = false;
+                    //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
+                    postIt = null;
                 }
             }
+
+            oldMouseState = mouseState;
         }
 
 
@@ -306,7 +323,14 @@ namespace GameStateManagement
 
             if (postIt!=null)
             {
-                spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50, 0), null, Color.White, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), 0.3f, SpriteEffects.None, 0.3f);
+                float breite = postItTexture.Width * postItTextureScal;
+                for (int i= 0; i< towers.Count; i++)
+                {
+                    Tower t = towers[i];
+                    spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + i*breite, 0), null, Color.White, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
+                    spriteBatch.Draw(t.GetTexture(), ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, Color.White, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale(), SpriteEffects.None, 0.6f);
+                    spriteBatch.Draw(plattform, ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, Color.White, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale(), SpriteEffects.None, 0.59f);
+                }
             }
               
             if (gameManager.IsGameOver())

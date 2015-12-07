@@ -14,17 +14,27 @@ namespace GameStateManagementSample.Creator
         public static Tower GetTower(int i, ContentManager content, Vector2 position)
         {
             Texture2D projectileTexture = content.Load<Texture2D>("bullet");
-            Projectile projectile = new Projectile(position, projectileTexture, 0.4f, 25, 10, new Vector2(1,1));
-            Tower tower = new Tower(position, content.Load<Texture2D>("canon"),0.5f, 400, 100, 300, projectile);
+            if (i == 0)
+            {
+                Projectile projectile = new Projectile(position, projectileTexture, 0.4f, 25, 10, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("canon"), 0.5f, 400, 100, 300, projectile);
+            }
 
-            return tower;
+            if (i == 1)
+            {
+                Projectile projectile = new Projectile(position, projectileTexture, 0.4f, 5, 50, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("canon"), 0.5f, 400, 175, 150, projectile);
+            }
+
+            return null;            
         }
 
-        public static List<Texture2D> GetTowerTypes(ContentManager content)
+        public static List<Tower> GetTowerTypes(ContentManager content)
         {
-            List<Texture2D> tower = new List<Texture2D>();
+            List<Tower> tower = new List<Tower>();
 
-            tower.Add(content.Load<Texture2D>("canon"));
+            tower.Add(new Tower(new Vector2(0,0), content.Load<Texture2D>("canon"), 0.5f, 400, 100, 300, null));
+            tower.Add(new Tower(new Vector2(0, 0), content.Load<Texture2D>("canon"), 0.5f, 400, 100, 300, null));
 
             return tower;
         }
