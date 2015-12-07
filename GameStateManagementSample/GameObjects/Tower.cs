@@ -15,6 +15,8 @@ namespace GameStateManagementSample.GameObjects
         private int elapsedTime=1;
         public double distance=0;
 
+        public bool isIdle;
+
         private Projectile projectileType;
 
         public Tower(Vector2 position, Texture2D texture, float scale, float range, int costs, int shootingInterval, Projectile projectileType):base(position,texture,scale)
@@ -23,6 +25,8 @@ namespace GameStateManagementSample.GameObjects
             this.costs = costs;
             this.shootingInterval = shootingInterval;
             this.projectileType = projectileType;
+
+            isIdle = true;
         }
 
         public float GetRange()
@@ -44,7 +48,6 @@ namespace GameStateManagementSample.GameObjects
                     if (range >= distance)
                     {
                         target = e;
-                        //direction = Math.Acos(Vector2.Dot(e.GetPosition(), GetPosition())/(e.GetPosition().Length()*GetPosition().Length())) / Math.PI * 180;
                         v = GetPosition() - e.GetPosition();
                         v.Normalize();
                         direction = Math.Atan(v.Y/v.X);
@@ -55,26 +58,30 @@ namespace GameStateManagementSample.GameObjects
                         if(v.X<0)
                             direction = direction + 180;
 
-                        //if (v.X > 0)
-                        //  direction = direction + 360;
-
-                        //if (v.Y > 0)
-                        //  direction = direction + 180;
-
                         this.SetRotationInDegrees((float)direction);
                         break;
                     }
                 }
+
 
                 if (target != null)
                 {
                     elapsedTime = 0;
                     projectileType.SetPosition(projectileType.GetPosition());
                     //return new Projectile(projectileType, ref target, direction);
+                    isIdle = false;
                     return new Projectile(projectileType, ref target, v*(-1));
                 }
+                if(elapsedTime>1000)
+                    isIdle = true;
             }
             return null;            
+        }
+
+        public void Move()
+        {
+            if(isIdle)
+                SetRotationInDegrees(GetRotationInDegrees() + 0.5f);
         }
 
         public int GetCosts()

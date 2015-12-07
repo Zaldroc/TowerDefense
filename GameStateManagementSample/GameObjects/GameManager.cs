@@ -17,6 +17,8 @@ namespace GameStateManagementSample.GameObjects
         private bool levelFinished;
         private int elapsedTime = 0;
 
+        private int pointsRegenTime = 0;
+
         private List<Tower> tower;
 
         public GameManager(Level level)
@@ -82,6 +84,7 @@ namespace GameStateManagementSample.GameObjects
             try
             {
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                pointsRegenTime += gameTime.ElapsedGameTime.Milliseconds;
 
                 if (elapsedTime>500)
                 {
@@ -89,11 +92,19 @@ namespace GameStateManagementSample.GameObjects
                     level.SpawnEnemy();
                 }
 
+                if (pointsRegenTime > 1000)
+                {
+                    pointsRegenTime = 0;
+                    player.AddPoints(10);
+                }
+
                 foreach (Tower t in tower)
                 {
                     Projectile p = t.Shoot(gameTime.ElapsedGameTime.Milliseconds, level.GetEnemies());
                     if (p != null)
                         level.AddProjectile(p);
+
+                    t.Move();
                 }
 
                 int reward = level.checkColissions();
