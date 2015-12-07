@@ -225,6 +225,18 @@ namespace GameStateManagement
                 {
                     buttonPressed = false;
                 }
+
+                if (mouseState.RightButton == ButtonState.Pressed && !buttonPressed)
+                {
+                    buttonPressed = true;
+
+                    gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
+                    //postIt = mouseState.Position.ToVector2();
+                }
+                else if (mouseState.RightButton == ButtonState.Released && buttonPressed)
+                {
+                    buttonPressed = false;
+                }
             }
         }
 
