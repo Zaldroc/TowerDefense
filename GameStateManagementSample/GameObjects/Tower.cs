@@ -13,7 +13,6 @@ namespace GameStateManagementSample.GameObjects
         private int costs;
         private int shootingInterval;
         private int elapsedTime=1;
-        public double distance=0;
 
         public bool isIdle;
 
@@ -40,15 +39,17 @@ namespace GameStateManagementSample.GameObjects
             if (elapsedTime>=shootingInterval)
             {
                 Enemy target = null;
+                double bestDistance=0;
                 double direction=0;
                 Vector2 v = new Vector2(0,0);
 
                 foreach (Enemy e in enemies)
                 {
-                    distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
-                    if (range >= distance)
+                    double distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
+                    if (range >= distance && (distance<bestDistance||bestDistance==0))
                     {
                         target = e;
+                        bestDistance = distance;
                         v = GetPosition() - e.GetPosition();
                         v.Normalize();
                         direction = Math.Atan(v.Y/v.X);
@@ -60,7 +61,6 @@ namespace GameStateManagementSample.GameObjects
                             direction = direction + 180;
 
                         this.SetRotationInDegrees((float)direction);
-                        break;
                     }
                 }
 
