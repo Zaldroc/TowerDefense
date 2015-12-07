@@ -37,22 +37,41 @@ namespace GameStateManagementSample.GameObjects
             {
                 Enemy target = null;
                 double direction=0;
+                Vector2 v = new Vector2(0,0);
                 foreach (Enemy e in enemies)
                 {
                     distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
                     if (range >= distance)
                     {
                         target = e;
-                        direction = Math.Acos(Vector2.Dot(e.GetPosition(), GetPosition())/(e.GetPosition().Length()*GetPosition().Length())) / Math.PI * 180;
+                        //direction = Math.Acos(Vector2.Dot(e.GetPosition(), GetPosition())/(e.GetPosition().Length()*GetPosition().Length())) / Math.PI * 180;
+                        v = GetPosition() - e.GetPosition();
+                        v.Normalize();
+                        direction = Math.Atan(v.Y/v.X);
+                        direction = direction * (180 / Math.PI);
+
+                        direction = direction + 270;
+
+                        if(v.X<0)
+                            direction = direction + 180;
+
+                        //if (v.X > 0)
+                        //  direction = direction + 360;
+
+                        //if (v.Y > 0)
+                        //  direction = direction + 180;
+
+                        this.SetRotationInDegrees((float)direction);
                         break;
                     }
                 }
-                
-                if (target!=null)
+
+                if (target != null)
                 {
                     elapsedTime = 0;
                     projectileType.SetPosition(projectileType.GetPosition());
-                    return new Projectile(projectileType, ref target, direction);
+                    //return new Projectile(projectileType, ref target, direction);
+                    return new Projectile(projectileType, ref target, v*(-1));
                 }
             }
             return null;            
