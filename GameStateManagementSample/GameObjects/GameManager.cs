@@ -30,6 +30,30 @@ namespace GameStateManagementSample.GameObjects
         {
             if(t.GetCosts()<=player.GetPoints())
             {
+                Vector2 setPos = t.GetPosition() / 100.0f;
+                setPos.X = (int)setPos.X;
+                setPos.Y = (int)setPos.Y;
+
+                foreach(PathBlock path in level.GetPathBlocks())
+                {
+                    if (path.GetPosition().Equals(setPos))
+                        return false;
+                }
+
+                foreach (Tower t2 in getTower())
+                {
+                    Vector2 setPos2 = t2.GetPosition() / 100.0f;
+                    setPos2.X = (int)setPos2.X;
+                    setPos2.Y = (int)setPos2.Y;
+
+                    if (setPos.Equals(setPos2))
+                        return false;
+                }
+
+                setPos.X = (setPos.X+1) * 100 - t.GetTexture().Height / 2;
+                setPos.Y = (setPos.Y+1) * 100 - t.GetTexture().Height / 2;
+                t.SetPosition(setPos);
+
                 addTower(t);
                 player.RemovePoints(t.GetCosts());
                 return true;
