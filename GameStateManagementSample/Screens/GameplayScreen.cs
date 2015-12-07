@@ -224,7 +224,7 @@ namespace GameStateManagement
                     else
                     {
                         Vector2 textureVector = new Vector2(postItTexture.Width * postItTextureScal, postItTexture.Height * postItTextureScal);
-                        Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X), ((int)postIt.Value.Y)-(((int)textureVector.Y)/2), ((int)textureVector.X), ((int)textureVector.Y));
+                        Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X)+50-(((int)textureVector.X) / 2), ((int)postIt.Value.Y)-(((int)textureVector.Y)/2), ((int)textureVector.X), ((int)textureVector.Y));
 
                         int tower=-1;
                         for (int i=0; i<towers.Count; i++)
