@@ -12,22 +12,12 @@ namespace GameStateManagementSample.GameObjects
         private List<PathBlock> path;
         private List<Projectile> projectiles;
 
-        private Queue<Wave> waves;
+        private Queue<Enemy> allEnemies;
 
         private int[,] grid;
         private int[,] map;
 
         private Route route;
-
-        private class Wave
-        {
-            public Queue<Enemy> enemies;
-
-            public Wave()
-            {
-                enemies = new Queue<Enemy>();
-            }
-        }
 
         private class Route
         {
@@ -57,10 +47,15 @@ namespace GameStateManagementSample.GameObjects
             enemies = new List<Enemy>();
             path = new List<PathBlock>();
 
-            waves = new Queue<Wave>();
+            allEnemies = new Queue<Enemy>();
 
             route = new Route();
             projectiles = new List<Projectile>();
+        }
+
+        public void SpawnEnemy()
+        {
+            enemies.Add(allEnemies.Dequeue());
         }
 
         public void AddEnemy(Enemy enemy)
@@ -68,22 +63,7 @@ namespace GameStateManagementSample.GameObjects
             if (HasPath())
             {
                 enemy.SetPath(route.path);
-                enemies.Add(enemy);
-            }
-        }
-
-        public void SpawnEnemy()
-        {
-            if(HasPath())
-            {
-                if (waves.Peek().enemies.Count != 0)
-                {
-                    Enemy e = waves.Peek().enemies.Dequeue();
-                    e.SetPath(route.path);
-                    enemies.Add(e);
-                }
-                else
-                    waves.Dequeue();
+                allEnemies.Enqueue(enemy);
             }
         }
 
