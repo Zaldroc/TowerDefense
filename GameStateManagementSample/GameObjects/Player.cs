@@ -9,9 +9,24 @@ namespace GameStateManagementSample.GameObjects
     {
         private int points;
 
+        public Player(int startPoints)
+        {
+            points = startPoints;
+        }
+
         public void SetPoints(int points)
         {
             this.points = points;
+        }
+
+        public void AddPoints(int points)
+        {
+            this.points += points;
+        }
+
+        public void RemovePoints(int points)
+        {
+            this.points -= points;
         }
 
         public int GetPoints()

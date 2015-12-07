@@ -213,7 +213,7 @@ namespace GameStateManagement
                 {
                     buttonPressed = true;
 
-                    gameManager.addTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
+                    gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
                 }
                 else if (mouseState.LeftButton == ButtonState.Released && buttonPressed)
                 {
@@ -291,6 +291,8 @@ namespace GameStateManagement
 
             if (gameManager.IsLevelFinished())
                 spriteBatch.DrawString(gameFont, "You  won!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+
+            spriteBatch.DrawString(gameFont, gameManager.player.GetPoints() + " ink", new Vector2(1000, 100), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
 
             spriteBatch.End();

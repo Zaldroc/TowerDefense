@@ -223,8 +223,9 @@ namespace GameStateManagementSample.GameObjects
             }
         }
 
-        public void checkColissions()
+        public int checkColissions()
         {
+            int reward=0;
             for(int a=0; a < enemies.Count; a++)
             {
                 Enemy e = enemies[a];
@@ -238,10 +239,14 @@ namespace GameStateManagementSample.GameObjects
                         projectiles.Remove(p);
                         e.Damage(p.GetDamage());
                         if (e.GetHealth() <= 0)
+                        {
+                            reward += e.GetReward();
                             enemies.Remove(e);
+                        }
                     }
                 }
-            }            
+            }
+            return reward;
         }
     }
 }

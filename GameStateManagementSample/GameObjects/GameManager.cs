@@ -22,8 +22,19 @@ namespace GameStateManagementSample.GameObjects
         public GameManager(Level level)
         {
             this.level = level;
-            player = new Player();
+            player = new Player(250);
             tower = new List<Tower>();
+        }
+
+        public bool BuyTower(Tower t)
+        {
+            if(t.GetCosts()<=player.GetPoints())
+            {
+                addTower(t);
+                player.RemovePoints(t.GetCosts());
+                return true;
+            }
+            return false;
         }
 
         public void addTower(Tower tower)
@@ -61,7 +72,8 @@ namespace GameStateManagementSample.GameObjects
                         level.AddProjectile(p);
                 }
 
-                level.checkColissions();
+                int reward = level.checkColissions();
+                player.AddPoints(reward);
                 level.Update();
 
                 levelFinished = level.GetEnemies().Count == 0 && level.GetAllEnemies().Count == 0;

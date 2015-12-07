@@ -76,5 +76,10 @@ namespace GameStateManagementSample.GameObjects
             }
             return null;            
         }
+
+        public int GetCosts()
+        {
+            return costs;
+        }
     }
 }
