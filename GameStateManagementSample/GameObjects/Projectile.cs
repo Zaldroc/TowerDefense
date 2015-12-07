@@ -52,14 +52,19 @@ namespace GameStateManagementSample.GameObjects
 
         public void Move()
         {
-            //SetPosition(GetPosition() - new Vector2(0, speed));
-            /*Vector2 angleVector = new Vector2(
-                (float)Math.Cos(GetRotation()),
-                -(float)Math.Sin(GetRotation()));
-            angleVector.Normalize();
-            angleVector = angleVector * speed;*/
+            SetPosition(GetPosition() + this.direction * speed);
 
-            SetPosition(GetPosition() + direction * speed);
+            double direction = Math.Atan(this.direction.Y / this.direction.X);
+            direction = direction * (180 / Math.PI);
+
+            direction = direction + 270;
+
+            if (this.direction.X < 0)
+                direction = direction + 180;
+
+            direction += 180;
+
+            this.SetRotationInDegrees((float)direction);
         }
     }
 }
