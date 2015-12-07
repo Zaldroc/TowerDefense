@@ -38,6 +38,7 @@ namespace GameStateManagement
         Vector2 enemyPosition = new Vector2(100, 100);
 
         Texture2D background;
+        Texture2D plattform;
 
         Random random = new Random();
 
@@ -85,7 +86,7 @@ namespace GameStateManagement
             //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
 
             background = content.Load<Texture2D>("paperBackground169");
-
+            plattform = content.Load<Texture2D>("platform");
            
             
             //towerScreen = new RectangleOverlay(r, Color.Red, game, ScreenManager.SpriteBatch);
@@ -276,7 +277,10 @@ namespace GameStateManagement
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
             foreach (GameObject gameObject in gameManager.getTower())
+            {
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.4f);
+                spriteBatch.Draw(plattform, gameObject.GetPosition() * scal, null, Color.White, 0, new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.39f);
+            }
 
             foreach (GameObject gameObject in level.GetProjectiles())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
