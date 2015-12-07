@@ -75,7 +75,7 @@ namespace GameStateManagement
             Level level = LevelCreator.GetLevel(1, content);
 
             gameManager = new GameManager(level);
-            gameManager.addTower(TowerCreator.GetTower(0, content, new Vector2(500,1000)));
+            gameManager.addTower(TowerCreator.GetTower(0, content, new Vector2(500,1050)));
             gameManager.addTower(TowerCreator.GetTower(0, content, new Vector2(1960, 1300)));
 
             towers = TowerCreator.GetTowerTypes(content);
@@ -93,7 +93,7 @@ namespace GameStateManagement
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
 
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
@@ -272,8 +272,8 @@ namespace GameStateManagement
 
             if (level.GetProjectiles().Count!=0)
             { 
-                Projectile p = level.GetProjectiles()[0];
-                spriteBatch.DrawString(gameFont, p.GetTarget().GetPosition().X + "      " + p.GetTarget().GetPosition().Y, new Vector2(100, 100), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
+                Projectile p = level.GetProjectiles()[level.GetProjectiles().Count-1];
+                spriteBatch.DrawString(gameFont, p.GetDirection().ToString(), new Vector2(100, 100), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
             }   
             spriteBatch.End();
         }

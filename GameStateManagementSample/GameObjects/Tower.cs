@@ -35,12 +35,14 @@ namespace GameStateManagementSample.GameObjects
             if (elapsedTime>=shootingInterval)
             {
                 Enemy target = null;
+                double direction=0;
                 foreach (Enemy e in enemies)
                 {
                     double distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
                     if (range >= distance)
                     {
                         target = e;
+                        direction = Math.Acos(Vector2.Dot(e.GetPosition(), GetPosition())/(e.GetPosition().Length()*GetPosition().Length())) / Math.PI * 180;
                         break;
                     }
                 }
@@ -48,8 +50,8 @@ namespace GameStateManagementSample.GameObjects
                 if (target!=null)
                 {
                     elapsedTime = 0;
-                    projectileType.SetPosition(projectileType.GetPosition() - new Vector2(0, 100));
-                    return new Projectile(projectileType, ref target);
+                    projectileType.SetPosition(projectileType.GetPosition());
+                    return new Projectile(projectileType, ref target, direction);
                 }
             }
             return null;            

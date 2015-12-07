@@ -14,8 +14,8 @@ namespace GameStateManagementSample.Creator
         public static Tower GetTower(int i, ContentManager content, Vector2 position)
         {
             Texture2D projectileTexture = content.Load<Texture2D>("bullet");
-            Projectile projectile = new Projectile(position, projectileTexture, 0.4f, 10, 1, 1);
-            Tower tower = new Tower(position, content.Load<Texture2D>("canon"),0.5f, 300, 100, 1000, projectile);
+            Projectile projectile = new Projectile(position, projectileTexture, 0.4f, 10, 10f, 1);
+            Tower tower = new Tower(position, content.Load<Texture2D>("canon"),0.5f, 400, 100, 1000, projectile);
 
             return tower;
         }
