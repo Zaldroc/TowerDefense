@@ -39,6 +39,7 @@ namespace GameStateManagement
 
         Texture2D background;
         Texture2D plattform;
+        Texture2D postItTexture;
 
         Random random = new Random();
 
@@ -51,6 +52,8 @@ namespace GameStateManagement
         float pauseAlpha;
 
         bool buttonPressed = false;
+
+        Vector2 ?postIt;
 
         #endregion
 
@@ -87,8 +90,9 @@ namespace GameStateManagement
 
             background = content.Load<Texture2D>("paperBackground169");
             plattform = content.Load<Texture2D>("platform");
-           
-            
+            postItTexture = content.Load<Texture2D>("postit");
+
+
             //towerScreen = new RectangleOverlay(r, Color.Red, game, ScreenManager.SpriteBatch);
 
             // A real game would probably have more content than this sample, so
@@ -214,11 +218,13 @@ namespace GameStateManagement
                 {
                     buttonPressed = true;
 
-                    gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
+                    //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
+                    postIt = mouseState.Position.ToVector2();
                 }
                 else if (mouseState.LeftButton == ButtonState.Released && buttonPressed)
                 {
                     buttonPressed = false;
+                    postIt = null;
                 }
             }
         }
@@ -287,9 +293,12 @@ namespace GameStateManagement
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
 
-            //Tower t = gameManager.getTower()[0];
-            //spriteBatch.DrawString(gameFont, t.distance.ToString(), new Vector2(100, 100), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
-             
+            if (postIt!=null)
+            {
+                spriteBatch.Draw(postItTexture, (postIt + new Vector2(50, 0)), null, Color.White, 1.0f, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), 1f, SpriteEffects.None, 0.3f);
+                spriteBatch.Draw(postItTexture, postIt + new Vector2(50, 0), null, Color.White, 1.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
+            }
+              
             if (gameManager.IsGameOver())
                 spriteBatch.DrawString(gameFont, "Game  Over!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
@@ -297,6 +306,7 @@ namespace GameStateManagement
                 spriteBatch.DrawString(gameFont, "You  won!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
             spriteBatch.DrawString(gameFont, gameManager.player.GetPoints() + " ink", new Vector2(1000, 100), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(gameFont, gameManager.level.GetEnemies().Count+ gameManager.level.GetAllEnemies().Count + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
 
             spriteBatch.End();

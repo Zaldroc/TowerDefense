@@ -147,6 +147,13 @@ namespace GameStateManagementSample.GameObjects
             return true;
         }
 
+        private bool IsOutOfRange(Vector2 pos)
+        {
+            if (pos.X >= 0 && pos.X < 3200 && pos.Y >= 0 && pos.Y < 1800)
+                return false;
+            return true;
+        }
+
         public List<Enemy> GetEnemies()
         {
             return new List<Enemy>(enemies);
@@ -247,6 +254,16 @@ namespace GameStateManagementSample.GameObjects
                 }
             }
             return reward;
+        }
+
+        private void removeOutOfRangeProjectiles()
+        {
+            for (int b = 0; b < projectiles.Count; b++)
+            {
+                Projectile p = projectiles[b];
+                if (IsOutOfRange(p.GetPosition()))
+                    projectiles.Remove(p);
+            }
         }
     }
 }
