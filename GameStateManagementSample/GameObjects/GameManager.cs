@@ -13,7 +13,9 @@ namespace GameStateManagementSample.GameObjects
     {
         public Level level;
         public Player player;
-        private Boolean gameOver;
+        private bool gameOver;
+        private bool levelFinished;
+        private int elapsedTime = 0;
 
         private List<Tower> tower;
 
@@ -41,9 +43,17 @@ namespace GameStateManagementSample.GameObjects
 
         public void Update(GameTime gameTime)
         {
-            if (!gameOver)
+            if (!gameOver&&!levelFinished)
             try
             {
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+
+                if (elapsedTime>64)
+                {
+                    elapsedTime = 0;
+                    level.SpawnEnemy();
+                }
+
                 foreach (Tower t in tower)
                 {
                     Projectile p = t.Shoot(gameTime.ElapsedGameTime.Milliseconds, level.GetEnemies());
@@ -51,11 +61,24 @@ namespace GameStateManagementSample.GameObjects
                         level.AddProjectile(p);
                 }
 
+                level.checkColissions();
                 level.Update();
+
+                levelFinished = level.GetEnemies().Count == 0 && level.GetAllEnemies().Count == 0;
             } catch (Exception e)
             {
                 gameOver = true;
             }
+        }
+
+        public bool IsGameOver()
+        {
+            return gameOver;
+        }
+
+        public bool IsLevelFinished()
+        {
+            return levelFinished;
         }
     }
 }

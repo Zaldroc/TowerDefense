@@ -270,11 +270,16 @@ namespace GameStateManagement
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
 
-            if (level.GetProjectiles().Count!=0)
-            { 
-                Projectile p = level.GetProjectiles()[level.GetProjectiles().Count-1];
-                spriteBatch.DrawString(gameFont, p.GetDirection().ToString(), new Vector2(100, 100), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
-            }   
+            //Tower t = gameManager.getTower()[0];
+            //spriteBatch.DrawString(gameFont, t.distance.ToString(), new Vector2(100, 100), Color.Black, 0, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
+             
+            if (gameManager.IsGameOver())
+                spriteBatch.DrawString(gameFont, "Game  Over!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+
+            if (gameManager.IsLevelFinished())
+                spriteBatch.DrawString(gameFont, "You  won!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+
+
             spriteBatch.End();
         }
 

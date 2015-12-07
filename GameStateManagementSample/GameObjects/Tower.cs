@@ -13,6 +13,7 @@ namespace GameStateManagementSample.GameObjects
         private int costs;
         private int shootingInterval;
         private int elapsedTime=1;
+        public double distance=0;
 
         private Projectile projectileType;
 
@@ -38,7 +39,7 @@ namespace GameStateManagementSample.GameObjects
                 double direction=0;
                 foreach (Enemy e in enemies)
                 {
-                    double distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
+                    distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
                     if (range >= distance)
                     {
                         target = e;

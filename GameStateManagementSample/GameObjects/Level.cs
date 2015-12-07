@@ -55,7 +55,8 @@ namespace GameStateManagementSample.GameObjects
 
         public void SpawnEnemy()
         {
-            enemies.Add(allEnemies.Dequeue());
+            if (allEnemies.Count!=0)
+                enemies.Add(allEnemies.Dequeue());
         }
 
         public void AddEnemy(Enemy enemy)
@@ -151,6 +152,11 @@ namespace GameStateManagementSample.GameObjects
             return new List<Enemy>(enemies);
         }
 
+        public List<Enemy> GetAllEnemies()
+        {
+            return new List<Enemy>(allEnemies);
+        }
+
         public List<PathBlock> GetPathBlocks()
         {
             return new List<PathBlock>(path);
@@ -215,6 +221,27 @@ namespace GameStateManagementSample.GameObjects
             {
                 p.Move();
             }
+        }
+
+        public void checkColissions()
+        {
+            for(int a=0; a < enemies.Count; a++)
+            {
+                Enemy e = enemies[a];
+                Rectangle enemyRectangle = new Rectangle(e.GetPosition().ToPoint(), new Point(e.GetTexture().Width, e.GetTexture().Height));
+                for (int b = 0; b < projectiles.Count; b++)
+                {
+                    Projectile p = projectiles[b];
+                    Rectangle projectileRectangle = new Rectangle(p.GetPosition().ToPoint(), new Point(p.GetTexture().Width, p.GetTexture().Height));
+                    if (!Rectangle.Intersect(enemyRectangle, projectileRectangle).IsEmpty)
+                    {
+                        projectiles.Remove(p);
+                        e.Damage(p.GetDamage());
+                        if (e.GetHealth() <= 0)
+                            enemies.Remove(e);
+                    }
+                }
+            }            
         }
     }
 }
