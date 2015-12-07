@@ -42,6 +42,7 @@ namespace GameStateManagementSample.GameObjects
                 Enemy target = null;
                 double direction=0;
                 Vector2 v = new Vector2(0,0);
+
                 foreach (Enemy e in enemies)
                 {
                     distance = Math.Sqrt(Math.Pow(GetPosition().X-e.GetPosition().X, 2) + Math.Pow(GetPosition().Y - e.GetPosition().Y, 2));
