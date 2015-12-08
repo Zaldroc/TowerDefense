@@ -374,7 +374,7 @@ namespace GameStateManagement
 
             spriteBatch.DrawString(gameFont, gameManager.player.GetPoints().ToString(), new Vector2(1000, 100), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
             spriteBatch.Draw(inkDrop, new Vector2(960, 100), null, Color.White, 0, new Vector2(0,0), 0.45f, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(gameFont, gameManager.level.GetEnemies().Count+ gameManager.level.GetAllEnemies().Count + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(gameFont, gameManager.level.GetAllEnemiesCount() + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
             spriteBatch.Draw(marked.GetTexture(), (marked.GetPosition()*100+ new Vector2(10, 10)) * scal, null, marked.GetColor(), 0, new Vector2(0, 0), marked.GetScale().Y, SpriteEffects.None, 0.39f);
 

@@ -50,6 +50,7 @@
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="GameObjects\Projectile.cs" />
     <Compile Include="GameObjects\Tower.cs" />
+    <Compile Include="GameObjects\Wave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="ScreenManager\InputState.cs" />

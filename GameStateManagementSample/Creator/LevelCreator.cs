@@ -74,6 +74,7 @@ namespace GameStateManagementSample.Creator
             
             for (int i=0; i<20; i++)
             {
+                Queue<Enemy> enemies = new Queue<Enemy>();
                 level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i+1), 1.0f, 25));
                 level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.8f, 25));
                 level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.4f, 25));

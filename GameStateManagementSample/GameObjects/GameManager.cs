@@ -15,7 +15,6 @@ namespace GameStateManagementSample.GameObjects
         public Player player;
         private bool gameOver;
         private bool levelFinished;
-        private int elapsedTime = 0;
 
         private int pointsRegenTime = 0;
 
@@ -83,14 +82,10 @@ namespace GameStateManagementSample.GameObjects
             if (!gameOver&&!levelFinished)
             try
             {
-                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
                 pointsRegenTime += gameTime.ElapsedGameTime.Milliseconds;
-
-                if (elapsedTime>500)
-                {
-                    elapsedTime = 0;
-                    level.SpawnEnemy();
-                }
+                 
+                level.SpawnEnemy(gameTime);
+                
 
                 if (pointsRegenTime > 1000)
                 {
@@ -111,7 +106,7 @@ namespace GameStateManagementSample.GameObjects
                 player.AddPoints(reward);
                 level.Update();
 
-                levelFinished = level.GetEnemies().Count == 0 && level.GetAllEnemies().Count == 0;
+                levelFinished = level.GetAllEnemiesCount() == 0;
             } catch (Exception e)
             {
                 gameOver = true;

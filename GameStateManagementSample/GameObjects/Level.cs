@@ -13,7 +13,8 @@ namespace GameStateManagementSample.GameObjects
         private List<Projectile> projectiles;
         private List<Vector2> corpses;
 
-        private Queue<Enemy> allEnemies;
+        private Queue<Wave> allWaves;
+        private Wave currentWave;
 
         private int[,] grid;
         private int[,] map;
@@ -54,24 +55,25 @@ namespace GameStateManagementSample.GameObjects
             path = new List<PathBlock>();
             corpses = new List<Vector2>();
 
-            allEnemies = new Queue<Enemy>();
+            allWaves = new Queue<Wave>();
 
             route = new Route();
             projectiles = new List<Projectile>();
         }
 
-        public void SpawnEnemy()
+        public void SpawnEnemy(GameTime gameTime)
         {
-            if (allEnemies.Count!=0)
-                enemies.Add(allEnemies.Dequeue());
+            if (currentWave==null || currentWave.Count()==0)
+                currentWave = allWaves.Dequeue();
+            enemies.AddRange(currentWave.getEnemies(gameTime));
         }
 
-        public void AddEnemy(Enemy enemy)
+        public void AddWave(Wave wave)
         {
             if (HasPath())
             {
-                enemy.SetPath(route.path);
-                allEnemies.Enqueue(enemy);
+                wave.SetPath(route.path);
+                allWaves.Enqueue(wave);
             }
         }
 
@@ -166,9 +168,14 @@ namespace GameStateManagementSample.GameObjects
             return new List<Enemy>(enemies);
         }
 
-        public List<Enemy> GetAllEnemies()
+        public int GetAllEnemiesCount()
         {
-            return new List<Enemy>(allEnemies);
+            int count = 0;
+            foreach (Wave wave in allWaves)
+                count += wave.Count();
+            count += currentWave.Count();
+            count += enemies.Count;
+            return count;
         }
 
         public List<PathBlock> GetPathBlocks()
