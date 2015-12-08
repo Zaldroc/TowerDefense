@@ -55,7 +55,12 @@ namespace GameStateManagement
         
         Vector2 ?postIt;
 
+        MarkedField marked;
+
         MouseState oldMouseState;
+
+        Texture2D inkDrop;
+        Texture2D corpseTexture;
 
         #endregion
 
@@ -93,7 +98,10 @@ namespace GameStateManagement
             background = content.Load<Texture2D>("paperBackground169");
             plattform = content.Load<Texture2D>("platform");
             postItTexture = content.Load<Texture2D>("postit");
+            inkDrop = content.Load<Texture2D>("drop");
+            corpseTexture = content.Load<Texture2D>("splash");
 
+            marked = new MarkedField(new Vector2(0, 0), content.Load<Texture2D>("markedField"), new Vector2(1,1)*0.5f);
 
             //towerScreen = new RectangleOverlay(r, Color.Red, game, ScreenManager.SpriteBatch);
 
@@ -178,6 +186,15 @@ namespace GameStateManagement
 
             MouseState mouseState = Mouse.GetState();
 
+            float scal = 1200f / 3200f;
+            
+            Vector2 mPos = new Vector2(mouseState.X / 100.0f / scal, mouseState.Y / 100.0f/scal);
+            mPos.X = (int)mPos.X;
+            mPos.Y = (int)mPos.Y;
+
+            if(postIt==null)
+                marked.SetPosition(mPos);
+
             // The game pauses either if the user presses the pause button, or if
             // they unplug the active gamepad. This requires us to keep track of
             // whether a gamepad was ever plugged in, because we don't want to pause
@@ -218,6 +235,7 @@ namespace GameStateManagement
 
                 if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed &&!gameManager.IsGameOver()&&!gameManager.IsLevelFinished())
                 {
+                    marked.Mark();
                     //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
                     if (postIt == null)
                         postIt = mouseState.Position.ToVector2();
@@ -236,12 +254,18 @@ namespace GameStateManagement
                                 tower = i;
                                 break;
                             }
+                            else
+                            {
+                                marked.SetPosition(mPos);
+                                marked.Mark();
+                            }
                         }
                         
                         if (tower!=-1)
                         {
                             gameManager.BuyTower(TowerCreator.GetTower(tower, content, ((Vector2)postIt) / (1200f / 3200f)));
                             postIt = null;
+                            marked.DeMark();
                         }
                         else postIt = mouseState.Position.ToVector2();
                     }
@@ -251,6 +275,7 @@ namespace GameStateManagement
                 {
                     //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
                     postIt = null;
+                    marked.DeMark();
                 }
             }
 
@@ -310,6 +335,9 @@ namespace GameStateManagement
             foreach (GameObject gameObject in level.GetEnemies())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
+            foreach(Vector2 corpse in level.GetCorpses())
+                spriteBatch.Draw(corpseTexture, corpse * scal, null, Color.White, 0, new Vector2(corpseTexture.Width/2,corpseTexture.Height/2), 0.5f, SpriteEffects.None, 0.29f);
+
             foreach (GameObject gameObject in gameManager.getTower())
             {
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.4f);
@@ -334,6 +362,7 @@ namespace GameStateManagement
                     spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + i*breite, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
                     spriteBatch.Draw(t.GetTexture(), ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale(), SpriteEffects.None, 0.6f);
                     spriteBatch.Draw(plattform, ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y, SpriteEffects.None, 0.59f);
+                    spriteBatch.DrawString(gameFont, t.GetCosts().ToString(), ((Vector2)postIt) + new Vector2(50 + i * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
                 }
             }
               
@@ -343,9 +372,11 @@ namespace GameStateManagement
             if (gameManager.IsLevelFinished())
                 spriteBatch.DrawString(gameFont, "You  won!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(gameFont, gameManager.player.GetPoints() + " ink", new Vector2(1000, 100), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(gameFont, gameManager.player.GetPoints().ToString(), new Vector2(1000, 100), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(inkDrop, new Vector2(960, 100), null, Color.White, 0, new Vector2(0,0), 0.45f, SpriteEffects.None, 1f);
             spriteBatch.DrawString(gameFont, gameManager.level.GetEnemies().Count+ gameManager.level.GetAllEnemies().Count + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
+            spriteBatch.Draw(marked.GetTexture(), (marked.GetPosition()*100+ new Vector2(10, 10)) * scal, null, marked.GetColor(), 0, new Vector2(0, 0), marked.GetScale().Y, SpriteEffects.None, 0.39f);
 
             spriteBatch.End();
         }

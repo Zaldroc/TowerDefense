@@ -11,6 +11,7 @@ namespace GameStateManagementSample.GameObjects
         private List<Enemy> enemies;
         private List<PathBlock> path;
         private List<Projectile> projectiles;
+        private List<Vector2> corpses;
 
         private Queue<Enemy> allEnemies;
 
@@ -27,6 +28,11 @@ namespace GameStateManagementSample.GameObjects
             {
                 path = new List<Vector2>();
             }
+        }
+
+        public List<Vector2> GetCorpses()
+        {
+            return corpses;
         }
 
         public Level()
@@ -46,6 +52,7 @@ namespace GameStateManagementSample.GameObjects
 
             enemies = new List<Enemy>();
             path = new List<PathBlock>();
+            corpses = new List<Vector2>();
 
             allEnemies = new Queue<Enemy>();
 
@@ -249,6 +256,7 @@ namespace GameStateManagementSample.GameObjects
                         {
                             reward += e.GetReward();
                             enemies.Remove(e);
+                            corpses.Add(e.GetPosition());
                         }
                     }
                 }

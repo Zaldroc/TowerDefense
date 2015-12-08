@@ -21,7 +21,7 @@ namespace GameStateManagementSample.GameObjects
             this.health = health;
             this.speed = speed;
             //this.reward = reward;
-            this.reward = (int)(speed/2 *health/100) + 20;
+            this.reward = (int)(speed *health/200) + 20;
         }
 
         public void SetPath(List<Vector2> path)

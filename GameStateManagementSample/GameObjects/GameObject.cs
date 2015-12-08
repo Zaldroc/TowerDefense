@@ -31,6 +31,8 @@ namespace GameStateManagementSample.GameObjects
 
         public Vector2 GetPosition()
         {
+            if (position == null)
+                new Vector2(0, 0);
             return this.position;
         }
 
