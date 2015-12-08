@@ -63,9 +63,11 @@ namespace GameStateManagementSample.GameObjects
 
         public void SpawnEnemy(GameTime gameTime)
         {
-            if (currentWave==null || currentWave.Count()==0)
+            if (currentWave.Count()==0&&allWaves.Count!=0)
                 currentWave = allWaves.Dequeue();
-            enemies.AddRange(currentWave.getEnemies(gameTime));
+
+            if (currentWave.Count() != 0)
+                enemies.AddRange(currentWave.getEnemies(gameTime));
         }
 
         public void AddWave(Wave wave)
@@ -73,7 +75,9 @@ namespace GameStateManagementSample.GameObjects
             if (HasPath())
             {
                 wave.SetPath(route.path);
-                allWaves.Enqueue(wave);
+                if (currentWave!=null)
+                    allWaves.Enqueue(wave);
+                else currentWave = wave;
             }
         }
 
@@ -175,6 +179,10 @@ namespace GameStateManagementSample.GameObjects
                 count += wave.Count();
             count += currentWave.Count();
             count += enemies.Count;
+            if (count!=200)
+            {
+                int a=5 + 5;
+            }
             return count;
         }
 

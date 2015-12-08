@@ -75,17 +75,19 @@ namespace GameStateManagementSample.Creator
             for (int i=0; i<20; i++)
             {
                 Queue<Enemy> enemies = new Queue<Enemy>();
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i+1), 1.0f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.8f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.4f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 3.1f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.2f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.3f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 3.0f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.0f, 25));
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.1f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i+1), 1.0f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.8f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.4f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 3.1f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.2f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.3f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 3.0f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.0f, 25));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.5f, 100 * (i + 1), 2.1f, 25));
 
-                level.AddEnemy(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.8f, 100 * 2*i, 2.1f, 50));
+                enemies.Enqueue(new Enemy(spawnPos, content.Load<Texture2D>("bug"), new Vector2(1,1)*0.8f, 100 * 2*i, 2.1f, 50));
+                Wave wave = new Wave(enemies, 2000, 500);
+                level.AddWave(wave);
             }//*/
 
 
