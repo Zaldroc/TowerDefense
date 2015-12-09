@@ -63,6 +63,10 @@ namespace GameStateManagement
         Texture2D corpseTexture;
         Texture2D spawnTexture;
 
+        Texture2D bar;
+        Texture2D barFilling;
+        int fillings;
+
         #endregion
 
         #region Initialization
@@ -102,6 +106,8 @@ namespace GameStateManagement
             inkDrop = content.Load<Texture2D>("drop");
             corpseTexture = content.Load<Texture2D>("splash");
             spawnTexture = content.Load<Texture2D>("spawn");
+            bar = content.Load<Texture2D>("bar");
+            barFilling = content.Load<Texture2D>("barFilling");
 
             marked = new MarkedField(new Vector2(0, 0), content.Load<Texture2D>("markedField"), new Vector2(1,1)*0.5f);
 
@@ -194,8 +200,14 @@ namespace GameStateManagement
             mPos.X = (int)mPos.X;
             mPos.Y = (int)mPos.Y;
 
-            if(postIt==null)
+            if (postIt == null)
+            {
                 marked.SetPosition(mPos);
+                if (gameManager.IsThereAPath(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
+                    marked.NotOk();
+                else
+                    marked.Ok();
+            }
 
             // The game pauses either if the user presses the pause button, or if
             // they unplug the active gamepad. This requires us to keep track of
@@ -234,14 +246,14 @@ namespace GameStateManagement
                     movement.Normalize();
 
                 playerPosition += movement * 5;
-
-                if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed &&!gameManager.IsGameOver()&&!gameManager.IsLevelFinished())
+                
+                if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed &&!gameManager.IsGameOver()&&!gameManager.IsLevelFinished()&&marked.IsOk())
                 {
                     marked.Mark();
                     //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
                     if (postIt == null)
                         postIt = mouseState.Position.ToVector2();
-                    else
+                    else if(marked.IsOk())
                     {
                         Vector2 textureVector = new Vector2(postItTexture.Width * postItTextureScal, postItTexture.Height * postItTextureScal);
                         Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X)+50-(((int)textureVector.X) / 2), ((int)postIt.Value.Y)-(((int)textureVector.Y)/2), ((int)textureVector.X), ((int)textureVector.Y));
@@ -307,6 +319,7 @@ namespace GameStateManagement
             spriteBatch.End();
 
             drawGameObjects(spriteBatch, gameTime);
+            DrawHUD(spriteBatch, new Vector2(800, 20));
             //DrawTowerScreen(spriteBatch, gameTime);
 
             // If the game is transitioning on or off, fade it out to black.ddfgdf
@@ -376,31 +389,35 @@ namespace GameStateManagement
             if (gameManager.IsLevelFinished())
                 spriteBatch.DrawString(gameFont, "You  won!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(gameFont, gameManager.player.GetPoints().ToString(), new Vector2(1000, 100), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(inkDrop, new Vector2(960, 100), null, Color.White, 0, new Vector2(0,0), 0.45f, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(gameFont, gameManager.level.GetAllEnemiesCount() + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+            
+            //.DrawString(gameFont, gameManager.level.GetAllEnemiesCount() + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
             spriteBatch.Draw(marked.GetTexture(), (marked.GetPosition()*100+ new Vector2(10, 10)) * scal, null, marked.GetColor(), 0, new Vector2(0, 0), marked.GetScale().Y, SpriteEffects.None, 0.39f);
 
             spriteBatch.End();
         }
 
-        private void DrawTowerScreen(SpriteBatch spriteBatch, GameTime gameTime)
+        private void DrawHUD(SpriteBatch spriteBatch, Vector2 position)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            spriteBatch.Begin();
 
-            //towerScreen.Draw(gameTime);
-
-                                   
-            for (int i=0; i<towers.Count; i++)
+            spriteBatch.Draw(bar, position, null, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 1f);
+            for (int i = 0; i < gameManager.GetFillingCountTime(); i++)
             {
-
+                spriteBatch.Draw(barFilling, new Vector2(position.X + 5 + i * 0.45f, position.Y + 5), null, Color.White, 0, new Vector2(0, 0), 0.9f, SpriteEffects.None, 0.98f);
             }
+
+            spriteBatch.Draw(bar, new Vector2(position.X + 100, position.Y), null, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 1f);
+            for (int i = 0; i < gameManager.GetFillingCountEnemies(); i++)
+            {
+                spriteBatch.Draw(barFilling, new Vector2(position.X +105 + i * 0.45f, position.Y + 5), null, Color.White, 0, new Vector2(0, 0), 0.9f, SpriteEffects.None, 0.98f);
+            }
+
+            spriteBatch.DrawString(gameFont, gameManager.player.GetPoints().ToString(), new Vector2(position.X + 220, position.Y+2), Color.DarkBlue, 0, new Vector2(0, 0), 0.6f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(inkDrop, new Vector2(position.X+200, position.Y), null, Color.White, 0, new Vector2(0, 0), 0.3f, SpriteEffects.None, 1f);
 
             spriteBatch.End();
         }
-
-
         #endregion
     }
 }

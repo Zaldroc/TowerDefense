@@ -18,6 +18,9 @@ namespace GameStateManagementSample.GameObjects
 
         private int pointsRegenTime = 0;
 
+        private int fillingsCountTime = 100;
+        private int fillingsCountEnemies = 100;
+
         private List<Tower> tower;
 
         public GameManager(Level level)
@@ -25,6 +28,38 @@ namespace GameStateManagementSample.GameObjects
             this.level = level;
             player = new Player(300);
             tower = new List<Tower>();
+        }
+
+        public bool IsThereAPath(Vector2 position)
+        {
+            Vector2 setPos = position / 100.0f;
+            setPos.X = (int)setPos.X;
+            setPos.Y = (int)setPos.Y;
+            foreach (PathBlock path in level.GetPathBlocks())
+            {
+                if (path.GetPosition().Equals(setPos))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsThereATower(Vector2 position)
+        {
+            Vector2 setPos = position / 100.0f;
+            setPos.X = (int)setPos.X;
+            setPos.Y = (int)setPos.Y;
+
+            foreach (Tower t2 in getTower())
+            {
+                Vector2 setPos2 = t2.GetPosition() / 100.0f;
+                setPos2.X = (int)setPos2.X;
+                setPos2.Y = (int)setPos2.Y;
+
+                if (setPos.Equals(setPos2))
+                    return true;
+            }
+
+            return false;
         }
 
         public bool BuyTower(Tower t)
@@ -116,10 +151,23 @@ namespace GameStateManagementSample.GameObjects
                 level.Update();
 
                 levelFinished = level.GetAllEnemiesCount() == 0;
-            } catch (Exception e)
+
+                fillingsCountTime = (int)(level.GetRestTimeRatio()*100);
+                fillingsCountEnemies = (int)(level.GetRestEnemiesRatio() * 100);
+                } catch (Exception e)
             {
                 gameOver = true;
             }
+        }
+
+        public int GetFillingCountTime()
+        {
+            return fillingsCountTime;
+        }
+
+        public int GetFillingCountEnemies()
+        {
+            return fillingsCountEnemies;
         }
 
         public bool IsGameOver()

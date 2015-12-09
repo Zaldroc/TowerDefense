@@ -91,6 +91,7 @@ namespace GameStateManagementSample.Creator
                 enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, 100 * (i + 1), 2.1f, 25));
 
                 enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.8f, 100 * 2*i, 2.1f, 50));
+
                 Wave wave = new Wave(enemies, 10000, 500);
                 level.AddWave(wave);
             }//*/

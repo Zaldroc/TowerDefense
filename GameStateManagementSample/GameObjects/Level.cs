@@ -19,6 +19,8 @@ namespace GameStateManagementSample.GameObjects
         private int[,] grid;
         private int[,] map;
 
+        private int maxEnemies;
+
         private Route route;
 
         private class Route
@@ -59,6 +61,22 @@ namespace GameStateManagementSample.GameObjects
 
             route = new Route();
             projectiles = new List<Projectile>();
+
+            maxEnemies = 0;
+        }
+
+        public float GetRestTimeRatio()
+        {
+            float ratio = currentWave.GetRestTimeRatio();
+
+            if (ratio <= 0 && allWaves.Count > 0)
+                return 1;
+            return ratio;
+        }
+
+        public float GetRestEnemiesRatio()
+        {
+            return (float)GetAllEnemiesCount() / (float)maxEnemies;
         }
 
         public void SpawnEnemy(GameTime gameTime)
@@ -79,6 +97,8 @@ namespace GameStateManagementSample.GameObjects
                     allWaves.Enqueue(wave);
                 else currentWave = wave;
             }
+
+            maxEnemies += wave.Count();
         }
 
         public void AddProjectile(Projectile projectile)
@@ -185,6 +205,7 @@ namespace GameStateManagementSample.GameObjects
             }
             return count;
         }
+        
 
         public List<PathBlock> GetPathBlocks()
         {

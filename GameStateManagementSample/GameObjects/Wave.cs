@@ -14,13 +14,18 @@ namespace GameStateManagementSample.GameObjects
         private int intervall;
         private int elapsed;
 
+        private int timeTillStartBeginning;
+
         public Wave(Queue<Enemy> enemies, int timeTillStart, int intervall)
         {
             this.enemies = enemies;
             this.timeTillStart = timeTillStart;
             this.intervall = intervall;
             elapsed = intervall;
+
+            timeTillStartBeginning = timeTillStart;
         }
+        
 
         public List<Enemy> getEnemies(GameTime gameTime)
         {
@@ -36,6 +41,11 @@ namespace GameStateManagementSample.GameObjects
                 }
             }
             return enemies;
+        }
+
+        public float GetRestTimeRatio()
+        {
+            return (float)timeTillStart / (float)timeTillStartBeginning;
         }
 
         public int Count()
