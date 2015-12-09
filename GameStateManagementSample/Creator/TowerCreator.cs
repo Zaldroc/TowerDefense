@@ -19,7 +19,7 @@ namespace GameStateManagementSample.Creator
             if (i == 1)
             {
                 Projectile projectile = new Projectile(position, bullet, new Vector2(1,1)* 0.4f, 25, 10, new Vector2(1, 1));
-                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(1.8f,1)*0.5f, 400, 200, 300, projectile);
+                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(1.0f,1)*0.5f, 400, 200, 300, projectile);
             }
 
             if (i == 0)
