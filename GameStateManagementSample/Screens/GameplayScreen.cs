@@ -203,7 +203,7 @@ namespace GameStateManagement
             if (postIt == null)
             {
                 marked.SetPosition(mPos);
-                if (gameManager.IsThereAPath(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
+                if (!gameManager.CanBuild(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
                     marked.NotOk();
                 else
                     marked.Ok();
@@ -247,19 +247,22 @@ namespace GameStateManagement
 
                 playerPosition += movement * 5;
                 
-                if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed &&!gameManager.IsGameOver()&&!gameManager.IsLevelFinished()&&marked.IsOk())
+                if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed &&!gameManager.IsGameOver()&&!gameManager.IsLevelFinished())
                 {
                     marked.Mark();
                     //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
                     if (postIt == null)
-                        postIt = mouseState.Position.ToVector2();
-                    else if(marked.IsOk())
+                    {
+                        if (marked.IsOk())
+                            postIt = mouseState.Position.ToVector2();
+                    }
+                    else
                     {
                         Vector2 textureVector = new Vector2(postItTexture.Width * postItTextureScal, postItTexture.Height * postItTextureScal);
-                        Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X)+50-(((int)textureVector.X) / 2), ((int)postIt.Value.Y)-(((int)textureVector.Y)/2), ((int)textureVector.X), ((int)textureVector.Y));
+                        Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X) + 50 - (((int)textureVector.X) / 2), ((int)postIt.Value.Y) - (((int)textureVector.Y) / 2), ((int)textureVector.X), ((int)textureVector.Y));
 
-                        int tower=-1;
-                        for (int i=0; i<towers.Count; i++)
+                        int tower = -1;
+                        for (int i = 0; i < towers.Count; i++)
                         {
                             Rectangle r = postItRectangle;
                             r.X = r.X + i * (int)textureVector.X;
@@ -274,14 +277,28 @@ namespace GameStateManagement
                                 marked.Mark();
                             }
                         }
-                        
-                        if (tower!=-1)
+
+                        if (tower != -1)
                         {
                             gameManager.BuyTower(TowerCreator.GetTower(tower, content, ((Vector2)postIt) / (1200f / 3200f)));
                             postIt = null;
                             marked.DeMark();
                         }
-                        else postIt = mouseState.Position.ToVector2();
+                        else
+                        {
+                            marked.SetPosition(mPos);
+                            if (!gameManager.CanBuild(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
+                            {
+                                marked.NotOk();
+                                postIt = null;
+                                marked.DeMark();
+                            }
+                            else
+                            {
+                                marked.Ok();
+                                postIt = mouseState.Position.ToVector2();
+                            }
+                        }
                     }
                 }
 
@@ -392,7 +409,7 @@ namespace GameStateManagement
             
             //.DrawString(gameFont, gameManager.level.GetAllEnemiesCount() + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
-            spriteBatch.Draw(marked.GetTexture(), (marked.GetPosition()*100+ new Vector2(10, 10)) * scal, null, marked.GetColor(), 0, new Vector2(0, 0), marked.GetScale().Y, SpriteEffects.None, 0.39f);
+            spriteBatch.Draw(marked.GetTexture(), (marked.GetPosition()*100+ new Vector2(10, 10)) * scal, null, marked.GetColor(), 0, new Vector2(0, 0), marked.GetScale().Y, SpriteEffects.None, 0.41f);
 
             spriteBatch.End();
         }

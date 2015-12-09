@@ -62,6 +62,11 @@ namespace GameStateManagementSample.GameObjects
             return false;
         }
 
+        public bool CanBuild(Vector2 position)
+        {
+            return !IsThereATower(position) && !IsThereAPath(position);
+        }
+
         public bool BuyTower(Tower t)
         {
             if(t.GetCosts()<=player.GetPoints())
