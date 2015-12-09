@@ -23,7 +23,7 @@ namespace GameStateManagementSample.GameObjects
         public GameManager(Level level)
         {
             this.level = level;
-            player = new Player(250);
+            player = new Player(300);
             tower = new List<Tower>();
         }
 
