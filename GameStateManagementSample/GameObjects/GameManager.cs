@@ -86,11 +86,20 @@ namespace GameStateManagementSample.GameObjects
                  
                 level.SpawnEnemy(gameTime);
                 
+                for (int i=0;i<level.corpses.Count;i++)
+                {
+                    Vector4 c = level.corpses[i];
+                    if (gameTime.TotalGameTime.Seconds - c.Z > 5)
+                    {
+                        level.corpses.Remove(c);
+                    }
+                }
+                    
 
                 if (pointsRegenTime > 1000)
                 {
                     pointsRegenTime = 0;
-                    player.AddPoints(10);
+                    player.AddPoints(1);
                 }
 
                 foreach (Tower t in tower)
@@ -102,7 +111,7 @@ namespace GameStateManagementSample.GameObjects
                     t.Move();
                 }
 
-                int reward = level.checkColissions();
+                int reward = level.checkColissions(gameTime);
                 player.AddPoints(reward);
                 level.Update();
 

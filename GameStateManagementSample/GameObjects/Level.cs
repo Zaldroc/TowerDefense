@@ -11,7 +11,7 @@ namespace GameStateManagementSample.GameObjects
         private List<Enemy> enemies;
         private List<PathBlock> path;
         private List<Projectile> projectiles;
-        private List<Vector2> corpses;
+        public List<Vector4> corpses;
 
         private Queue<Wave> allWaves;
         private Wave currentWave;
@@ -31,7 +31,7 @@ namespace GameStateManagementSample.GameObjects
             }
         }
 
-        public List<Vector2> GetCorpses()
+        public List<Vector4> GetCorpses()
         {
             return corpses;
         }
@@ -53,7 +53,7 @@ namespace GameStateManagementSample.GameObjects
 
             enemies = new List<Enemy>();
             path = new List<PathBlock>();
-            corpses = new List<Vector2>();
+            corpses = new List<Vector4>();
 
             allWaves = new Queue<Wave>();
 
@@ -252,7 +252,7 @@ namespace GameStateManagementSample.GameObjects
             }
         }
 
-        public int checkColissions()
+        public int checkColissions(GameTime gameTime)
         {
             int reward=0;
             for(int a=0; a < enemies.Count; a++)
@@ -271,7 +271,8 @@ namespace GameStateManagementSample.GameObjects
                         {
                             reward += e.GetReward();
                             enemies.Remove(e);
-                            corpses.Add(e.GetPosition());
+                            float rotation = Math.Abs(gameTime.TotalGameTime.Milliseconds - gameTime.TotalGameTime.Seconds * 1000);
+                            corpses.Add(new Vector4(e.GetPosition(),gameTime.TotalGameTime.Seconds,rotation));
                         }
                     }
                 }

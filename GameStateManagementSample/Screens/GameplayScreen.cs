@@ -61,6 +61,7 @@ namespace GameStateManagement
 
         Texture2D inkDrop;
         Texture2D corpseTexture;
+        Texture2D spawnTexture;
 
         #endregion
 
@@ -100,6 +101,7 @@ namespace GameStateManagement
             postItTexture = content.Load<Texture2D>("postit");
             inkDrop = content.Load<Texture2D>("drop");
             corpseTexture = content.Load<Texture2D>("splash");
+            spawnTexture = content.Load<Texture2D>("spawn");
 
             marked = new MarkedField(new Vector2(0, 0), content.Load<Texture2D>("markedField"), new Vector2(1,1)*0.5f);
 
@@ -331,12 +333,14 @@ namespace GameStateManagement
             {
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal + new Vector2(5,5)*scal, null, new Color(200,200,200), 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.19f);
+                if(((PathBlock)gameObject).IsSpawn())
+                    spriteBatch.Draw(spawnTexture, new Vector2(gameObject.GetPosition().X * 100 +10, gameObject.GetPosition().Y * 100 +10) * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale()*1.8f, SpriteEffects.None, 0.21f);
             }
             foreach (GameObject gameObject in level.GetEnemies())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
-            foreach(Vector2 corpse in level.GetCorpses())
-                spriteBatch.Draw(corpseTexture, corpse * scal, null, Color.White, 0, new Vector2(corpseTexture.Width/2,corpseTexture.Height/2), 0.5f, SpriteEffects.None, 0.29f);
+            foreach(Vector4 corpse in level.GetCorpses())
+                spriteBatch.Draw(corpseTexture,new Vector2(corpse.X,corpse.Y) * scal, null, Color.White, corpse.W, new Vector2(corpseTexture.Width/2,corpseTexture.Height/2), 0.5f, SpriteEffects.None, 0.29f);
 
             foreach (GameObject gameObject in gameManager.getTower())
             {
@@ -345,7 +349,7 @@ namespace GameStateManagement
             }
 
             foreach (GameObject gameObject in level.GetProjectiles())
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
+                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2)*scal, gameObject.GetScale(), SpriteEffects.None, 0.3f);
 
             spriteBatch.Draw(background, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
 

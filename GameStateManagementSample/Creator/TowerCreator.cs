@@ -13,17 +13,30 @@ namespace GameStateManagementSample.Creator
     {
         public static Tower GetTower(int i, ContentManager content, Vector2 position)
         {
-            Texture2D projectileTexture = content.Load<Texture2D>("bullet");
+            Texture2D bullet = content.Load<Texture2D>("bullet");
+            Texture2D rocket = content.Load<Texture2D>("rocket");
+
             if (i == 1)
             {
-                Projectile projectile = new Projectile(position, projectileTexture, new Vector2(1,1)* 0.4f, 25, 10, new Vector2(1, 1));
-                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(1.8f,1)*0.5f, 400, 100, 300, projectile);
+                Projectile projectile = new Projectile(position, bullet, new Vector2(1,1)* 0.4f, 25, 10, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(1.8f,1)*0.5f, 400, 200, 300, projectile);
             }
 
             if (i == 0)
             {
-                Projectile projectile = new Projectile(position, projectileTexture, new Vector2(0.5f, 1) * 0.4f, 10, 25, new Vector2(1, 1));
-                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(0.9f, 1) * 0.5f, 600, 50, 150, projectile);
+                Projectile projectile = new Projectile(position, bullet, new Vector2(0.5f, 1) * 0.4f, 10, 25, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("smallCanon"), new Vector2(1f, 1) * 0.5f, 600, 100, 150, projectile);
+            }
+
+            if (i == 2)
+            {
+                Projectile projectile = new Projectile(position, bullet, new Vector2(0.5f, 1) * 0.4f, 50, 35, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("smallCanon"), new Vector2(1f, 1) * 0.5f, 1000, 350, 1000, projectile);
+            }
+            if (i == 3)
+            {
+                Projectile projectile = new Projectile(position, rocket, new Vector2(1, 1) * 0.4f, 1000, 5, new Vector2(1, 1));
+                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(1f, 1) * 0.5f, 1000, 1000, 5000, projectile);
             }
 
             return null;            
@@ -32,9 +45,14 @@ namespace GameStateManagementSample.Creator
         public static List<Tower> GetTowerTypes(ContentManager content)
         {
             List<Tower> tower = new List<Tower>();
-
-            tower.Add(GetTower(0, content, new Vector2(0,0)));
-            tower.Add(GetTower(1, content, new Vector2(0, 0)));
+            for(int i=0;i<10;i++)
+            {
+                Tower t = GetTower(i, content, new Vector2(0, 0));
+                if (t != null)
+                    tower.Add(t);
+                else
+                    break;
+            }
 
             return tower;
         }
