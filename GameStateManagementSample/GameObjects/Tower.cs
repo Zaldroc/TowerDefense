@@ -68,10 +68,8 @@ namespace GameStateManagementSample.GameObjects
                 if (target != null)
                 {
                     elapsedTime = 0;
-                    projectileType.SetPosition(projectileType.GetPosition());
-                    //return new Projectile(projectileType, ref target, direction);
                     isIdle = false;
-                    return new Projectile(projectileType, ref target, v*(-1));
+                    return new Projectile(projectileType, GetPosition(), v*(-1));
                 }
                 if(elapsedTime>1000)
                     isIdle = true;
