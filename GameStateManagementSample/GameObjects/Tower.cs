@@ -55,15 +55,15 @@ namespace GameStateManagementSample.GameObjects
                     shootingInterval = (int)(shootingInterval * 0.75f);
                     level++;
                     upgradeCosts = (int)(costs * 1f);
-                    projectileType.SetDamage((int)(projectileType.GetDamage() * 0.75f));
-                    projectileType.SetSpeed((int)(projectileType.GetSpeed() * 0.75f));
+                    projectileType.SetDamage((int)(projectileType.GetDamage() * 1.5f));
+                    projectileType.SetSpeed((int)(projectileType.GetSpeed() * 1.5f));
                     break;
                 case 2:
                     shootingInterval = (int)(levelZero.shootingInterval * 0.5f);
                     level++;
                     upgradeCosts = (int)(costs * 2f);
-                    projectileType.SetDamage((int)(levelZero.projectileType.GetDamage() * 0.5f));
-                    projectileType.SetSpeed((int)(levelZero.projectileType.GetSpeed() * 0.5f));
+                    projectileType.SetDamage((int)(levelZero.projectileType.GetDamage() * 2f));
+                    projectileType.SetSpeed((int)(levelZero.projectileType.GetSpeed() * 2f));
                     break;
             }
         }
