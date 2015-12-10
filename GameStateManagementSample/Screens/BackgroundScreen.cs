@@ -28,6 +28,9 @@ namespace GameStateManagement
         ContentManager content;
         Texture2D backgroundTexture;
 
+        Texture2D title;
+        Texture2D titleBugs;
+
         #endregion
 
         #region Initialization
@@ -56,6 +59,9 @@ namespace GameStateManagement
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             backgroundTexture = content.Load<Texture2D>("paperBackground169");
+
+            title = content.Load<Texture2D>("title");
+            titleBugs = content.Load<Texture2D>("titlebugs");
         }
 
 
@@ -100,6 +106,9 @@ namespace GameStateManagement
 
             spriteBatch.Draw(backgroundTexture, fullscreen,
                              new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+
+            spriteBatch.Draw(title, new Vector2(viewport.Width * 0.23f, viewport.Height * 0.23f), null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, new Vector2(title.Width / 2, title.Height / 2), 0.8f, SpriteEffects.None, 1);
+            spriteBatch.Draw(titleBugs, new Vector2(viewport.Width * 0.6f, viewport.Height * 0.5f), null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, new Vector2(title.Width / 2, title.Height / 2), 1f, SpriteEffects.None, 0.1f);
 
             spriteBatch.End();
         }
