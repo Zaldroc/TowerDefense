@@ -38,6 +38,16 @@ namespace GameStateManagementSample.GameObjects
             return speed;
         }
 
+        public void SetSpeed(float speed)
+        {
+            this.speed = speed;
+        }
+
+        public void SetDamage(int damage)
+        {
+            this.damage = damage;
+        }
+
         public Vector2 GetDirection()
         {
             return direction;

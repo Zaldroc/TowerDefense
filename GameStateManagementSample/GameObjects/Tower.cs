@@ -16,6 +16,11 @@ namespace GameStateManagementSample.GameObjects
 
         public bool isIdle;
 
+        private int level;
+        private int upgradeCosts;
+
+        private Tower levelZero;
+
         private Projectile projectileType;
 
         public Tower(Vector2 position, Texture2D texture, Vector2 scale, float range, int costs, int shootingInterval, Projectile projectileType):base(position,texture,scale)
@@ -26,6 +31,51 @@ namespace GameStateManagementSample.GameObjects
             this.projectileType = projectileType;
 
             isIdle = true;
+            level = 0;
+        }
+
+        public Tower(Tower t):this(t.GetPosition(),t.GetTexture(),t.GetScale(),t.range,t.costs,t.shootingInterval,t.projectileType)
+        {
+            
+        }
+
+        public void Buy()
+        {
+            level = 1;
+            upgradeCosts = (int)(costs * 0.5f);
+
+            levelZero = new Tower(this);
+        }
+
+        public void Upgrade()
+        {
+            switch(level)
+            {
+                case 1:
+                    shootingInterval = (int)(shootingInterval * 0.75f);
+                    level++;
+                    upgradeCosts = (int)(costs * 1f);
+                    projectileType.SetDamage((int)(projectileType.GetDamage() * 0.75f));
+                    projectileType.SetSpeed((int)(projectileType.GetSpeed() * 0.75f));
+                    break;
+                case 2:
+                    shootingInterval = (int)(levelZero.shootingInterval * 0.5f);
+                    level++;
+                    upgradeCosts = (int)(costs * 2f);
+                    projectileType.SetDamage((int)(levelZero.projectileType.GetDamage() * 0.5f));
+                    projectileType.SetSpeed((int)(levelZero.projectileType.GetSpeed() * 0.5f));
+                    break;
+            }
+        }
+
+        public bool UpgradeAvailable()
+        {
+            return level < 2;
+        }
+
+        public int GetUpgradeCosts()
+        {
+            return upgradeCosts;
         }
 
         public float GetRange()

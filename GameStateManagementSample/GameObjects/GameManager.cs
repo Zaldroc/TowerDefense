@@ -95,7 +95,8 @@ namespace GameStateManagementSample.GameObjects
                 setPos.Y = (setPos.Y+1) * 100 - t.GetTexture().Height / 2;
                 t.SetPosition(setPos);
 
-                addTower(t);
+                Tower boughtTower = new Tower(t);
+                addTower(boughtTower);
                 player.RemovePoints(t.GetCosts());
                 return true;
             }
