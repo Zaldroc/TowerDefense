@@ -53,12 +53,12 @@ namespace GameStateManagementSample.GameObjects
             if (marked)
             {
                 if(ok)
-                    return new Color(Color.Green, 0.5f);
+                    return Color.White;
                 return new Color(Color.Red, 0.5f);
             }
             else if(!ok)
                 return new Color(Color.Red, 0.5f);
-            return Color.White;
+            return new Color(Color.Green, 0.5f);
         }
     }
 }
