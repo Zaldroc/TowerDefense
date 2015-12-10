@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,14 @@ namespace GameStateManagementSample.GameObjects
 
         }
 
-        public Bomb(Bomb bomb, Vector2 position, Vector2 direction):this(bomb)
+        public Bomb(Bomb bomb, Vector2 position, Vector2 direction):base(bomb, position, direction)
         {
-            SetPosition(position);
-            SetDirection(direction);
+            range = bomb.range;
+        }
+
+        public Bomb(Vector2 position, Texture2D texture, Vector2 scale, int damage, float speed, Vector2 direction, float range):base(position, texture, scale, damage, speed, direction)
+        {
+            this.range = range;
         }
 
         public float GetRange()

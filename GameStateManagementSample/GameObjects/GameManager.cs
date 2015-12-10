@@ -96,11 +96,26 @@ namespace GameStateManagementSample.GameObjects
                 t.SetPosition(setPos);
 
                 Tower boughtTower = new Tower(t);
+                boughtTower.Buy();
                 addTower(boughtTower);
                 player.RemovePoints(t.GetCosts());
                 return true;
             }
             return false;
+        }
+
+        public void upgradeTower(Tower t)
+        {
+            if (t.GetUpgradeCosts() <= player.GetPoints())
+            {
+                player.RemovePoints(t.GetUpgradeCosts());
+                t.Upgrade();
+            }
+        }
+
+        public void RemoveTower(Tower t)
+        {
+            tower.Remove(t);
         }
 
         public void addTower(Tower tower)
@@ -116,6 +131,25 @@ namespace GameStateManagementSample.GameObjects
         public List<Tower> getTower()
         {
             return tower;
+        }
+
+        public Tower getTower(Vector2 position)
+        {
+            Vector2 setPos = position / 100.0f;
+            setPos.X = (int)setPos.X;
+            setPos.Y = (int)setPos.Y;
+
+            foreach (Tower t2 in getTower())
+            {
+                Vector2 setPos2 = t2.GetPosition() / 100.0f;
+                setPos2.X = (int)setPos2.X;
+                setPos2.Y = (int)setPos2.Y;
+
+                if (setPos.Equals(setPos2))
+                    return t2;
+            }
+
+            return null;
         }
 
         public void Update(GameTime gameTime)

@@ -54,14 +54,16 @@ namespace GameStateManagementSample.GameObjects
                 case 1:
                     shootingInterval = (int)(shootingInterval * 0.75f);
                     level++;
-                    upgradeCosts = (int)(costs * 1f);
+                    upgradeCosts = costs * 1;
+                    range = range * 1.25f;
                     projectileType.SetDamage((int)(projectileType.GetDamage() * 1.5f));
                     projectileType.SetSpeed((int)(projectileType.GetSpeed() * 1.5f));
                     break;
                 case 2:
                     shootingInterval = (int)(levelZero.shootingInterval * 0.5f);
                     level++;
-                    upgradeCosts = (int)(costs * 2f);
+                    upgradeCosts = costs * 2;
+                    range = levelZero.range * 1.5f;
                     projectileType.SetDamage((int)(levelZero.projectileType.GetDamage() * 2f));
                     projectileType.SetSpeed((int)(levelZero.projectileType.GetSpeed() * 2f));
                     break;
@@ -70,7 +72,7 @@ namespace GameStateManagementSample.GameObjects
 
         public bool UpgradeAvailable()
         {
-            return level < 2;
+            return level <= 2;
         }
 
         public int GetUpgradeCosts()

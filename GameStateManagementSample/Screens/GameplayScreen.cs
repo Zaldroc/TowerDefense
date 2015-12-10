@@ -40,6 +40,8 @@ namespace GameStateManagement
         Texture2D background;
         Texture2D plattform;
         Texture2D postItTexture;
+        Texture2D eraser;
+        Texture2D upgrade;
 
         float postItTextureScal=0.25f;
 
@@ -108,6 +110,9 @@ namespace GameStateManagement
             spawnTexture = content.Load<Texture2D>("spawn");
             bar = content.Load<Texture2D>("bar");
             barFilling = content.Load<Texture2D>("barFilling");
+            eraser = content.Load<Texture2D>("eraser"); 
+            upgrade = content.Load<Texture2D>("upgrade");
+
 
             marked = new MarkedField(new Vector2(0, 0), content.Load<Texture2D>("markedField"), new Vector2(1,1)*0.5f);
 
@@ -203,7 +208,7 @@ namespace GameStateManagement
             if (postIt == null)
             {
                 marked.SetPosition(mPos);
-                if (!gameManager.CanBuild(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
+                if (gameManager.IsThereAPath(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
                     marked.NotOk();
                 else
                     marked.Ok();
@@ -261,8 +266,21 @@ namespace GameStateManagement
                         Vector2 textureVector = new Vector2(postItTexture.Width * postItTextureScal, postItTexture.Height * postItTextureScal);
                         Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X) + 50 - (((int)textureVector.X) / 2), ((int)postIt.Value.Y) - (((int)textureVector.Y) / 2), ((int)textureVector.X), ((int)textureVector.Y));
 
+                        bool isClickedATower = gameManager.IsThereATower((Vector2)postIt / scal);
+                        bool upgradeAvailable = false;
+
                         int tower = -1;
-                        for (int i = 0; i < towers.Count; i++)
+                        int count;
+                        if (!isClickedATower)
+                            count = towers.Count;
+                        else if (gameManager.getTower((Vector2)postIt / scal).UpgradeAvailable())
+                        {
+                            count = 2;
+                            upgradeAvailable = true;
+                        }
+                        else count = 1;
+
+                        for (int i = 0; i < count; i++)
                         {
                             Rectangle r = postItRectangle;
                             r.X = r.X + i * (int)textureVector.X;
@@ -280,14 +298,19 @@ namespace GameStateManagement
 
                         if (tower != -1)
                         {
-                            gameManager.BuyTower(TowerCreator.GetTower(tower, content, ((Vector2)postIt) / (1200f / 3200f)));
+                            if (!isClickedATower)
+                                gameManager.BuyTower(TowerCreator.GetTower(tower, content, ((Vector2)postIt) / (1200f / 3200f)));
+                            else if (upgradeAvailable && tower == 0)
+                                gameManager.upgradeTower(gameManager.getTower((Vector2)postIt / scal));
+                            else gameManager.RemoveTower(gameManager.getTower((Vector2)postIt / scal));
+
                             postIt = null;
                             marked.DeMark();
                         }
                         else
                         {
                             marked.SetPosition(mPos);
-                            if (!gameManager.CanBuild(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
+                            if (gameManager.IsThereAPath(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
                             {
                                 marked.NotOk();
                                 postIt = null;
@@ -386,17 +409,45 @@ namespace GameStateManagement
             if (postIt!=null)
             {
                 float breite = postItTexture.Width * postItTextureScal;
-                for (int i= 0; i< towers.Count; i++)
+
+                if (!gameManager.IsThereATower((Vector2)postIt/scal))
+                    for (int i= 0; i< towers.Count; i++)
+                    {
+                        Tower t = towers[i];
+                        Color color;
+                        if (t.GetCosts() > gameManager.player.GetPoints())
+                            color = Color.Gray;
+                        else color = Color.White;
+                        spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + i*breite, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
+                        spriteBatch.Draw(t.GetTexture(), ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale(), SpriteEffects.None, 0.6f);
+                        spriteBatch.Draw(plattform, ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y, SpriteEffects.None, 0.59f);
+                        spriteBatch.DrawString(gameFont, t.GetCosts().ToString(), ((Vector2)postIt) + new Vector2(50 + i * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+                    }
+                else
                 {
-                    Tower t = towers[i];
                     Color color;
-                    if (t.GetCosts() > gameManager.player.GetPoints())
+                    Tower t = gameManager.getTower((Vector2)postIt / scal);
+                    int upgradeAvailable;
+
+                    if (t.UpgradeAvailable())
+                        upgradeAvailable = 1;
+                    else upgradeAvailable = 0;
+
+                    if (t.GetUpgradeCosts() > gameManager.player.GetPoints())
                         color = Color.Gray;
                     else color = Color.White;
-                    spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + i*breite, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
-                    spriteBatch.Draw(t.GetTexture(), ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale(), SpriteEffects.None, 0.6f);
-                    spriteBatch.Draw(plattform, ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y, SpriteEffects.None, 0.59f);
-                    spriteBatch.DrawString(gameFont, t.GetCosts().ToString(), ((Vector2)postIt) + new Vector2(50 + i * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+
+                    if (upgradeAvailable == 1)
+                    {
+                        spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
+                        spriteBatch.Draw(upgrade, ((Vector2)postIt) + new Vector2(50, 0), null, color, 0, new Vector2(upgrade.Width / 2, upgrade.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
+                        spriteBatch.DrawString(gameFont, t.GetUpgradeCosts().ToString(), ((Vector2)postIt) + new Vector2(50, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+                    }
+
+                    spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 0), null, Color.White, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
+                    spriteBatch.Draw(eraser, ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 0), null, Color.White, 0, new Vector2(eraser.Width / 2, eraser.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
+                    spriteBatch.DrawString(gameFont, "0", ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+
                 }
             }
               
