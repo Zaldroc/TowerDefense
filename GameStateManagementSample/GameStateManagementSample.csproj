@@ -41,6 +41,7 @@
     <Compile Include="Creator\LevelCreator.cs" />
     <Compile Include="Creator\TowerCreator.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameObjects\Bomb.cs" />
     <Compile Include="GameObjects\GameManager.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Enemy.cs" />

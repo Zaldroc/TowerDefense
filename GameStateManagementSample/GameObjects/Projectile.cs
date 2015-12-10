@@ -52,6 +52,11 @@ namespace GameStateManagementSample.GameObjects
         {
             return direction;
         }
+
+        public void SetDirection(Vector2 direction)
+        {
+            this.direction = direction;
+        }
         
         public void Move()
         {
