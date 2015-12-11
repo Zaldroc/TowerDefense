@@ -17,7 +17,7 @@ namespace GameStateManagementSample.Creator
             {
                 case 1: return getLevel1(content);
 
-                default: return null;
+                default: throw new NotImplementedException();
             }
         }
 

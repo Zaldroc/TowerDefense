@@ -69,6 +69,8 @@ namespace GameStateManagement
         Texture2D barFilling;
         int fillings;
 
+        int leveli;
+
         #endregion
 
         #region Initialization
@@ -77,10 +79,11 @@ namespace GameStateManagement
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen()
+        public GameplayScreen(int level)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            this.leveli = level;
         }
 
 
@@ -92,7 +95,7 @@ namespace GameStateManagement
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            Level level = LevelCreator.GetLevel(1, content);
+            Level level = LevelCreator.GetLevel(leveli, content);
 
             gameManager = new GameManager(level);
 
@@ -178,6 +181,11 @@ namespace GameStateManagement
                 // it by inserting something more interesting in this space :-)
 
                 gameManager.Update(gameTime);
+                if (gameManager.IsGameOver())
+                    ScreenManager.AddScreen(new GameOverMenuScreen(), ControllingPlayer);
+
+                if (gameManager.IsLevelFinished())
+                    ScreenManager.AddScreen(new GameWonMenuScreen(), ControllingPlayer);
             }
         }
 
@@ -451,13 +459,7 @@ namespace GameStateManagement
                 }
             }
               
-            if (gameManager.IsGameOver())
-                spriteBatch.DrawString(gameFont, "Game  Over!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
-
-            if (gameManager.IsLevelFinished())
-                spriteBatch.DrawString(gameFont, "You  won!!!", new Vector2(100, 100), Color.Black, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
-
-            
+                        
             //.DrawString(gameFont, gameManager.level.GetAllEnemiesCount() + "Gegner uebrig", new Vector2(800, 200), Color.DarkBlue, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
 
             spriteBatch.Draw(marked.GetTexture(), (marked.GetPosition()*100+ new Vector2(10, 10)) * scal, null, marked.GetColor(), 0, new Vector2(0, 0), marked.GetScale().Y, SpriteEffects.None, 0.41f);

@@ -102,7 +102,7 @@ namespace GameStateManagement
             {
                 OnSelectEntry(selectedEntry, playerIndex);
             }
-            else if (input.IsMenuCancel(ControllingPlayer, out playerIndex))
+            else if (input.IsMenuCancel(ControllingPlayer, out playerIndex) && !(GetType()==typeof(GameOverMenuScreen)))
             {
                 OnCancel(playerIndex);
             }
