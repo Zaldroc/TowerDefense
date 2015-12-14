@@ -95,7 +95,7 @@ namespace GameStateManagement
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            Level level = LevelCreator.GetLevel(2, content);
+            Level level = LevelCreator.GetLevel(leveli, content);
 
             gameManager = new GameManager(level);
 
