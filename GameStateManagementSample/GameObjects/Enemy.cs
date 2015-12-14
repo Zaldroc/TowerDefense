@@ -22,7 +22,9 @@ namespace GameStateManagementSample.GameObjects
         {
             this.health = health;
             this.speed = speed;
-            this.reward = (int)(speed * 0.06f + 1.0f*Math.Log(10*health)) + 15;
+            //this.reward = (int)(speed * 0.06f + 1.0f*Math.Log(10*health)) + 15;
+
+            this.reward = (int)((Math.Log(speed) + 2.0f * Math.Log(10000 * health)));
 
             //this.reward += reward;
 
