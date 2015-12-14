@@ -42,7 +42,7 @@ namespace GameStateManagementSample.GameObjects
         public void Buy()
         {
             level = 1;
-            upgradeCosts = (int)(costs * 0.5f);
+            upgradeCosts = (int)(costs * 1.0f);
 
             levelZero = new Tower(this);
         }
@@ -54,7 +54,7 @@ namespace GameStateManagementSample.GameObjects
                 case 1:
                     shootingInterval = (int)(shootingInterval * 0.75f);
                     level++;
-                    upgradeCosts = costs * 1;
+                    upgradeCosts = costs * 2;
                     range = range * 1.25f;
                     projectileType.SetDamage((int)(projectileType.GetDamage() * 1.5f));
                     projectileType.SetSpeed((int)(projectileType.GetSpeed() * 1.5f));
@@ -62,7 +62,7 @@ namespace GameStateManagementSample.GameObjects
                 case 2:
                     shootingInterval = (int)(levelZero.shootingInterval * 0.5f);
                     level++;
-                    upgradeCosts = costs * 2;
+                    upgradeCosts = costs * 3;
                     range = levelZero.range * 1.5f;
                     projectileType.SetDamage((int)(levelZero.projectileType.GetDamage() * 2f));
                     projectileType.SetSpeed((int)(levelZero.projectileType.GetSpeed() * 2f));

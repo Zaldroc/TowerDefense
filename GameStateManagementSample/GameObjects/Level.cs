@@ -217,7 +217,7 @@ namespace GameStateManagementSample.GameObjects
             return new List<Projectile>(projectiles);
         }
 
-        private bool HasPath()
+        public bool HasPath()
         {
             bool hasSpawn = false;
             bool hasGoal = false;
@@ -234,7 +234,7 @@ namespace GameStateManagementSample.GameObjects
                 }
             }
 
-            if (!hasGoal && !hasSpawn)
+            if (!(hasGoal && hasSpawn))
                 return false;
 
             return true;

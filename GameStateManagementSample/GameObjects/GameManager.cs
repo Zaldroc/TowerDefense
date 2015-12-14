@@ -116,6 +116,7 @@ namespace GameStateManagementSample.GameObjects
         public void RemoveTower(Tower t)
         {
             tower.Remove(t);
+            player.AddPoints(25);
         }
 
         public void addTower(Tower tower)
