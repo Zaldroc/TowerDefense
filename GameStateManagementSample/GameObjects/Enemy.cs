@@ -21,7 +21,8 @@ namespace GameStateManagementSample.GameObjects
             this.health = health;
             this.speed = speed;
             //this.reward = reward;
-            this.reward = (int)(speed*0.015f + health*0.007f)+25;
+            //this.reward = (int)(speed*0.06f + health*0.008f)+30;
+            this.reward = (int)(speed * 0.06f + 2.0f*Math.Log(1000*health)) + 15;
 
             int minReward = 13;
             /*if (this.reward < minReward)
