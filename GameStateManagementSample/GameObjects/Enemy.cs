@@ -20,13 +20,17 @@ namespace GameStateManagementSample.GameObjects
         {
             this.health = health;
             this.speed = speed;
-            //this.reward = reward;
-            //this.reward = (int)(speed*0.06f + health*0.008f)+30;
-            this.reward = (int)(speed * 0.06f + 2.0f*Math.Log(1000*health)) + 15;
+            this.reward = (int)(speed * 0.06f + 1.0f*Math.Log(10*health)) + 15;
 
-            int minReward = 13;
-            /*if (this.reward < minReward)
-                this.reward = minReward;//*/
+            //this.reward += reward;
+
+            nextPosition = new Vector2(-1,-1);
+        }
+
+        public Enemy(Vector2 position, Texture2D texture, Vector2 scale, int health, float speed)
+            :this(position,texture,scale,health,speed,0)
+        {
+
         }
 
         public void SetPath(List<Vector2> path)
@@ -61,14 +65,26 @@ namespace GameStateManagementSample.GameObjects
 
         public void Move()
         {
-            if(nextPosition==null)
+            if(nextPosition==new Vector2(-1,-1))
             {
                 nextPosition = path.Dequeue();
             }
 
+            
+
             Vector2 pos = GetPosition();
-            //pos = new Vector2(pos.X - GetTexture().Height * GetScale() / 2,pos.Y - GetTexture().Height * GetScale() / 2);
-            Vector2 currentPos = new Vector2((int)Math.Round((pos.X / 100),MidpointRounding.AwayFromZero)-1, (int)Math.Round((pos.Y / 100),MidpointRounding.AwayFromZero)-1);
+            
+            //Vector2 currentPos = new Vector2((int)Math.Round((pos.X / 100),MidpointRounding.AwayFromZero)-1, (int)Math.Round((pos.Y / 100),MidpointRounding.AwayFromZero)-1);
+
+
+            //pos.X = pos.X + (GetTexture().Width*GetScale().X) / 2;
+            
+            Vector2 currentPos = pos / 100.0f;
+
+
+            currentPos.X = (int)currentPos.X;
+            currentPos.Y = (int)currentPos.Y;
+           
 
             if (nextPosition.Equals(currentPos))
             {
@@ -124,6 +140,7 @@ namespace GameStateManagementSample.GameObjects
                     SetRotationInDegrees(GetRotationInDegrees() - turningSpeed);
                 else if (GetRotationInDegrees() < 270)
                     SetRotationInDegrees(GetRotationInDegrees() + turningSpeed);
+                //System.Console.WriteLine(pos.ToString() + " " + currentPos.ToString() + " " + nextPosition.ToString());
             }
         }
     }
