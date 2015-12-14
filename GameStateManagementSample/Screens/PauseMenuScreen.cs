@@ -22,12 +22,16 @@ namespace GameStateManagement
     {
         #region Initialization
 
+        int leveli;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PauseMenuScreen()
+        public PauseMenuScreen(int leveli)
             : base("Paused")
         {
+            this.leveli = leveli;
+
             // Create our menu entries.
             MenuEntry resumeGameMenuEntry = new MenuEntry("Resume Game");
             MenuEntry retryGameMenuEntry = new MenuEntry("Retry Game");
@@ -79,7 +83,7 @@ namespace GameStateManagement
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             List<GameScreen> screensToLoad = new List<GameScreen>();
-            screensToLoad.Add(new GameplayScreen(1));
+            screensToLoad.Add(new GameplayScreen(leveli));
             //screensToLoad.Add(new TowerScreen(5));
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, screensToLoad.ToArray());
         }

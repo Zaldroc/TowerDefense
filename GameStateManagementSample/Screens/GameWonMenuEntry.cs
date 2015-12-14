@@ -22,19 +22,22 @@ namespace GameStateManagement
     {
         #region Initialization
 
+        int leveli;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameWonMenuScreen()
+        public GameWonMenuScreen(int leveli)
             : base("You won!")
         {
+            this.leveli = leveli;
             // Create our menu entries.
             MenuEntry nextLevelMenuEntry = new MenuEntry("Next Level");
             MenuEntry resumeGameMenuEntry = new MenuEntry("Replay Game");
             MenuEntry quitGameMenuEntry = new MenuEntry("Exit to Main Menu");
 
             // Hook up menu event handlers.
-            nextLevelMenuEntry.Selected += PlayGameMenuEntrySelected;
+            nextLevelMenuEntry.Selected += NextLevelMenuEntrySelected;
             resumeGameMenuEntry.Selected += PlayGameMenuEntrySelected;
             quitGameMenuEntry.Selected += QuitGameMenuEntrySelected;
 
@@ -69,7 +72,15 @@ namespace GameStateManagement
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             List<GameScreen> screensToLoad = new List<GameScreen>();
-            screensToLoad.Add(new GameplayScreen(2));
+            screensToLoad.Add(new GameplayScreen(leveli));
+            //screensToLoad.Add(new TowerScreen(5));
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, screensToLoad.ToArray());
+        }
+
+        void NextLevelMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            List<GameScreen> screensToLoad = new List<GameScreen>();
+            screensToLoad.Add(new GameplayScreen(leveli + 1));
             //screensToLoad.Add(new TowerScreen(5));
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, screensToLoad.ToArray());
         }

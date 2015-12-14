@@ -182,10 +182,10 @@ namespace GameStateManagement
 
                 gameManager.Update(gameTime);
                 if (gameManager.IsGameOver())
-                    ScreenManager.AddScreen(new GameOverMenuScreen(), ControllingPlayer);
+                    ScreenManager.AddScreen(new GameOverMenuScreen(leveli), ControllingPlayer);
 
                 if (gameManager.IsLevelFinished())
-                    ScreenManager.AddScreen(new GameWonMenuScreen(), ControllingPlayer);
+                    ScreenManager.AddScreen(new GameWonMenuScreen(leveli), ControllingPlayer);
             }
         }
 
@@ -231,7 +231,7 @@ namespace GameStateManagement
 
             if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
             {
-                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                ScreenManager.AddScreen(new PauseMenuScreen(leveli), ControllingPlayer);
             }
             else
             {
