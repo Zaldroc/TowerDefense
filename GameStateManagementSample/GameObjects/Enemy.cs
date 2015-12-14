@@ -16,6 +16,8 @@ namespace GameStateManagementSample.GameObjects
         private Queue<Vector2> path;
         private Vector2 nextPosition;
 
+        private int lastDirection;
+
         public Enemy(Vector2 position, Texture2D texture, Vector2 scale, int health, float speed, int reward):base(position,texture,scale)
         {
             this.health = health;
@@ -77,7 +79,21 @@ namespace GameStateManagementSample.GameObjects
             //Vector2 currentPos = new Vector2((int)Math.Round((pos.X / 100),MidpointRounding.AwayFromZero)-1, (int)Math.Round((pos.Y / 100),MidpointRounding.AwayFromZero)-1);
 
 
-            //pos.X = pos.X + (GetTexture().Width*GetScale().X) / 2;
+            switch(lastDirection)
+            {
+                case 0:
+                    pos.Y += 50;
+                    break;
+                case 2:
+                    pos.Y -= 50;
+                    break;
+                case 1:
+                    pos.X -= 50;
+                    break;
+                case 3:
+                    pos.X += 50;
+                    break;
+            }
             
             Vector2 currentPos = pos / 100.0f;
 
@@ -106,41 +122,58 @@ namespace GameStateManagementSample.GameObjects
 
             float turningSpeed = 3 * speed;
 
+            float degrees = GetRotationInDegrees();
+
+            degrees = degrees % 360;
+
+            if (degrees < 0)
+                degrees = 360 + degrees;
+
             if (north.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(0, -speed)));
-                if (GetRotationInDegrees() > 180 && GetRotationInDegrees() < 360)
-                    SetRotationInDegrees(GetRotationInDegrees() + 3*speed);
-                else if (GetRotationInDegrees() <= 180 && GetRotationInDegrees() > 0)
-                    SetRotationInDegrees(GetRotationInDegrees() - turningSpeed);
+                if (degrees > 180 && degrees < 360)
+                    SetRotationInDegrees(degrees + turningSpeed);
+                else if (degrees <= 180 && degrees > 0)
+                    SetRotationInDegrees(degrees - turningSpeed);
+
+                lastDirection = 0;
             }
             else if (south.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(0, speed)));
                 //SetRotationInDegrees(180);
-                if (GetRotationInDegrees() > 180)
-                    SetRotationInDegrees(GetRotationInDegrees() - turningSpeed);
-                else if (GetRotationInDegrees() < 180)
-                    SetRotationInDegrees(GetRotationInDegrees() + turningSpeed);
+                if (degrees > 180)
+                    SetRotationInDegrees(degrees - turningSpeed);
+                else if (degrees < 180)
+                    SetRotationInDegrees(degrees + turningSpeed);
+
+                lastDirection = 2;
             }
             else if (east.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(speed, 0)));
                 //SetRotationInDegrees(90);
-                if (GetRotationInDegrees() > 90)
-                    SetRotationInDegrees(GetRotationInDegrees() - turningSpeed);
-                else if (GetRotationInDegrees() < 90)
-                    SetRotationInDegrees(GetRotationInDegrees() + turningSpeed);
+                if (degrees > 270 || degrees < 90)
+                    SetRotationInDegrees(degrees + turningSpeed);
+                else if (degrees < 270 || degrees >90)
+                    SetRotationInDegrees(degrees - turningSpeed);
+
+                lastDirection = 1;
             }
             else if (west.Equals(nextPosition))
             {
                 SetPosition((GetPosition() + new Vector2(-speed, 0)));
+                
+
                 //SetRotationInDegrees(270);
-                if (GetRotationInDegrees() > 270)
-                    SetRotationInDegrees(GetRotationInDegrees() - turningSpeed);
-                else if (GetRotationInDegrees() < 270)
-                    SetRotationInDegrees(GetRotationInDegrees() + turningSpeed);
+                if (degrees>270||degrees<90)
+                    SetRotationInDegrees(degrees - turningSpeed);
+                else if (degrees < 270)
+                    SetRotationInDegrees(degrees + turningSpeed);
                 //System.Console.WriteLine(pos.ToString() + " " + currentPos.ToString() + " " + nextPosition.ToString());
+
+                lastDirection = 3;
             }
         }
     }
