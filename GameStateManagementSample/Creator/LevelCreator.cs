@@ -42,17 +42,9 @@ namespace GameStateManagementSample.Creator
             level.AddPathBlock(new PathBlock(new Vector2(2, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(3, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(4, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
-            level.AddPathBlock(new PathBlock(new Vector2(5, 9), dirt, new Vector2(1, 1) * 0.35f, PathBlockEnum.NORMAL));
-
-            level.AddPathBlock(new PathBlock(new Vector2(5, 8), dirt, new Vector2(1, 1) * 0.35f, PathBlockEnum.NORMAL));
-            level.AddPathBlock(new PathBlock(new Vector2(5, 7), dirt, new Vector2(1, 1) * 0.35f, PathBlockEnum.NORMAL));
-            level.AddPathBlock(new PathBlock(new Vector2(6, 7), dirt, new Vector2(1, 1) * 0.35f, PathBlockEnum.NORMAL));
-            level.AddPathBlock(new PathBlock(new Vector2(7, 7), dirt, new Vector2(1, 1) * 0.35f, PathBlockEnum.NORMAL));
-            level.AddPathBlock(new PathBlock(new Vector2(7, 8), dirt, new Vector2(1, 1) * 0.35f, PathBlockEnum.NORMAL));
-            level.AddPathBlock(new PathBlock(new Vector2(7, 9), dirt, new Vector2(1, 1) * 0.35f, PathBlockEnum.NORMAL));
-
-            //level.AddPathBlock(new PathBlock(new Vector2(6, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
-            //level.AddPathBlock(new PathBlock(new Vector2(7, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
+            level.AddPathBlock(new PathBlock(new Vector2(5, 9), dirt, new Vector2(1, 1)*0.35f, PathBlockEnum.NORMAL));
+            level.AddPathBlock(new PathBlock(new Vector2(6, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
+            level.AddPathBlock(new PathBlock(new Vector2(7, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(8, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(9, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));
             level.AddPathBlock(new PathBlock(new Vector2(10, 9), dirt, new Vector2(1,1)*0.35f, PathBlockEnum.NORMAL));

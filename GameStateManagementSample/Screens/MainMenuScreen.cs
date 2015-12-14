@@ -58,7 +58,7 @@ namespace GameStateManagement
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             List<GameScreen> screensToLoad = new List<GameScreen>();
-            screensToLoad.Add(new GameplayScreen(2));
+            screensToLoad.Add(new GameplayScreen(1));
             //screensToLoad.Add(new TowerScreen(5));
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, screensToLoad.ToArray());
         }
