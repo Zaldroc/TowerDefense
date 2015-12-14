@@ -12,7 +12,7 @@ namespace GameStateManagementSample.GameObjects
         private float range;
         private int costs;
         private int shootingInterval;
-        private int elapsedTime=1;
+        private int elapsedTime=9999;
 
         public bool isIdle;
 
