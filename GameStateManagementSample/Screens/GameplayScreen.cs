@@ -454,7 +454,7 @@ namespace GameStateManagement
 
                     spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 0), null, Color.White, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
                     spriteBatch.Draw(eraser, ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 0), null, Color.White, 0, new Vector2(eraser.Width / 2, eraser.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
-                    spriteBatch.DrawString(gameFont, "0", ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+                    spriteBatch.DrawString(gameFont, "25", ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
 
                 }
             }

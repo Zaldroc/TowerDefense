@@ -26,7 +26,7 @@ namespace GameStateManagementSample.GameObjects
         public GameManager(Level level)
         {
             this.level = level;
-            player = new Player(300);
+            player = new Player(400);
             tower = new List<Tower>();
         }
 
@@ -116,6 +116,7 @@ namespace GameStateManagementSample.GameObjects
         public void RemoveTower(Tower t)
         {
             tower.Remove(t);
+            player.AddPoints(25);
         }
 
         public void addTower(Tower tower)

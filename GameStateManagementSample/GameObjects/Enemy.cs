@@ -21,11 +21,11 @@ namespace GameStateManagementSample.GameObjects
             this.health = health;
             this.speed = speed;
             //this.reward = reward;
-            this.reward = (int)(speed*1.5f *health/2000);
+            this.reward = (int)(speed*0.015f + health*0.007f)+25;
 
-            int minReward = 15;
-            if (this.reward < minReward)
-                this.reward = minReward;
+            int minReward = 13;
+            /*if (this.reward < minReward)
+                this.reward = minReward;//*/
         }
 
         public void SetPath(List<Vector2> path)

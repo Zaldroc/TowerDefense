@@ -45,5 +45,10 @@ namespace GameStateManagementSample.GameObjects
                 return true;
             return false;
         }
+
+        public String ToString()
+        {
+            return GetPosition() + "|" + type;
+        }
     }
 }
