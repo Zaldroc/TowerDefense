@@ -286,15 +286,41 @@ namespace GameStateManagementSample.GameObjects
                     Rectangle projectileRectangle = new Rectangle(p.GetPosition().ToPoint(), new Point(p.GetTexture().Width, p.GetTexture().Height));
                     if (!Rectangle.Intersect(enemyRectangle, projectileRectangle).IsEmpty)
                     {
-                        projectiles.Remove(p);
-                        e.Damage(p.GetDamage());
-                        if (e.GetHealth() <= 0)
+                        if (p.GetType() == typeof(Bomb))
                         {
-                            reward += e.GetReward();
-                            enemies.Remove(e);
-                            float rotation = Math.Abs(gameTime.TotalGameTime.Milliseconds - gameTime.TotalGameTime.Seconds * 1000);
-                            corpses.Add(new Vector4(e.GetPosition(),gameTime.TotalGameTime.Seconds,rotation));
+                            //Console.WriteLine("BOMB");
+
+                            for (int i=0;i<enemies.Count; i++)
+                            {
+                                Enemy e2 = enemies[i];
+                                double distance = Math.Sqrt(Math.Pow(p.GetPosition().X - e2.GetPosition().X, 2) + Math.Pow(p.GetPosition().Y - e2.GetPosition().Y, 2));
+                                if (((Bomb)p).GetRange() >= distance)
+                                {
+                                    e2.Damage(p.GetDamage());
+                                    if (e2.GetHealth() <= 0)
+                                    {
+                                        reward += e2.GetReward();
+                                        enemies.Remove(e2);
+                                        float rotation = Math.Abs(gameTime.TotalGameTime.Milliseconds - gameTime.TotalGameTime.Seconds * 1000);
+                                        corpses.Add(new Vector4(e2.GetPosition(), gameTime.TotalGameTime.Seconds, rotation));
+                                        i--;
+                                    }
+                                }
+                            }
                         }
+                        else
+                        {
+                            e.Damage(p.GetDamage());
+                            if (e.GetHealth() <= 0)
+                            {
+                                reward += e.GetReward();
+                                enemies.Remove(e);
+                                float rotation = Math.Abs(gameTime.TotalGameTime.Milliseconds - gameTime.TotalGameTime.Seconds * 1000);
+                                corpses.Add(new Vector4(e.GetPosition(), gameTime.TotalGameTime.Seconds, rotation));
+                            }
+                        }
+
+                        projectiles.Remove(p);
                     }
                 }
             }

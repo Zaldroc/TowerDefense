@@ -83,7 +83,7 @@ namespace GameStateManagementSample.Creator
 
                 float speed = 1 + 0.001f * i;
                 int startHealth = 90;
-                float healthFactor = 1 + 1f * i;
+                float healthFactor = 1 + 0.7f * i;
 
                 int health = (int)(startHealth * healthFactor);
 
@@ -190,7 +190,7 @@ namespace GameStateManagementSample.Creator
 
                 float speed = 1 + 0.001f * i;
                 int startHealth = 90;
-                float healthFactor = 1 + 0.7f * i;
+                float healthFactor = 1 + 1.0f * i;
 
                 int health = (int)(startHealth * healthFactor);
 

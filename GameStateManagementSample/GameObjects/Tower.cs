@@ -121,6 +121,10 @@ namespace GameStateManagementSample.GameObjects
                 {
                     elapsedTime = 0;
                     isIdle = false;
+
+                    if (projectileType.GetType() == typeof(Bomb))
+                        return (new Bomb((Bomb)projectileType, GetPosition(), v * (-1)));
+
                     return new Projectile(projectileType, GetPosition(), v*(-1));
                 }
                 if(elapsedTime>1000)
