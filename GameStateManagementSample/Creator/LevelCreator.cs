@@ -74,7 +74,7 @@ namespace GameStateManagementSample.Creator
 
 
             
-            for (int i=0; i<4; i++)
+            for (int i=0; i<50; i++)
             {
                 Queue<Enemy> enemies = new Queue<Enemy>();
 
@@ -83,7 +83,7 @@ namespace GameStateManagementSample.Creator
 
                 float speed = 1 + 0.001f * i;
                 int startHealth = 90;
-                float healthFactor = 1 + 0.7f * i;
+                float healthFactor = 1 + 1f * i;
 
                 int health = (int)(startHealth * healthFactor);
 

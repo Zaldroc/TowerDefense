@@ -71,6 +71,8 @@ namespace GameStateManagement
 
         int leveli;
 
+        bool postItRichtungRechts;
+
         #endregion
 
         #region Initialization
@@ -267,12 +269,15 @@ namespace GameStateManagement
                     if (postIt == null)
                     {
                         if (marked.IsOk())
+                        {
                             postIt = mouseState.Position.ToVector2();
+                            berechnePostItsRichtung();
+                        }
                     }
                     else
                     {
                         Vector2 textureVector = new Vector2(postItTexture.Width * postItTextureScal, postItTexture.Height * postItTextureScal);
-                        Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X) + 50 - (((int)textureVector.X) / 2), ((int)postIt.Value.Y) - (((int)textureVector.Y) / 2), ((int)textureVector.X), ((int)textureVector.Y));
+                        Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X) - (((int)textureVector.X) / 2), ((int)postIt.Value.Y) - (((int)textureVector.Y) / 2), ((int)textureVector.X), ((int)textureVector.Y));
 
                         bool isClickedATower = gameManager.IsThereATower((Vector2)postIt / scal);
                         bool upgradeAvailable = false;
@@ -291,7 +296,12 @@ namespace GameStateManagement
                         for (int i = 0; i < count; i++)
                         {
                             Rectangle r = postItRectangle;
-                            r.X = r.X + i * (int)textureVector.X;
+                            int x;
+                            if (postItRichtungRechts)
+                                x = 50 + i * (int)textureVector.X;
+                            else x = -50 - i * (int)textureVector.X;
+
+                            r.X = r.X + x;
                             if (r.Contains(mouseState.Position))
                             {
                                 tower = i;
@@ -328,6 +338,7 @@ namespace GameStateManagement
                             {
                                 marked.Ok();
                                 postIt = mouseState.Position.ToVector2();
+                                berechnePostItsRichtung();
                             }
                         }
                     }
@@ -342,6 +353,25 @@ namespace GameStateManagement
             }
 
             oldMouseState = mouseState;
+        }
+
+        private void berechnePostItsRichtung()
+        {
+            int fensterBreite = 1200;
+            float textureBreite = postItTexture.Width * postItTextureScal;
+            int count;
+            float scal = 1200f / 3200f;
+
+            if (!gameManager.IsThereATower((Vector2)postIt / scal))
+                count = towers.Count;
+            else if (gameManager.getTower((Vector2)postIt / scal).UpgradeAvailable())
+                count = 2;
+            else count = 1;
+
+
+            if (postIt.Value.X + count * textureBreite + 50 < fensterBreite)
+                postItRichtungRechts = true;
+            else postItRichtungRechts = false;
         }
 
 
@@ -426,10 +456,16 @@ namespace GameStateManagement
                         if (t.GetCosts() > gameManager.player.GetPoints())
                             color = Color.Gray;
                         else color = Color.White;
-                        spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + i*breite, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
-                        spriteBatch.Draw(t.GetTexture(), ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale(), SpriteEffects.None, 0.6f);
-                        spriteBatch.Draw(plattform, ((Vector2)postIt) + new Vector2(50 + i * breite, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y, SpriteEffects.None, 0.59f);
-                        spriteBatch.DrawString(gameFont, t.GetCosts().ToString(), ((Vector2)postIt) + new Vector2(50 + i * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+
+                        float x;
+                        if (postItRichtungRechts)
+                            x = 50 + i * breite;
+                        else x = -50 - i * breite;
+
+                        spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(x, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
+                        spriteBatch.Draw(t.GetTexture(), ((Vector2)postIt) + new Vector2(x, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale(), SpriteEffects.None, 0.6f);
+                        spriteBatch.Draw(plattform, ((Vector2)postIt) + new Vector2(x, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y, SpriteEffects.None, 0.59f);
+                        spriteBatch.DrawString(gameFont, t.GetCosts().ToString(), ((Vector2)postIt) + new Vector2(x, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
                     }
                 else
                 {
@@ -445,16 +481,28 @@ namespace GameStateManagement
                         color = Color.Gray;
                     else color = Color.White;
 
+                    float x;
+                    if (postItRichtungRechts)
+                        x = 50 + upgradeAvailable * breite;
+                    else x = -50 - upgradeAvailable * breite;
+
+                    float x2;
+                    if (postItRichtungRechts)
+                        x2 = 50;
+                    else x2 = -50;
+
+
+
                     if (upgradeAvailable == 1)
                     {
-                        spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
-                        spriteBatch.Draw(upgrade, ((Vector2)postIt) + new Vector2(50, 0), null, color, 0, new Vector2(upgrade.Width / 2, upgrade.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
-                        spriteBatch.DrawString(gameFont, t.GetUpgradeCosts().ToString(), ((Vector2)postIt) + new Vector2(50, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+                        spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(x2, 0), null, color, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
+                        spriteBatch.Draw(upgrade, ((Vector2)postIt) + new Vector2(x2, 0), null, color, 0, new Vector2(upgrade.Width / 2, upgrade.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
+                        spriteBatch.DrawString(gameFont, t.GetUpgradeCosts().ToString(), ((Vector2)postIt) + new Vector2(x2, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
                     }
 
-                    spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 0), null, Color.White, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
-                    spriteBatch.Draw(eraser, ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 0), null, Color.White, 0, new Vector2(eraser.Width / 2, eraser.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
-                    spriteBatch.DrawString(gameFont, "25", ((Vector2)postIt) + new Vector2(50 + upgradeAvailable * breite, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
+                    spriteBatch.Draw(postItTexture, ((Vector2)postIt) + new Vector2(x, 0), null, Color.White, 0, new Vector2(postItTexture.Width / 2, postItTexture.Height / 2), postItTextureScal, SpriteEffects.None, 0.5f);
+                    spriteBatch.Draw(eraser, ((Vector2)postIt) + new Vector2(x, 0), null, Color.White, 0, new Vector2(eraser.Width / 2, eraser.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
+                    spriteBatch.DrawString(gameFont, "25", ((Vector2)postIt) + new Vector2(x, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
 
                 }
             }
