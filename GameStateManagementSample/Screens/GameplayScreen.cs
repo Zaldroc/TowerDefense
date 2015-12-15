@@ -72,6 +72,7 @@ namespace GameStateManagement
         int leveli;
 
         bool postItRichtungRechts;
+        Texture2D circle;
 
         #endregion
 
@@ -104,7 +105,9 @@ namespace GameStateManagement
             towers = TowerCreator.GetTowerTypes(content);
 
             gameFont = content.Load<SpriteFont>("gamefont");
-            
+
+            float scal = 1200f / 3200f;
+
             //enemy = new Enemy(new Vector2(0, 0), content.Load<Texture2D>("enemy"), 100, 1, 100);
 
             background = content.Load<Texture2D>("paperBackground169");
@@ -117,7 +120,7 @@ namespace GameStateManagement
             barFilling = content.Load<Texture2D>("barFilling");
             eraser = content.Load<Texture2D>("eraser"); 
             upgrade = content.Load<Texture2D>("upgrade");
-
+            circle = CreateCircle((int)(600*scal));
 
             marked = new MarkedField(new Vector2(0, 0), content.Load<Texture2D>("markedField"), new Vector2(1,1)*0.5f);
 
@@ -265,6 +268,7 @@ namespace GameStateManagement
                 if(mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != ButtonState.Pressed &&!gameManager.IsGameOver()&&!gameManager.IsLevelFinished())
                 {
                     marked.Mark();
+                    circle = null;
                     //gameManager.BuyTower(TowerCreator.GetTower(0, content, mouseState.Position.ToVector2() / (1200f / 3200f)));
                     if (postIt == null)
                     {
@@ -504,6 +508,10 @@ namespace GameStateManagement
                     spriteBatch.Draw(eraser, ((Vector2)postIt) + new Vector2(x, 0), null, Color.White, 0, new Vector2(eraser.Width / 2, eraser.Height / 2), 0.5f, SpriteEffects.None, 0.6f);
                     spriteBatch.DrawString(gameFont, "25", ((Vector2)postIt) + new Vector2(x, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
 
+                    if (circle == null)
+                        circle = CreateCircle((int)(t.GetRange() * scal));
+                    spriteBatch.Draw(circle, t.GetPosition() * scal, null, Color.DarkBlue, 0f, new Vector2(circle.Width / 2, circle.Height / 2), 1f, SpriteEffects.None, 0.7f);
+
                 }
             }
               
@@ -535,6 +543,32 @@ namespace GameStateManagement
             spriteBatch.Draw(inkDrop, new Vector2(position.X+200, position.Y), null, Color.White, 0, new Vector2(0, 0), 0.3f, SpriteEffects.None, 1f);
 
             spriteBatch.End();
+        }
+
+        public Texture2D CreateCircle(int radius)
+        {
+            int outerRadius = radius * 2 + 2; // So circle doesn't go out of bounds
+            Texture2D texture = new Texture2D(ScreenManager.GraphicsDevice, outerRadius, outerRadius);
+
+            Color[] data = new Color[outerRadius * outerRadius];
+
+            // Colour the entire texture transparent first.
+            for (int i = 0; i < data.Length; i++)
+                data[i] = Color.Transparent;
+
+            // Work out the minimum step necessary using trigonometry + sine approximation.
+            double angleStep = 1f / radius;
+
+            for (double angle = 0; angle < Math.PI * 2; angle += angleStep)
+            {
+                int x = (int)Math.Round(radius + radius * Math.Cos(angle));
+                int y = (int)Math.Round(radius + radius * Math.Sin(angle));
+
+                data[y * outerRadius + x + 1] = Color.White;
+            }
+
+            texture.SetData(data);
+            return texture;
         }
         #endregion
     }
