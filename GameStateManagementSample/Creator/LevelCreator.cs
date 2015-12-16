@@ -76,7 +76,7 @@ namespace GameStateManagementSample.Creator
 
 
             
-            for (int i=0; i<50; i++)
+            for (int i=0; i<5; i++)
             {
                 Queue<Enemy> enemies = new Queue<Enemy>();
 
