@@ -277,8 +277,11 @@ namespace GameStateManagement
                         Tower t = towers[tower];
                         if (circlePosition == null || !circlePosition.Equals(((Vector2)postIt) / (1200f / 3200f) / 100))
                         {
-                            circlePosition = ((Vector2)postIt) / (1200f / 3200f) / 100;
-                            circlePosition *= 100;
+                            circlePosition = ((Vector2)postIt) / (1200f / 3200f);
+                            Vector2 setPos = ((Vector2)circlePosition) / 100.0f;
+                            setPos.X = (int)setPos.X *100 + 50;
+                            setPos.Y = (int)setPos.Y*100 + 50;
+                            circlePosition = setPos;
                             circle = CreateCircle((int)(t.GetRange() * scal));
                         }
                     }
