@@ -64,6 +64,7 @@ namespace GameStateManagement
         Texture2D inkDrop;
         Texture2D corpseTexture;
         Texture2D spawnTexture;
+        Texture2D goalTexture;
 
         Texture2D time;
         Texture2D wave1;
@@ -121,6 +122,7 @@ namespace GameStateManagement
             inkDrop = content.Load<Texture2D>("drop");
             corpseTexture = content.Load<Texture2D>("splash");
             spawnTexture = content.Load<Texture2D>("spawn");
+            goalTexture = content.Load<Texture2D>("goal");
             bar = content.Load<Texture2D>("bar");
             barFilling = content.Load<Texture2D>("barFilling");
             eraser = content.Load<Texture2D>("eraser"); 
@@ -490,6 +492,8 @@ namespace GameStateManagement
                 //spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal + new Vector2(5,5)*scal, null, new Color(200,200,200), 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.19f);
                 if(((PathBlock)gameObject).IsSpawn())
                     spriteBatch.Draw(spawnTexture, new Vector2(gameObject.GetPosition().X * 100 +10, gameObject.GetPosition().Y * 100 +10) * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale()*1.8f, SpriteEffects.None, 0.21f);
+                if (((PathBlock)gameObject).IsGoal())
+                    spriteBatch.Draw(goalTexture, new Vector2(gameObject.GetPosition().X * 100 + 10, gameObject.GetPosition().Y * 100 + 10) * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale() * 1.8f, SpriteEffects.None, 0.21f);
             }
             foreach (GameObject gameObject in level.GetEnemies())
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * scal, null, Color.White, gameObject.GetRotation(), new Vector2(gameObject.GetTexture().Width / 2, gameObject.GetTexture().Height / 2), gameObject.GetScale(), SpriteEffects.None, 0.3f);
