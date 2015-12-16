@@ -67,11 +67,12 @@ namespace GameStateManagement
 
         Texture2D bar;
         Texture2D barFilling;
-        int fillings;
 
         int leveli;
 
         bool postItRichtungRechts;
+
+        Vector2 ?circlePosition;
         Texture2D circle;
 
         #endregion
@@ -120,7 +121,6 @@ namespace GameStateManagement
             barFilling = content.Load<Texture2D>("barFilling");
             eraser = content.Load<Texture2D>("eraser"); 
             upgrade = content.Load<Texture2D>("upgrade");
-            circle = CreateCircle((int)(600*scal));
 
             marked = new MarkedField(new Vector2(0, 0), content.Load<Texture2D>("markedField"), new Vector2(1,1)*0.5f);
 
@@ -220,11 +220,65 @@ namespace GameStateManagement
 
             if (postIt == null)
             {
+                circlePosition = null;
                 marked.SetPosition(mPos);
                 if (gameManager.IsThereAPath(new Vector2(mouseState.X / scal, mouseState.Y / scal)))
                     marked.NotOk();
                 else
                     marked.Ok();
+            }
+            else
+            {
+                Vector2 textureVector = new Vector2(postItTexture.Width * postItTextureScal, postItTexture.Height * postItTextureScal);
+                Rectangle postItRectangle = new Rectangle(((int)postIt.Value.X) - (((int)textureVector.X) / 2), ((int)postIt.Value.Y) - (((int)textureVector.Y) / 2), ((int)textureVector.X), ((int)textureVector.Y));
+
+                bool isClickedATower = gameManager.IsThereATower((Vector2)postIt / scal);
+                bool upgradeAvailable = false;
+
+                int tower = -1;
+                int count;
+                if (!isClickedATower)
+                    count = towers.Count;
+                else if (gameManager.getTower((Vector2)postIt / scal).UpgradeAvailable())
+                {
+                    count = 2;
+                    upgradeAvailable = true;
+                }
+                else count = 1;
+
+                for (int i = 0; i < count; i++)
+                {
+                    Rectangle r = postItRectangle;
+                    int x;
+                    if (postItRichtungRechts)
+                        x = 50 + i * (int)textureVector.X;
+                    else x = -50 - i * (int)textureVector.X;
+
+                    r.X = r.X + x;
+                    if (r.Contains(mouseState.Position))
+                    {
+                        tower = i;
+                        break;
+                    }
+                }
+
+                if (tower != -1)
+                {
+                    if (!isClickedATower)
+                    {
+                        Tower t = towers[tower];
+                        if (circlePosition == null || !circlePosition.Equals(((Vector2)postIt) / (1200f / 3200f) / 100))
+                        {
+                            circlePosition = ((Vector2)postIt) / (1200f / 3200f) / 100;
+                            circlePosition *= 100;
+                            circle = CreateCircle((int)(t.GetRange() * scal));
+                        }
+                    }
+                    /*else if (upgradeAvailable && tower == 0)
+                        gameManager.upgradeTower(gameManager.getTower((Vector2)postIt / scal));
+                    else gameManager.RemoveTower(gameManager.getTower((Vector2)postIt / scal));*/
+                }
+                else circlePosition = null;
             }
 
             // The game pauses either if the user presses the pause button, or if
@@ -393,11 +447,6 @@ namespace GameStateManagement
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-            spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
-
-            spriteBatch.DrawString(gameFont, "Insert Gameplay Here",
-                                   enemyPosition, Color.DarkRed);
-
             spriteBatch.End();
 
             drawGameObjects(spriteBatch, gameTime);
@@ -452,8 +501,9 @@ namespace GameStateManagement
             {
                 float breite = postItTexture.Width * postItTextureScal;
 
-                if (!gameManager.IsThereATower((Vector2)postIt/scal))
-                    for (int i= 0; i< towers.Count; i++)
+                if (!gameManager.IsThereATower((Vector2)postIt / scal))
+                {
+                    for (int i = 0; i < towers.Count; i++)
                     {
                         Tower t = towers[i];
                         Color color;
@@ -471,6 +521,11 @@ namespace GameStateManagement
                         spriteBatch.Draw(plattform, ((Vector2)postIt) + new Vector2(x, 0), null, color, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y, SpriteEffects.None, 0.59f);
                         spriteBatch.DrawString(gameFont, t.GetCosts().ToString(), ((Vector2)postIt) + new Vector2(x, 30), Color.DarkBlue, 0, new Vector2(t.GetTexture().Width / 2, t.GetTexture().Height / 2), t.GetScale().Y * 0.6f, SpriteEffects.None, 0.61f);
                     }
+
+                    if (circlePosition!=null)
+                        spriteBatch.Draw(circle, (Vector2)circlePosition * scal, null, Color.DarkBlue, 0f, new Vector2(circle.Width / 2, circle.Height / 2), 1f, SpriteEffects.None, 0.7f);
+
+                }
                 else
                 {
                     Color color;
@@ -510,7 +565,9 @@ namespace GameStateManagement
 
                     if (circle == null)
                         circle = CreateCircle((int)(t.GetRange() * scal));
-                    spriteBatch.Draw(circle, t.GetPosition() * scal, null, Color.DarkBlue, 0f, new Vector2(circle.Width / 2, circle.Height / 2), 1f, SpriteEffects.None, 0.7f);
+
+                    if (circlePosition == null)
+                        spriteBatch.Draw(circle, t.GetPosition() * scal, null, Color.DarkBlue, 0f, new Vector2(circle.Width / 2, circle.Height / 2), 1f, SpriteEffects.None, 0.7f);
 
                 }
             }
