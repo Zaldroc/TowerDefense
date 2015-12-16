@@ -69,19 +69,9 @@ namespace GameStateManagementSample.GameObjects
 
         public void Move()
         {
-            if(nextPosition==new Vector2(-1,-1))
-            {
-                nextPosition = path.Dequeue();
-            }
-
-            
-
             Vector2 pos = GetPosition();
-            
-            //Vector2 currentPos = new Vector2((int)Math.Round((pos.X / 100),MidpointRounding.AwayFromZero)-1, (int)Math.Round((pos.Y / 100),MidpointRounding.AwayFromZero)-1);
 
-
-            switch(lastDirection)
+            switch (lastDirection)
             {
                 case 0:
                     pos.Y += 50;
@@ -96,13 +86,40 @@ namespace GameStateManagementSample.GameObjects
                     pos.X += 50;
                     break;
             }
-            
-            Vector2 currentPos = pos / 100.0f;
 
+            Vector2 currentPos = pos / 100.0f;
 
             currentPos.X = (int)currentPos.X;
             currentPos.Y = (int)currentPos.Y;
-           
+
+            if (nextPosition==new Vector2(-1,-1))
+            {
+                nextPosition = path.Dequeue();
+
+                Vector2 peek = path.Peek();
+
+                Vector2 n = new Vector2(0, -1) + currentPos;
+                Vector2 s = new Vector2(0, 1) + currentPos;
+                Vector2 e = new Vector2(1, 0) + currentPos;
+                Vector2 w = new Vector2(-1, 0) + currentPos;
+
+                if (n.Equals(peek))
+                {
+                    SetRotationInDegrees(0);
+                }
+                else if (s.Equals(peek))
+                {
+                    SetRotationInDegrees(180);
+                }
+                else if (e.Equals(peek))
+                {
+                    SetRotationInDegrees(90);
+                }
+                else if (w.Equals(peek))
+                {
+                    SetRotationInDegrees(270);
+                }
+            }
 
             if (nextPosition.Equals(currentPos))
             {
@@ -173,7 +190,6 @@ namespace GameStateManagementSample.GameObjects
                     SetRotationInDegrees(degrees - turningSpeed);
                 else if (degrees < 270)
                     SetRotationInDegrees(degrees + turningSpeed);
-                //System.Console.WriteLine(pos.ToString() + " " + currentPos.ToString() + " " + nextPosition.ToString());
 
                 lastDirection = 3;
             }

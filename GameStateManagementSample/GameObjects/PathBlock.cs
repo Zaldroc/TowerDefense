@@ -20,6 +20,16 @@ namespace GameStateManagementSample.GameObjects
             this.type = type;
         }
 
+        public PathBlock(PathBlock block, Vector2 position,PathBlockEnum type):this(position,block.GetTexture(),block.GetScale(),type)
+        {
+
+        }
+
+        public PathBlock(Texture2D texture,Vector2 scale):base(new Vector2(-1,-1),texture,scale)
+        {
+
+        }
+
         public PathBlockEnum GetType()
         {
             return this.type;
