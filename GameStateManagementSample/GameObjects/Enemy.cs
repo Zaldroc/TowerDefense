@@ -74,16 +74,16 @@ namespace GameStateManagementSample.GameObjects
             switch (lastDirection)
             {
                 case 0:
-                    pos.Y += 50;
+                    pos.Y += 49;
                     break;
                 case 2:
-                    pos.Y -= 50;
+                    pos.Y -= 49;
                     break;
                 case 1:
-                    pos.X -= 50;
+                    pos.X -= 49;
                     break;
                 case 3:
-                    pos.X += 50;
+                    pos.X += 49;
                     break;
             }
 

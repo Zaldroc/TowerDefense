@@ -31,12 +31,12 @@ namespace GameStateManagementSample.Creator
             if (i == 2)
             {
                 Projectile projectile = new Projectile(position, bullet, new Vector2(0.5f, 1) * 0.4f, 100, 35, new Vector2(1, 1));
-                return new Tower(position, content.Load<Texture2D>("smallCanon"), new Vector2(1f, 1) * 0.5f, 1000, 450, 1000, projectile);
+                return new Tower(position, content.Load<Texture2D>("sniper"), new Vector2(1f, 1) * 0.5f, 1000, 450, 1000, projectile);
             }
             if (i == 3)
             {
                 Bomb bomb = new Bomb(position, rocket, new Vector2(1, 1) * 0.4f, 700, 5, new Vector2(1, 1), 200);
-                return new Tower(position, content.Load<Texture2D>("canon"), new Vector2(1f, 1) * 0.5f, 1000, 1000, 5000, bomb);
+                return new Tower(position, content.Load<Texture2D>("bigcanon"), new Vector2(1f, 1) * 0.5f, 1000, 1000, 5000, bomb);
             }
 
             return null;            

@@ -65,6 +65,10 @@ namespace GameStateManagement
         Texture2D corpseTexture;
         Texture2D spawnTexture;
 
+        Texture2D time;
+        Texture2D wave1;
+        Texture2D wave2;
+
         Texture2D bar;
         Texture2D barFilling;
 
@@ -121,6 +125,10 @@ namespace GameStateManagement
             barFilling = content.Load<Texture2D>("barFilling");
             eraser = content.Load<Texture2D>("eraser"); 
             upgrade = content.Load<Texture2D>("upgrade");
+
+            time = content.Load<Texture2D>("time");
+            wave1 = content.Load<Texture2D>("bug");
+            wave2 = content.Load<Texture2D>("spider");
 
             marked = new MarkedField(new Vector2(0, 0), content.Load<Texture2D>("markedField"), new Vector2(1,1)*0.5f);
 
@@ -476,7 +484,7 @@ namespace GameStateManagement
             foreach (GameObject gameObject in level.GetPathBlocks())
             {
                 spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.2f);
-                spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal + new Vector2(5,5)*scal, null, new Color(200,200,200), 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.19f);
+                //spriteBatch.Draw(gameObject.GetTexture(), gameObject.GetPosition() * 100 * scal + new Vector2(5,5)*scal, null, new Color(200,200,200), 0, new Vector2(0, 0), gameObject.GetScale(), SpriteEffects.None, 0.19f);
                 if(((PathBlock)gameObject).IsSpawn())
                     spriteBatch.Draw(spawnTexture, new Vector2(gameObject.GetPosition().X * 100 +10, gameObject.GetPosition().Y * 100 +10) * scal, null, Color.White, 0, new Vector2(0, 0), gameObject.GetScale()*1.8f, SpriteEffects.None, 0.21f);
             }
@@ -584,12 +592,17 @@ namespace GameStateManagement
         {
             spriteBatch.Begin();
 
+            spriteBatch.Draw(time, new Vector2(position.X - 20, position.Y+5), null, Color.White, 0, new Vector2(0), 0.35f, SpriteEffects.None, 0.98f);
+
             spriteBatch.Draw(bar, position, null, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 1f);
             for (int i = 0; i < gameManager.GetFillingCountTime(); i++)
             {
                 spriteBatch.Draw(barFilling, new Vector2(position.X + 5 + i * 0.45f, position.Y + 5), null, Color.White, 0, new Vector2(0, 0), 0.9f, SpriteEffects.None, 0.98f);
             }
 
+
+            spriteBatch.Draw(wave1, new Vector2(position.X + 75, position.Y + 5), null, Color.White, 0, new Vector2(0), 0.35f, SpriteEffects.None, 0.98f);
+            spriteBatch.Draw(wave2, new Vector2(position.X + 77, position.Y + 4), null, Color.White, 0, new Vector2(0), 0.35f, SpriteEffects.None, 0.97f);
             spriteBatch.Draw(bar, new Vector2(position.X + 100, position.Y), null, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), SpriteEffects.None, 1f);
             for (int i = 0; i < gameManager.GetFillingCountEnemies(); i++)
             {
