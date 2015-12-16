@@ -18,15 +18,15 @@ namespace GameStateManagementSample.GameObjects
 
         private int lastDirection;
 
-        public Enemy(Vector2 position, Texture2D texture, Vector2 scale, int health, float speed, int reward):base(position,texture,scale)
+        public Enemy(Vector2 position, Texture2D texture, Vector2 scale, int health, float speed, int bonusReward):base(position,texture,scale)
         {
             this.health = health;
             this.speed = speed;
             //this.reward = (int)(speed * 0.06f + 1.0f*Math.Log(10*health)) + 15;
 
-            this.reward = (int)((Math.Log(speed) + 2.0f * Math.Log(10000 * health)));
+            reward = (int)((Math.Log(speed) + 2.0f * Math.Log(10000 * health)));
 
-            //this.reward += reward;
+            reward += bonusReward;
 
             nextPosition = new Vector2(-1,-1);
         }

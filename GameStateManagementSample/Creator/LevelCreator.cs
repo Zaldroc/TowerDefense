@@ -87,25 +87,25 @@ namespace GameStateManagementSample.Creator
 
                 int health = (int)(startHealth * healthFactor);
 
-                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.0f * speed, 25));
-                enemies.Enqueue(new Enemy(spawnPos, spider, new Vector2(1,1)*0.5f, health, 2.8f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.0f * speed));
+                enemies.Enqueue(new Enemy(spawnPos, spider, new Vector2(1,1)*0.5f, health, 2.8f * speed));
                 if(i>4)
-                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.4f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.4f * speed));
                 if(i>9)
-                enemies.Enqueue(new Enemy(spawnPos, spider, new Vector2(1,1)*0.5f, health, 3.1f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, spider, new Vector2(1,1)*0.5f, health, 3.1f * speed));
                 if(i>19)
-                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.2f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.2f * speed));
                 if(i>29)
-                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.3f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.3f * speed));
                 if(i>39)
-                enemies.Enqueue(new Enemy(spawnPos, spider, new Vector2(1,1)*0.5f, health, 3.0f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, spider, new Vector2(1,1)*0.5f, health, 3.0f * speed));
                 if(i>35)
-                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.0f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.0f * speed));
                 if(i>44)
-                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.1f * speed, 25));
+                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.5f, health, 2.1f * speed));
 
                 if((i+1)%5==0)
-                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.8f, health * 2, 1.0f * speed, 50));
+                enemies.Enqueue(new Enemy(spawnPos, bug, new Vector2(1,1)*0.8f, health * 2, 1.0f * speed));
 
                 Wave wave = new Wave(enemies, (int)(10000*(1+0.01f*i)), 500);
                 level.AddWave(wave);
